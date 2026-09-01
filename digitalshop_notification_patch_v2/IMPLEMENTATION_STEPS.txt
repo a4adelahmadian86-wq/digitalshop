@@ -1,0 +1,23 @@
+DigitalShop Notification System - implementation order
+
+1) Run INSTALL_NOTIFICATION_PATCH.bat from this folder.
+2) Merge ROUTES_SNIPPET.txt into routes/web.php inside the existing authenticated-user route group.
+3) Merge APP_SERVICE_PROVIDER_SNIPPET.txt into app/Providers/AppServiceProvider.php.
+4) Add @include('partials.notification-center') to resources/views/partials/header.blade.php beside existing account/cart actions.
+5) Append NOTIFICATION_CSS.txt to public/css/style.css.
+6) Register the daily scheduler using SCHEDULER_SNIPPET.txt.
+7) Run:
+   php artisan migrate
+   php artisan optimize:clear
+   php artisan route:list
+   php artisan digitalshop:recommendations --dry-run
+8) If dry-run succeeds, run:
+   php artisan digitalshop:recommendations
+9) Test as a buyer: open the bell icon, notification center, mark one notification read, then mark all read.
+10) Create an order and verify order-created notification; complete payment and verify payment notification.
+
+Important:
+- Do not replace header.blade.php wholesale; merge the one include line.
+- Do not replace routes/web.php wholesale; merge the three notification routes into the existing auth group.
+- User already has Illuminate\Notifications\Notifiable, so database notifications are supported.
+- Existing Admin model also uses Notifiable, but this patch currently sends role notifications through App\Models\User roles.
