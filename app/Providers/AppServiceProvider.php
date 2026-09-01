@@ -20,24 +20,23 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(StorageManager::class, fn () => new StorageManager());
-        $this->app->bind(SmsProviderInterface::class, function () { return match (config('services.sms_provider')) { 'kpanel' => new KPanelSmsProvider(), default => new TestSmsProvider(), }; });
-        $this->app->singleton(AIProviderInterface::class, fn () => new NullAIProvider());
-        $this->app->singleton(AIManager::class, fn ($app) => new AIManager($app->make(AIProviderInterface::class)));
+        $this->app->singleton(StorageManager::class,fn()=>new StorageManager());
+        $this->app->bind(SmsProviderInterface::class,function(){return match(config('services.sms_provider')){'kpanel'=>new KPanelSmsProvider(),default=>new TestSmsProvider(),};});
+        $this->app->singleton(AIProviderInterface::class,fn()=>new NullAIProvider());
+        $this->app->singleton(AIManager::class,fn($app)=>new AIManager($app->make(AIProviderInterface::class)));
     }
-
     public function boot(): void
     {
-        Order::observe(OrderObserver::class);
-        Product::observe(ProductAiObserver::class);
-        Route::middleware('web')->group(function () {
+        Order::observe(OrderObserver::class); Product::observe(ProductAiObserver::class);
+        Route::middleware('web')->group(function(){
             Route::post('/ai/chat',[\App\Http\Controllers\AiCommerceController::class,'chat'])->name('ai.chat');
             Route::get('/ai/product/{product}',[\App\Http\Controllers\AiCommerceController::class,'product'])->name('ai.product');
-            Route::middleware('auth')->group(function () {
+            Route::middleware('auth')->group(function(){
                 Route::post('/products/{product}/review',[\App\Http\Controllers\ProductFeedbackController::class,'review'])->name('product.review.store');
                 Route::post('/products/{product}/question',[\App\Http\Controllers\ProductFeedbackController::class,'question'])->name('product.question.store');
             });
-            Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
+            Route::middleware(['auth','role:admin'])->prefix('admin')->group(function(){
+                Route::get('/ai',[\App\Http\Controllers\AdminAiDashboardController::class,'index'])->name('admin.ai.dashboard');
                 Route::post('/products/uploads',[\App\Http\Controllers\AdminProductUploadController::class,'store'])->name('admin.products.uploads.store');
                 Route::delete('/products/uploads/{upload}',[\App\Http\Controllers\AdminProductUploadController::class,'destroy'])->name('admin.products.uploads.destroy');
                 Route::get('/products/draft',[\App\Http\Controllers\AdminProductDraftController::class,'show'])->name('admin.products.draft.show');
