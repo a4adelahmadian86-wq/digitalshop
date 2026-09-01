@@ -1,0 +1,17 @@
+Add these imports near the top of routes/web.php:
+
+use App\Http\Controllers\NotificationController;
+
+Inside the existing Route::middleware('auth')->group(function () { ... }):
+
+Route::get('/notifications',
+    [NotificationController::class, 'index'])
+    ->name('notifications.index');
+
+Route::post('/notifications/read-all',
+    [NotificationController::class, 'readAll'])
+    ->name('notifications.read-all');
+
+Route::get('/notifications/{notification}/read',
+    [NotificationController::class, 'read'])
+    ->name('notifications.read');
