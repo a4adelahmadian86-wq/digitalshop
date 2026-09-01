@@ -1,0 +1,15 @@
+/vendor/ 
+/node_modules/ 
+/.env 
+/storage/app/private/ 
+/storage/app/products/ 
+/storage/logs/ 
+/storage/framework/cache/ 
+/storage/framework/sessions/ 
+/storage/framework/views/ 
+/bootstrap/cache/ 
+/public/build/ 
+npm-debug.log 
+yarn-error.log 
+.DS_Store 
+github_token.txt
