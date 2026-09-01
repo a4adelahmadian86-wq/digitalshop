@@ -4,451 +4,182 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductDraft;
+use App\Models\ProductFile;
+use App\Models\ProductUpload;
 use App\Models\StorageProvider;
 use App\Services\Storage\StorageManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AdminProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with([
-            'category',
-            'storageProvider',
-        ])
-        ->latest()
-        ->paginate(20);
+        $products = Product::with(['category', 'storageProvider', 'files'])
+            ->latest()->paginate(20);
 
-        $categories = Category::where(
-            'is_active',
-            true
-        )
-        ->orderBy('sort_order')
-        ->orderBy('name')
-        ->get();
+        $categories = Category::where('is_active', true)
+            ->orderBy('sort_order')->orderBy('name')->get();
 
-        $storageProviders = StorageProvider::where(
-            'is_active',
-            true
-        )
-        ->orderByDesc('is_default')
-        ->orderBy('name')
-        ->get();
+        $storageProviders = StorageProvider::where('is_active', true)
+            ->orderByDesc('is_default')->orderBy('name')->get();
 
-        return view(
-            'admin.products.index',
-            compact(
-                'products',
-                'categories',
-                'storageProviders'
-            )
-        );
+        return view('admin.products.index', compact('products', 'categories', 'storageProviders'));
     }
 
     public function create()
     {
-        $categories = Category::where(
-            'is_active',
-            true
-        )
-        ->orderBy('sort_order')
-        ->orderBy('name')
-        ->get();
+        $categories = Category::where('is_active', true)
+            ->orderBy('sort_order')->orderBy('name')->get();
+        $storageProviders = StorageProvider::where('is_active', true)
+            ->orderByDesc('is_default')->orderBy('name')->get();
+        $draft = ProductDraft::where('user_id', auth()->id())->latest('id')->first();
 
-        $storageProviders = StorageProvider::where(
-            'is_active',
-            true
-        )
-        ->orderByDesc('is_default')
-        ->orderBy('name')
-        ->get();
-
-        return view(
-            'admin.products.create',
-            compact(
-                'categories',
-                'storageProviders'
-            )
-        );
+        return view('admin.products.create', compact('categories', 'storageProviders', 'draft'));
     }
 
-    public function store(
-        Request $request,
-        StorageManager $storageManager
-    ) {
-        $data = $this->validateData($request);
+    public function store(Request $request)
+    {
+        $data = $this->validateData($request, null, true);
+        $uploads = $this->ownedUploads($data['upload_ids'] ?? []);
 
-        $provider = StorageProvider::findOrFail(
-            $data['storage_provider_id']
-        );
-
-        abort_unless(
-            $provider->is_active,
-            422,
-            'Storage Provider انتخاب‌شده فعال نیست.'
-        );
-
-        $slug = $data['slug']
-            ?? Str::slug($data['title']);
-
-        $product = new Product();
-
-        $product->category_id =
-            $data['category_id'];
-
-        $product->storage_provider_id =
-            $provider->id;
-
-        $product->title =
-            $data['title'];
-
-        $product->slug =
-            $slug;
-
-        $product->short_description =
-            $data['short_description'] ?? null;
-
-        $product->description =
-            $data['description'] ?? null;
-
-        $product->price =
-            $data['price'];
-
-        $product->is_published =
-            $request->boolean('is_published');
-
-        /*
-         * Image
-         */
-        if ($request->hasFile('thumbnail')) {
-
-            $image = $request->file('thumbnail');
-
-            $imagePath = $image->store(
-                'products/images',
-                'local'
-            );
-
-            $product->thumbnail =
-                $imagePath;
+        if ($uploads->isEmpty()) {
+            return back()->withErrors(['upload_ids' => 'حداقل یک فایل محصول باید آپلود شود.'])->withInput();
         }
 
-        /*
-         * Product file
-         */
-        if ($request->hasFile('product_file')) {
+        $provider = StorageProvider::findOrFail($data['storage_provider_id']);
+        abort_unless($provider->is_active, 422, 'Storage Provider انتخاب‌شده فعال نیست.');
 
-            $file = $request->file('product_file');
+        $product = DB::transaction(function () use ($data, $uploads, $provider, $request) {
+            $product = Product::create([
+                'category_id' => $data['category_id'],
+                'storage_provider_id' => $provider->id,
+                'title' => $data['title'],
+                'slug' => $data['slug'] ?: Str::slug($data['title']),
+                'short_description' => $data['short_description'] ?? null,
+                'description' => $data['description'] ?? null,
+                'price' => $data['price'],
+                'is_published' => false,
+            ]);
 
-            $extension =
-                $file->getClientOriginalExtension();
+            $this->attachUploads($product, $uploads);
+            return $product;
+        });
 
-            $filename =
-                Str::uuid() .
-                ($extension
-                    ? '.' . $extension
-                    : '');
+        ProductDraft::where('user_id', auth()->id())->delete();
 
-            $storagePath =
-                'products/files/' .
-                date('Y/m') .
-                '/' .
-                $filename;
-
-            $storedPath =
-                $storageManager->upload(
-                    $provider,
-                    $file,
-                    $storagePath
-                );
-
-            $product->storage_path =
-                $storedPath;
-
-            $product->file_path =
-                $storedPath;
-
-            $product->file_name =
-                $file->getClientOriginalName();
-        }
-
-        $product->save();
-
-        return redirect()
-            ->route('admin.products.index')
-            ->with(
-                'success',
-                'محصول با موفقیت ایجاد شد.'
-            );
+        return redirect()->route('admin.products.index')->with('success', 'محصول ثبت شد و برای بررسی محتوایی آماده است.');
     }
 
     public function edit(Product $product)
     {
-        $categories = Category::where(
-            'is_active',
-            true
-        )
-        ->orderBy('sort_order')
-        ->orderBy('name')
-        ->get();
+        $categories = Category::where('is_active', true)
+            ->orderBy('sort_order')->orderBy('name')->get();
+        $storageProviders = StorageProvider::where('is_active', true)
+            ->orderByDesc('is_default')->orderBy('name')->get();
 
-        $storageProviders = StorageProvider::where(
-            'is_active',
-            true
-        )
-        ->orderByDesc('is_default')
-        ->orderBy('name')
-        ->get();
-
-        return view(
-            'admin.products.edit',
-            compact(
-                'product',
-                'categories',
-                'storageProviders'
-            )
-        );
+        $product->load('files');
+        return view('admin.products.edit', compact('product', 'categories', 'storageProviders'));
     }
 
-    public function update(
-        Request $request,
-        Product $product,
-        StorageManager $storageManager
-    ) {
-        $data = $this->validateData(
-            $request,
-            $product
-        );
+    public function update(Request $request, Product $product)
+    {
+        $data = $this->validateData($request, $product, false);
+        $provider = StorageProvider::findOrFail($data['storage_provider_id']);
+        abort_unless($provider->is_active, 422, 'Storage Provider انتخاب‌شده فعال نیست.');
 
-        $provider = StorageProvider::findOrFail(
-            $data['storage_provider_id']
-        );
+        DB::transaction(function () use ($data, $product, $provider) {
+            $product->update([
+                'category_id' => $data['category_id'],
+                'storage_provider_id' => $provider->id,
+                'title' => $data['title'],
+                'slug' => $data['slug'],
+                'short_description' => $data['short_description'] ?? null,
+                'description' => $data['description'] ?? null,
+                'price' => $data['price'],
+                'is_published' => false,
+            ]);
 
-        abort_unless(
-            $provider->is_active,
-            422,
-            'Storage Provider انتخاب‌شده فعال نیست.'
-        );
-
-        $product->category_id =
-            $data['category_id'];
-
-        $product->storage_provider_id =
-            $provider->id;
-
-        $product->title =
-            $data['title'];
-
-        $product->slug =
-            $data['slug'];
-
-        $product->short_description =
-            $data['short_description'] ?? null;
-
-        $product->description =
-            $data['description'] ?? null;
-
-        $product->price =
-            $data['price'];
-
-        $product->is_published =
-            $request->boolean('is_published');
-
-        /*
-         * New image
-         */
-        if ($request->hasFile('thumbnail')) {
-
-            $image = $request->file('thumbnail');
-
-            $imagePath = $image->store(
-                'products/images',
-                'local'
-            );
-
-            $product->thumbnail =
-                $imagePath;
-        }
-
-        /*
-         * New product file
-         */
-        if ($request->hasFile('product_file')) {
-
-            /*
-             * Delete old file
-             */
-            if (
-                $product->storage_path &&
-                $product->storageProvider
-            ) {
-
-                try {
-
-                    $oldProvider =
-                        $storageManager->provider(
-                            $product->storageProvider
-                        );
-
-                    $oldProvider->delete(
-                        $product->storage_path
-                    );
-
-                } catch (\Throwable $e) {
-                    report($e);
-                }
+            if (!empty($data['upload_ids'])) {
+                $this->attachUploads($product, $this->ownedUploads($data['upload_ids']));
             }
+        });
 
-            $file =
-                $request->file('product_file');
-
-            $extension =
-                $file->getClientOriginalExtension();
-
-            $filename =
-                Str::uuid() .
-                ($extension
-                    ? '.' . $extension
-                    : '');
-
-            $storagePath =
-                'products/files/' .
-                date('Y/m') .
-                '/' .
-                $filename;
-
-            $storedPath =
-                $storageManager->upload(
-                    $provider,
-                    $file,
-                    $storagePath
-                );
-
-            $product->storage_path =
-                $storedPath;
-
-            $product->file_path =
-                $storedPath;
-
-            $product->file_name =
-                $file->getClientOriginalName();
-        }
-
-        $product->save();
-
-        return redirect()
-            ->route('admin.products.index')
-            ->with(
-                'success',
-                'محصول با موفقیت ویرایش شد.'
-            );
+        return redirect()->route('admin.products.index')->with('success', 'محصول ویرایش شد و دوباره برای بررسی آماده شد.');
     }
 
-    public function destroy(
-        Product $product,
-        StorageManager $storageManager
-    ) {
-        if (
-            $product->storage_path &&
-            $product->storageProvider
-        ) {
-
+    public function destroy(Product $product, StorageManager $storageManager)
+    {
+        foreach ($product->files as $file) {
             try {
+                $storageManager->provider($file->storageProvider)->delete($file->storage_path);
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
 
-                $provider =
-                    $storageManager->provider(
-                        $product->storageProvider
-                    );
-
-                $provider->delete(
-                    $product->storage_path
-                );
-
+        if ($product->storage_path && $product->storageProvider) {
+            try {
+                $storageManager->provider($product->storageProvider)->delete($product->storage_path);
             } catch (\Throwable $e) {
                 report($e);
             }
         }
 
         $product->delete();
-
-        return back()->with(
-            'success',
-            'محصول حذف شد.'
-        );
+        return back()->with('success', 'محصول حذف شد.');
     }
 
-    private function validateData(
-        Request $request,
-        ?Product $product = null
-    ): array {
+    private function attachUploads(Product $product, $uploads): void
+    {
+        $start = (int) $product->files()->max('sort_order') + 1;
 
-        $uniqueSlug =
-            'unique:products,slug';
+        foreach ($uploads->values() as $index => $upload) {
+            ProductFile::create([
+                'product_id' => $product->id,
+                'storage_provider_id' => $upload->storage_provider_id,
+                'original_name' => $upload->original_name,
+                'stored_name' => basename($upload->stored_path),
+                'storage_path' => $upload->stored_path,
+                'mime_type' => $upload->mime_type,
+                'extension' => $upload->extension,
+                'size' => $upload->size,
+                'sha256' => $upload->sha256,
+                'sort_order' => $start + $index,
+            ]);
 
-        if ($product) {
-            $uniqueSlug .=
-                ',' . $product->id;
+            $upload->update(['status' => 'attached', 'product_id' => $product->id]);
         }
+    }
 
-        return $request->validate([
+    private function ownedUploads(array $ids)
+    {
+        $ids = array_values(array_unique(array_filter(array_map('intval', $ids))));
+        return ProductUpload::where('user_id', auth()->id())
+            ->where('status', 'uploaded')
+            ->whereIn('id', $ids)
+            ->orderByRaw('FIELD(id,' . implode(',', $ids ?: [0]) . ')')
+            ->get();
+    }
 
-            'category_id' => [
-                'required',
-                'exists:categories,id',
-            ],
+    private function validateData(Request $request, ?Product $product, bool $creating): array
+    {
+        $uniqueSlug = 'unique:products,slug' . ($product ? ',' . $product->id : '');
 
-            'storage_provider_id' => [
-                'required',
-                'exists:storage_providers,id',
-            ],
+        $rules = [
+            'category_id' => ['required', 'exists:categories,id'],
+            'storage_provider_id' => ['required', 'exists:storage_providers,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255', 'regex:/^[a-z0-9-]+$/', $uniqueSlug],
+            'short_description' => ['nullable', 'string', 'max:1000'],
+            'description' => ['nullable', 'string', 'max:100000'],
+            'price' => ['required', 'integer', 'min:0'],
+            'upload_ids' => [$creating ? 'required' : 'nullable', 'array', 'max:30'],
+            'upload_ids.*' => ['integer'],
+        ];
 
-            'title' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'slug' => [
-                'required',
-                'string',
-                'max:255',
-                'regex:/^[a-z0-9-]+$/',
-                $uniqueSlug,
-            ],
-
-            'short_description' => [
-                'nullable',
-                'string',
-                'max:1000',
-            ],
-
-            'description' => [
-                'nullable',
-                'string',
-            ],
-
-            'price' => [
-                'required',
-                'integer',
-                'min:0',
-            ],
-
-            'thumbnail' => [
-                'nullable',
-                'image',
-                'mimes:jpg,jpeg,png,webp',
-                'max:5120',
-            ],
-
-            'product_file' => [
-                $product
-                    ? 'nullable'
-                    : 'required',
-                'file',
-                'max:512000',
-            ],
-
-        ]);
+        return $request->validate($rules);
     }
 }
