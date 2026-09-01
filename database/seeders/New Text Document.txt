@@ -1,0 +1,26 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\StorageProvider;
+use Illuminate\Database\Seeder;
+
+class StorageProviderSeeder extends Seeder
+{
+    public function run(): void
+    {
+        StorageProvider::updateOrCreate(
+            [
+                'type' => 'local',
+                'name' => 'Local Storage',
+            ],
+            [
+                'config' => [
+                    'disk' => 'local',
+                ],
+                'is_active' => true,
+                'is_default' => true,
+            ]
+        );
+    }
+}
