@@ -28,5 +28,7 @@ class Product extends Model
     public function downloads(): HasMany { return $this->hasMany(Download::class); }
     public function reviews(): HasMany { return $this->hasMany(ProductReview::class); }
     public function aiAnalyses(): HasMany { return $this->hasMany(AiProductAnalysis::class); }
+    public function files(): HasMany { return $this->hasMany(ProductFile::class)->orderBy('sort_order'); }
+    public function uploads(): HasMany { return $this->hasMany(ProductUpload::class); }
     public function orders() { return $this->belongsToMany(Order::class, 'order_items')->withPivot('price'); }
 }
