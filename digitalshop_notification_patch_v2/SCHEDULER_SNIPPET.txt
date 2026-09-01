@@ -1,0 +1,9 @@
+Daily recommendation job:
+
+If the project has app/Console/Kernel.php, add inside schedule():
+
+$schedule->command('digitalshop:recommendations')->dailyAt('10:00');
+
+If this Laravel version uses bootstrap/app.php scheduling instead, register the same command there with a dailyAt('10:00') schedule.
+
+The command itself is idempotent for the day and never sends more than 3 product recommendations to one buyer in one calendar day.
