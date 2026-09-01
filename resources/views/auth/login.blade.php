@@ -1,0 +1,1412 @@
+﻿@extends('layouts.app')
+
+@section('title', 'ورود')
+
+@section('content')
+
+<div class="professional-auth-page">
+
+    <div class="professional-auth-card">
+
+        <div class="professional-auth-header">
+
+            <div class="auth-brand-mark">
+                DS
+            </div>
+
+            <h1>
+                ورود به حساب کاربری
+            </h1>
+
+            <p>
+                شماره موبایل خود را وارد کنید تا ادامه دهیم.
+            </p>
+
+        </div>
+
+
+        @if($errors->any())
+
+            <div class="login-message error">
+
+                @foreach($errors->all() as $error)
+
+                    <div>
+                        {{ $error }}
+                    </div>
+
+                @endforeach
+
+            </div>
+
+        @endif
+
+
+        @if(session('success'))
+
+            <div class="login-message success">
+                {{ session('success') }}
+            </div>
+
+        @endif
+
+
+        @if(session('warning'))
+
+            <div class="login-message warning">
+                {{ session('warning') }}
+            </div>
+
+        @endif
+
+
+        <div
+            id="loginError"
+            class="login-message error"
+            style="display:none;"
+        ></div>
+
+
+        <div
+            id="loginSuccess"
+            class="login-message success"
+            style="display:none;"
+        ></div>
+
+
+        <form
+            method="POST"
+            action="{{ route('login.store') }}"
+            class="professional-auth-form"
+            id="loginForm"
+        >
+
+            @csrf
+
+
+            <div class="professional-form-group">
+
+                <label for="phone">
+                    شماره موبایل
+                </label>
+
+                <div class="professional-input-wrap">
+
+                    <input
+                        id="phone"
+                        type="tel"
+                        name="phone"
+                        value="{{ old('phone') }}"
+                        inputmode="numeric"
+                        autocomplete="tel"
+                        placeholder="09123456789"
+                        maxlength="11"
+                        minlength="11"
+                        pattern="09[0-9]{9}"
+                        required
+                        autofocus
+                        dir="ltr"
+                        class="professional-input phone-input"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="accountStatus"
+                class="account-status"
+                style="display:none;"
+            ></div>
+
+
+            <div
+                id="passwordSection"
+                class="professional-form-group password-section"
+                style="display:none;"
+            >
+
+                <div class="form-label-row">
+
+                    <label for="password">
+                        رمز عبور
+                    </label>
+
+                    <a
+                        id="forgotPasswordLink"
+                        href="{{ route('password.request') }}"
+                        class="auth-forgot"
+                    >
+                        فراموشی رمز عبور
+                    </a>
+
+                </div>
+
+
+                <div class="password-wrap">
+
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        autocomplete="current-password"
+                        placeholder="رمز عبور خود را وارد کنید"
+                        dir="ltr"
+                        class="professional-input"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="passwordToggle"
+                        aria-label="نمایش رمز عبور"
+                        title="نمایش رمز عبور"
+                    >
+
+                        <svg
+                            class="eye-icon eye-open"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+
+                            <path
+                                d="M2 12s3.5-6 10-6
+                                10 6 10 6-3.5 6-10 6
+                                -10-6-10-6Z"
+                            />
+
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="2.8"
+                            />
+
+                        </svg>
+
+
+                        <svg
+                            class="eye-icon eye-closed"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            style="display:none;"
+                        >
+
+                            <path d="M3 3l18 18" />
+
+                            <path
+                                d="M10.6 6.2
+                                A10.5 10.5 0 0 1 12 6
+                                c6.5 0 10 6 10 6
+                                a18 18 0 0 1-3.2 3.8"
+                            />
+
+                            <path
+                                d="M6.2 6.3
+                                C3.6 8.2 2 12 2 12
+                                s3.5 6 10 6
+                                c1.3 0 2.5-.2 3.5-.6"
+                            />
+
+                        </svg>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="rememberSection"
+                class="remember-section"
+                style="display:none;"
+            >
+
+                <label class="remember-row">
+
+                    <input
+                        type="checkbox"
+                        name="remember"
+                        value="1"
+                    >
+
+                    <span>
+                        مرا به خاطر بسپار
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <button
+                type="submit"
+                id="loginSubmit"
+                class="professional-auth-submit"
+                disabled
+            >
+
+                <span id="submitText">
+                    ادامه
+                </span>
+
+                <span
+                    id="submitSpinner"
+                    class="submit-spinner"
+                    style="display:none;"
+                ></span>
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+@endsection
+
+
+@push('styles')
+
+<style>
+
+.professional-auth-page {
+    min-height: 68vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 55px 20px;
+    box-sizing: border-box;
+}
+
+.professional-auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    border: 1px solid #e8ebf0;
+    border-radius: 22px;
+    padding: 38px;
+    box-sizing: border-box;
+    box-shadow:
+        0 18px 55px rgba(15, 23, 42, 0.08);
+}
+
+.professional-auth-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-brand-mark {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 18px;
+    border-radius: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111827;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.professional-auth-header h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.professional-auth-header p {
+    margin: 9px 0 0;
+    color: #737b88;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.professional-auth-form {
+    width: 100%;
+}
+
+.professional-form-group {
+    margin-bottom: 18px;
+}
+
+.professional-form-group > label,
+.form-label-row label {
+    display: block;
+    margin-bottom: 8px;
+    color: #303743;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.professional-input-wrap {
+    position: relative;
+}
+
+.professional-input {
+    width: 100%;
+    height: 52px;
+    box-sizing: border-box;
+    border: 1px solid #dfe3ea;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #171b23;
+    padding: 0 14px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+}
+
+.professional-input:focus {
+    border-color: #536dfe;
+    box-shadow:
+        0 0 0 4px rgba(83, 109, 254, .10);
+}
+
+.phone-input {
+    padding: 0 16px;
+    text-align: left;
+    direction: ltr;
+    letter-spacing: 1px;
+}
+
+.account-status {
+    margin: -5px 0 18px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.account-status.checking {
+    background: #f5f7fa;
+    color: #667085;
+}
+
+.account-status.exists {
+    background: #f0fdf4;
+    color: #166534;
+}
+
+.account-status.new {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.login-message {
+    margin-bottom: 18px;
+    padding: 12px 14px;
+    border-radius: 11px;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.login-message.error {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #be123c;
+}
+
+.login-message.success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+.login-message.warning {
+    background: #fff8e6;
+    border: 1px solid #f3dfaa;
+    color: #8a5a00;
+}
+
+.form-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.form-label-row label {
+    margin-bottom: 8px;
+}
+
+.auth-forgot {
+    margin-bottom: 8px;
+    color: #536dfe;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.auth-forgot:hover {
+    text-decoration: underline;
+}
+
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap .professional-input {
+    padding-left: 52px;
+}
+
+.password-toggle {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    width: 36px;
+    height: 36px;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: #737b88;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.password-toggle:hover {
+    background: #f3f4f6;
+    color: #303743;
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.remember-section {
+    margin: -2px 0 17px;
+}
+
+.remember-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #656d79;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.remember-row input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.professional-auth-submit {
+    width: 100%;
+    height: 52px;
+    border: 0;
+    border-radius: 12px;
+    background: #dfe3ea;
+    color: #9aa1ad;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: not-allowed;
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .15s ease,
+        box-shadow .2s ease;
+}
+
+.professional-auth-submit.active {
+    background: #111827;
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow:
+        0 8px 22px rgba(17, 24, 39, .16);
+}
+
+.professional-auth-submit.active:hover {
+    transform: translateY(-1px);
+}
+
+.professional-auth-submit:disabled {
+    opacity: 1;
+}
+
+.submit-spinner {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    border: 2px solid rgba(255,255,255,.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: loginSpin .7s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes loginSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 520px) {
+
+    .professional-auth-page {
+        padding: 30px 14px;
+    }
+
+    .professional-auth-card {
+        padding: 27px 21px;
+        border-radius: 18px;
+    }
+
+    .professional-auth-header h1 {
+        font-size: 22px;
+    }
+
+}
+
+</style>
+
+@endpush
+
+
+@push('scripts')
+
+<script>
+
+(function () {
+
+    'use strict';
+
+    const form =
+        document.getElementById('loginForm');
+
+    const phone =
+        document.getElementById('phone');
+
+    const submit =
+        document.getElementById('loginSubmit');
+
+    const submitText =
+        document.getElementById('submitText');
+
+    const spinner =
+        document.getElementById('submitSpinner');
+
+    const errorBox =
+        document.getElementById('loginError');
+
+    const successBox =
+        document.getElementById('loginSuccess');
+
+    const accountStatus =
+        document.getElementById('accountStatus');
+
+    const passwordSection =
+        document.getElementById('passwordSection');
+
+    const rememberSection =
+        document.getElementById('rememberSection');
+
+    const password =
+        document.getElementById('password');
+
+    const passwordToggle =
+        document.getElementById('passwordToggle');
+
+    const eyeOpen =
+        passwordToggle.querySelector('.eye-open');
+
+    const eyeClosed =
+        passwordToggle.querySelector('.eye-closed');
+
+
+    const checkPhoneUrl =
+        @json(route('login.check.phone'));
+
+
+    const registerUrl =
+        @json(route('register'));
+
+
+    let accountChecked = false;
+
+    let accountExists = false;
+
+
+    function toEnglishDigits(value) {
+
+        return String(value || '')
+            .replace(
+                /[۰-۹]/g,
+                function (digit) {
+
+                    return String(
+                        '۰۱۲۳۴۵۶۷۸۹'
+                            .indexOf(digit)
+                    );
+
+                }
+            )
+            .replace(
+                /[٠-٩]/g,
+                function (digit) {
+
+                    return String(
+                        '٠١٢٣٤٥٦٧٨٩'
+                            .indexOf(digit)
+                    );
+
+                }
+            );
+
+    }
+
+
+    function cleanPhone(value) {
+
+        return toEnglishDigits(value)
+            .replace(/\D/g, '')
+            .slice(0, 11);
+
+    }
+
+
+    function isValidPhone(value) {
+
+        return /^09\d{9}$/.test(value);
+
+    }
+
+
+    function clearMessages() {
+
+        errorBox.textContent = '';
+
+        errorBox.style.display = 'none';
+
+        successBox.textContent = '';
+
+        successBox.style.display = 'none';
+
+    }
+
+
+    function showError(message) {
+
+        successBox.textContent = '';
+
+        successBox.style.display = 'none';
+
+        errorBox.textContent =
+            message ||
+            'در حال حاضر امکان انجام این درخواست وجود ندارد.';
+
+        errorBox.style.display = 'block';
+
+    }
+
+
+    function resetAccountState() {
+
+        accountChecked = false;
+
+        accountExists = false;
+
+        accountStatus.textContent = '';
+
+        accountStatus.style.display = 'none';
+
+        accountStatus.className =
+            'account-status';
+
+        passwordSection.style.display =
+            'none';
+
+        rememberSection.style.display =
+            'none';
+
+        password.value = '';
+
+        password.required = false;
+
+        submitText.textContent = 'ادامه';
+
+    }
+
+
+    function updateButton() {
+
+        const cleaned =
+            cleanPhone(phone.value);
+
+        if (phone.value !== cleaned) {
+
+            phone.value = cleaned;
+
+        }
+
+        const valid =
+            isValidPhone(cleaned);
+
+        submit.disabled = !valid;
+
+        submit.classList.toggle(
+            'active',
+            valid
+        );
+
+        submit.setAttribute(
+            'aria-disabled',
+            valid ? 'false' : 'true'
+        );
+
+    }
+
+
+    function restoreSubmitButton() {
+
+        submitText.style.display = 'inline';
+
+        spinner.style.display = 'none';
+
+        updateButton();
+
+    }
+
+
+    function setLoading() {
+
+        submit.disabled = true;
+
+        submit.classList.remove('active');
+
+        submitText.style.display = 'none';
+
+        spinner.style.display = 'inline-block';
+
+    }
+
+
+    phone.addEventListener(
+        'input',
+        function () {
+
+            phone.value =
+                cleanPhone(phone.value);
+
+            clearMessages();
+
+            resetAccountState();
+
+            updateButton();
+
+        }
+    );
+
+
+    phone.addEventListener(
+        'paste',
+        function () {
+
+            setTimeout(
+                function () {
+
+                    phone.value =
+                        cleanPhone(phone.value);
+
+                    clearMessages();
+
+                    resetAccountState();
+
+                    updateButton();
+
+                },
+                0
+            );
+
+        }
+    );
+
+
+    phone.addEventListener(
+        'keydown',
+        function (event) {
+
+            const allowedKeys = [
+                'Backspace',
+                'Delete',
+                'ArrowLeft',
+                'ArrowRight',
+                'Home',
+                'End',
+                'Tab',
+                'Enter'
+            ];
+
+            if (
+                allowedKeys.includes(event.key) ||
+                event.ctrlKey ||
+                event.metaKey
+            ) {
+                return;
+            }
+
+            if (
+                !/^[0-9۰-۹٠-٩]$/.test(
+                    event.key
+                )
+            ) {
+
+                event.preventDefault();
+
+            }
+
+        }
+    );
+
+
+    passwordToggle.addEventListener(
+        'click',
+        function () {
+
+            if (password.type === 'password') {
+
+                password.type = 'text';
+
+                eyeOpen.style.display = 'none';
+
+                eyeClosed.style.display = 'block';
+
+            } else {
+
+                password.type = 'password';
+
+                eyeOpen.style.display = 'block';
+
+                eyeClosed.style.display = 'none';
+
+            }
+
+        }
+    );
+
+
+    form.addEventListener(
+        'submit',
+        async function (event) {
+
+            event.preventDefault();
+
+            clearMessages();
+
+
+            const cleaned =
+                cleanPhone(phone.value);
+
+            phone.value = cleaned;
+
+
+            if (!isValidPhone(cleaned)) {
+
+                showError(
+                    'لطفاً یک شماره موبایل معتبر ۱۱ رقمی وارد کنید.'
+                );
+
+                updateButton();
+
+                return;
+
+            }
+
+
+            /*
+             * حساب قبلاً پیدا شده:
+             * ورود واقعی انجام می‌شود.
+             */
+            if (
+                accountChecked &&
+                accountExists
+            ) {
+
+                if (!password.value.trim()) {
+
+                    showError(
+                        'لطفاً رمز عبور خود را وارد کنید.'
+                    );
+
+                    password.focus();
+
+                    return;
+
+                }
+
+                setLoading();
+
+                form.submit();
+
+                return;
+
+            }
+
+
+            setLoading();
+
+
+            accountStatus.textContent =
+                'در حال بررسی شماره...';
+
+            accountStatus.className =
+                'account-status checking';
+
+            accountStatus.style.display =
+                'block';
+
+
+            try {
+
+                const csrfInput =
+                    form.querySelector(
+                        'input[name="_token"]'
+                    );
+
+
+                if (!csrfInput) {
+
+                    throw new Error(
+                        'CSRF_INPUT_MISSING'
+                    );
+
+                }
+
+
+                const csrfToken =
+                    csrfInput.value;
+
+
+                if (!csrfToken) {
+
+                    throw new Error(
+                        'CSRF_TOKEN_MISSING'
+                    );
+
+                }
+
+
+                const requestBody =
+                    new URLSearchParams();
+
+
+                requestBody.append(
+                    'phone',
+                    cleaned
+                );
+
+                requestBody.append(
+                    '_token',
+                    csrfToken
+                );
+
+
+                const response =
+                    await fetch(
+                        checkPhoneUrl,
+                        {
+                            method: 'POST',
+
+                            credentials:
+                                'same-origin',
+
+                            headers: {
+
+                                'Accept':
+                                    'application/json',
+
+                                'X-CSRF-TOKEN':
+                                    csrfToken,
+
+                                'X-Requested-With':
+                                    'XMLHttpRequest',
+
+                                'Content-Type':
+                                    'application/x-www-form-urlencoded; charset=UTF-8'
+
+                            },
+
+                            body:
+                                requestBody.toString()
+
+                        }
+                    );
+
+
+                if (response.status === 419) {
+
+                    throw new Error(
+                        'CSRF_EXPIRED'
+                    );
+
+                }
+
+
+                const rawText =
+                    await response.text();
+
+
+                const cleanResponse =
+                    rawText
+                        .replace(/^\uFEFF/, '')
+                        .trim();
+
+
+                if (!cleanResponse) {
+
+                    throw new Error(
+                        'EMPTY_RESPONSE'
+                    );
+
+                }
+
+
+                let result = null;
+
+
+                try {
+
+                    result =
+                        JSON.parse(
+                            cleanResponse
+                        );
+
+                } catch (parseError) {
+
+                    const firstBrace =
+                        cleanResponse.indexOf('{');
+
+                    const lastBrace =
+                        cleanResponse.lastIndexOf('}');
+
+
+                    if (
+                        firstBrace !== -1 &&
+                        lastBrace > firstBrace
+                    ) {
+
+                        try {
+
+                            result =
+                                JSON.parse(
+                                    cleanResponse.substring(
+                                        firstBrace,
+                                        lastBrace + 1
+                                    )
+                                );
+
+                        } catch (secondParseError) {
+
+                            result = null;
+
+                        }
+
+                    }
+
+                }
+
+
+                if (!response.ok) {
+
+                    if (
+                        result &&
+                        result.errors
+                    ) {
+
+                        const fields =
+                            Object.keys(
+                                result.errors
+                            );
+
+
+                        if (fields.length > 0) {
+
+                            const firstMessage =
+                                result.errors[
+                                    fields[0]
+                                ]?.[0];
+
+
+                            if (firstMessage) {
+
+                                showError(
+                                    firstMessage
+                                );
+
+                                restoreSubmitButton();
+
+                                return;
+
+                            }
+
+                        }
+
+                    }
+
+
+                    if (
+                        result &&
+                        result.message
+                    ) {
+
+                        showError(
+                            result.message
+                        );
+
+                        restoreSubmitButton();
+
+                        return;
+
+                    }
+
+
+                    throw new Error(
+                        'SERVER_ERROR'
+                    );
+
+                }
+
+
+                if (
+                    !result ||
+                    typeof result.exists !==
+                    'boolean'
+                ) {
+
+                    console.error(
+                        'Unexpected login check response:',
+                        cleanResponse
+                    );
+
+                    throw new Error(
+                        'INVALID_RESPONSE'
+                    );
+
+                }
+
+
+                accountChecked = true;
+
+                accountExists =
+                    result.exists;
+
+
+                /*
+                 * حساب موجود است
+                 */
+                if (accountExists) {
+
+                    accountStatus.textContent =
+                        'حساب کاربری شما پیدا شد. رمز عبور را وارد کنید.';
+
+                    accountStatus.className =
+                        'account-status exists';
+
+                    accountStatus.style.display =
+                        'block';
+
+
+                    passwordSection.style.display =
+                        'block';
+
+                    rememberSection.style.display =
+                        'block';
+
+                    password.required = true;
+
+
+                    submitText.textContent =
+                        'ورود';
+
+                    submitText.style.display =
+                        'inline';
+
+                    spinner.style.display =
+                        'none';
+
+                    updateButton();
+
+                    password.focus();
+
+                    return;
+
+                }
+
+
+                /*
+                 * حساب وجود ندارد.
+                 * ابتدا OTP ارسال می‌شود و سپس ثبت‌نام.
+                 */
+                accountStatus.textContent =
+                    'این شماره حساب کاربری ندارد. در حال انتقال به مرحله تأیید شماره...';
+
+                accountStatus.className =
+                    'account-status new';
+
+                accountStatus.style.display =
+                    'block';
+
+
+                submitText.textContent =
+                    'ادامه';
+
+                submitText.style.display =
+                    'inline';
+
+                spinner.style.display =
+                    'none';
+
+
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            registerUrl +
+                            '?phone=' +
+                            encodeURIComponent(
+                                cleaned
+                            );
+
+                    },
+                    450
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    'Login check phone error:',
+                    error
+                );
+
+
+                accountChecked = false;
+
+                accountExists = false;
+
+
+                accountStatus.textContent = '';
+
+                accountStatus.style.display =
+                    'none';
+
+
+                restoreSubmitButton();
+
+
+                if (
+                    error.message ===
+                    'CSRF_EXPIRED'
+                ) {
+
+                    showError(
+                        'نشست ورود منقضی شده است. صفحه را یک‌بار تازه‌سازی کنید و دوباره تلاش کنید.'
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    error.message ===
+                    'CSRF_INPUT_MISSING' ||
+                    error.message ===
+                    'CSRF_TOKEN_MISSING'
+                ) {
+
+                    showError(
+                        'توکن امنیتی صفحه دریافت نشد. لطفاً صفحه را تازه‌سازی کنید.'
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    error.message ===
+                    'EMPTY_RESPONSE'
+                ) {
+
+                    showError(
+                        'سرور پاسخ خالی ارسال کرد. لطفاً دوباره تلاش کنید.'
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    error.message ===
+                    'INVALID_RESPONSE'
+                ) {
+
+                    showError(
+                        'پاسخ سرور برای بررسی شماره قابل پردازش نبود.'
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    error.message ===
+                    'SERVER_ERROR'
+                ) {
+
+                    showError(
+                        'سرور هنگام بررسی شماره با خطا مواجه شد. لطفاً دوباره تلاش کنید.'
+                    );
+
+                    return;
+
+                }
+
+
+                showError(
+                    'در حال حاضر امکان بررسی شماره وجود ندارد. لطفاً دوباره تلاش کنید.'
+                );
+
+            }
+
+        }
+    );
+
+
+    phone.value =
+        cleanPhone(phone.value);
+
+    updateButton();
+
+})();
+
+</script>
+
+@endpush
