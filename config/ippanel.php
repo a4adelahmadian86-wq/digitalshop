@@ -9,23 +9,27 @@ $secretsFile = env(
     . 'amir.php'
 );
 
-$secrets = [];
+// API credentials are intentionally kept outside the repository.
+// The local/test environment must provide the same secure/amir.php
+// file used by the main local installation.
+if (!is_file($secretsFile)) {
+    throw new RuntimeException(
+        'IPPANEL secrets file was not found: ' . $secretsFile
+        . '. Make sure C:\\xampp\\htdocs\\secure\\amir.php exists.'
+    );
+}
 
-// The secrets file is optional for local development.
-// Never stop Laravel from booting just because the SMS provider
-// credentials are not available on this machine.
-if (is_file($secretsFile)) {
-    $loadedSecrets = require $secretsFile;
+$secrets = require $secretsFile;
 
-    if (is_array($loadedSecrets)) {
-        $secrets = $loadedSecrets;
-    }
+if (!is_array($secrets)) {
+    throw new RuntimeException(
+        'IPPANEL secrets file must return an array: ' . $secretsFile
+    );
 }
 
 return [
 
-    'api_key' => $secrets['ippanel_api_key']
-        ?? env('IPPANEL_API_KEY', ''),
+    'api_key' => $secrets['ippanel_api_key'] ?? '',
 
     'base_url' => env(
         'IPPANEL_BASE_URL',
