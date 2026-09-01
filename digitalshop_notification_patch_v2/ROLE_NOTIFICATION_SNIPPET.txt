@@ -1,0 +1,19 @@
+Role-aware sending examples:
+
+app(NotificationService::class)->sendToRole(
+    'admin',
+    'system',
+    'اعلان مدیریتی',
+    'یک رویداد مهم نیاز به بررسی دارد.',
+    route('admin.dashboard'),
+    'ورود به پنل'
+);
+
+app(NotificationService::class)->sendToRole(
+    ['buyer'],
+    'promotion',
+    'پیشنهاد جدید',
+    'محصول جدیدی برای شما آماده شده است.'
+);
+
+Use sendToUser() when the notification is tied to one account/order. Use sendToRole() only for events that genuinely apply to the whole role.
