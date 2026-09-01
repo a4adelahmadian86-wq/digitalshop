@@ -41,6 +41,13 @@ class AppServiceProvider extends ServiceProvider
         Route::middleware('web')->group(function () {
             Route::post('/ai/chat', [\App\Http\Controllers\AiCommerceController::class, 'chat'])->name('ai.chat');
             Route::get('/ai/product/{product}', [\App\Http\Controllers\AiCommerceController::class, 'product'])->name('ai.product');
+
+            Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+                Route::post('/products/uploads', [\App\Http\Controllers\AdminProductUploadController::class, 'store'])->name('admin.products.uploads.store');
+                Route::delete('/products/uploads/{upload}', [\App\Http\Controllers\AdminProductUploadController::class, 'destroy'])->name('admin.products.uploads.destroy');
+                Route::get('/products/draft', [\App\Http\Controllers\AdminProductDraftController::class, 'show'])->name('admin.products.draft.show');
+                Route::post('/products/draft', [\App\Http\Controllers\AdminProductDraftController::class, 'store'])->name('admin.products.draft.store');
+            });
         });
     }
 }
