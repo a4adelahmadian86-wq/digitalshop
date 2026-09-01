@@ -1,0 +1,84 @@
+```php
+﻿
+  GET|HEAD        / ........................................................................... home › HomeController@index
+  POST            _ignition/execute-solution ignition.executeSolution › Spatie\LaravelIgnition › ExecuteSolutionController
+  GET|HEAD        _ignition/health-check ............ ignition.healthCheck › Spatie\LaravelIgnition › HealthCheckController
+  POST            _ignition/update-config ......... ignition.updateConfig › Spatie\LaravelIgnition › UpdateConfigController
+  GET|HEAD        admin ....................................................... admin.dashboard › AdminController@dashboard
+  GET|HEAD        admin/categories ................................. admin.categories.index › AdminCategoryController@index
+  POST            admin/categories ................................. admin.categories.store › AdminCategoryController@store
+  GET|HEAD        admin/categories/create ........................ admin.categories.create › AdminCategoryController@create
+  PUT             admin/categories/{category} .................... admin.categories.update › AdminCategoryController@update
+  DELETE          admin/categories/{category} .................. admin.categories.destroy › AdminCategoryController@destroy
+  GET|HEAD        admin/categories/{category}/edit ................... admin.categories.edit › AdminCategoryController@edit
+  PATCH           admin/categories/{category}/toggle ............. admin.categories.toggle › AdminCategoryController@toggle
+  GET|HEAD        admin/discounts ................................... admin.discounts.index › AdminDiscountController@index
+  POST            admin/discounts ................................... admin.discounts.store › AdminDiscountController@store
+  GET|HEAD        admin/discounts/create .......................... admin.discounts.create › AdminDiscountController@create
+  PUT             admin/discounts/{discount} ...................... admin.discounts.update › AdminDiscountController@update
+  DELETE          admin/discounts/{discount} .................... admin.discounts.destroy › AdminDiscountController@destroy
+  GET|HEAD        admin/discounts/{discount}/edit ..................... admin.discounts.edit › AdminDiscountController@edit
+  PATCH           admin/discounts/{discount}/toggle ............... admin.discounts.toggle › AdminDiscountController@toggle
+  GET|HEAD        admin/login ......................................................... admin.login › AdminController@login
+  POST            admin/login .............................................. admin.login.store › AdminController@loginStore
+  POST            admin/logout ...................................................... admin.logout › AdminController@logout
+  GET|HEAD        admin/products ...................................... admin.products.index › AdminProductController@index
+  POST            admin/products ...................................... admin.products.store › AdminProductController@store
+  GET|HEAD        admin/products/create ............................. admin.products.create › AdminProductController@create
+  PUT|PATCH       admin/products/{product} .......................... admin.products.update › AdminProductController@update
+  DELETE          admin/products/{product} ........................ admin.products.destroy › AdminProductController@destroy
+  GET|HEAD        admin/products/{product}/edit ......................... admin.products.edit › AdminProductController@edit
+  PATCH           admin/products/{product}/toggle ................... admin.products.toggle › AdminProductController@toggle
+  GET|HEAD        admin/storage ................................ admin.storage.index › AdminStorageProviderController@index
+  POST            admin/storage ................................ admin.storage.store › AdminStorageProviderController@store
+  GET|HEAD        admin/storage/create ....................... admin.storage.create › AdminStorageProviderController@create
+  PUT             admin/storage/{storageProvider} ............ admin.storage.update › AdminStorageProviderController@update
+  DELETE          admin/storage/{storageProvider} .......... admin.storage.destroy › AdminStorageProviderController@destroy
+  PATCH           admin/storage/{storageProvider}/default admin.storage.default › AdminStorageProviderController@makeDefau…
+  GET|HEAD        admin/storage/{storageProvider}/edit ........... admin.storage.edit › AdminStorageProviderController@edit
+  POST            admin/storage/{storageProvider}/test ........... admin.storage.test › AdminStorageProviderController@test
+  PATCH           admin/storage/{storageProvider}/toggle ..... admin.storage.toggle › AdminStorageProviderController@toggle
+  DELETE          api/storage/delete ................................. api.storage.delete › Api\StorageApiController@delete
+  GET|HEAD        api/storage/download ........................... api.storage.download › Api\StorageApiController@download
+  GET|HEAD        api/storage/exists ................................. api.storage.exists › Api\StorageApiController@exists
+  GET|HEAD        api/storage/test ....................................... api.storage.test › Api\StorageApiController@test
+  POST            api/storage/upload ................................. api.storage.upload › Api\StorageApiController@upload
+  GET|HEAD        api/user ................................................................................................ 
+  GET|HEAD        cart ........................................................................ cart › CartController@index
+  POST            cart/discount .......................................... cart.discount › CheckoutController@applyDiscount
+  DELETE          cart/discount .................................. cart.discount.remove › CheckoutController@removeDiscount
+  POST            cart/{product} ............................................................ cart.add › CartController@add
+  DELETE          cart/{product} ...................................................... cart.remove › CartController@remove
+  POST            cart/{product}/later .................................................. cart.later › CartController@later
+  POST            cart/{product}/move-to-cart ....................................... cart.move › CartController@moveToCart
+  GET|HEAD        checkout ............................................................ checkout › CheckoutController@index
+  POST            checkout ...................................................... checkout.store › CheckoutController@store
+  POST            checkout/discount .................................. checkout.discount › CheckoutController@applyDiscount
+  DELETE          checkout/discount .......................... checkout.discount.remove › CheckoutController@removeDiscount
+  GET|HEAD        checkout/success/{order} .................................. checkout.success › CheckoutController@success
+  GET|HEAD        download/{item} .................................................. download › DownloadController@download
+  GET|HEAD        forgot-password .............................. password.request › PasswordResetController@showRequestForm
+  POST            forgot-password ......................................... password.send › PasswordResetController@sendOtp
+  GET|HEAD        login ...................................................................... login › AuthController@login
+  POST            login ........................................................... login.store › AuthController@loginStore
+  POST            login/check-phone ......................................... login.check.phone › AuthController@checkPhone
+  GET|HEAD        login/password ............................................. login.password › AuthController@passwordForm
+  POST            login/password ...................................... login.password.store › AuthController@passwordLogin
+  POST            logout ................................................................... logout › AuthController@logout
+  GET|HEAD        otp ....................................................................... otp.show › OtpController@show
+  POST            otp/resend ............................................................ otp.resend › OtpController@resend
+  POST            otp/send .................................................................. otp.send › OtpController@send
+  POST            otp/verify ............................................................ otp.verify › OtpController@verify
+  GET|HEAD        payment/callback .......................................... payment.callback › PaymentController@callback
+  GET|HEAD        payment/pay/{order} ................................................. payment.pay › PaymentController@pay
+  GET|HEAD        products ...................................................... products.index › ProductController@search
+  GET|HEAD        products/{product} ................................................ product.show › ProductController@show
+  GET|HEAD        register ............................................................. register › AuthController@register
+  POST            register .................................................. register.store › AuthController@registerStore
+  GET|HEAD        sanctum/csrf-cookie ................... sanctum.csrf-cookie › Laravel\Sanctum › CsrfCookieController@show
+  GET|HEAD        search ................................................................ search › ProductController@search
+  GET|HEAD        storage/test ...................................................... storage.test › StorageController@test
+  POST            storage/test/upload ...................................... storage.test.upload › StorageController@upload
+
+                                                                                                        Showing [79] routes
+
