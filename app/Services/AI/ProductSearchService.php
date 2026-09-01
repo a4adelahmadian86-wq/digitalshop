@@ -63,7 +63,7 @@ class ProductSearchService
             $score = $this->scoreProduct($product, $terms);
             if (in_array($product->id, $productIds, true)) $score += 8;
             $product->recommendation_score = $score;
-            $product->evidence = $this->evidence($product, implode(' ', $terms), 1);
+            $product->evidence = $terms ? $this->evidence($product, implode(' ', $terms), 1) : [];
         });
 
         return $products->sortByDesc('recommendation_score')->take($limit)->values();
@@ -75,7 +75,7 @@ class ProductSearchService
         if (!$terms) return [];
 
         $rows = [];
-        foreach ($product->knowledgeDocuments()->with('chunks')->get() as $document) {
+        foreach ($product->knowledgeDocuments()->with(['chunks', 'file'])->get() as $document) {
             foreach ($document->chunks as $chunk) {
                 $text = mb_strtolower($chunk->content);
                 $score = 0;
@@ -87,13 +87,12 @@ class ProductSearchService
                 }
                 if ($score <= 0) continue;
 
-                $pos = $first ?? 0;
                 $original = $chunk->content;
-                $start = max(0, $pos - 220);
+                $start = max(0, (int) ($first ?? 0) - 220);
                 $rows[] = [
                     'document_id' => $document->id,
                     'chunk_id' => $chunk->id,
-                    'file' => $document->productFile?->original_name ?? 'فایل محصول',
+                    'file' => $document->file?->original_name ?? 'فایل محصول',
                     'score' => $score,
                     'snippet' => trim(mb_substr($original, $start, 650)),
                     'source_hash' => $document->source_hash,
