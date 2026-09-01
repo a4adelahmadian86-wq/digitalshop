@@ -2,20 +2,16 @@
 
 $secretsFile = env(
     'IPPANEL_SECRETS_FILE',
-    dirname(base_path())
-    . DIRECTORY_SEPARATOR
-    . 'secure'
-    . DIRECTORY_SEPARATOR
-    . 'amir.php'
+    'C:\\xampp\\secure\\amir.php'
 );
 
 // API credentials are intentionally kept outside the repository.
-// The local/test environment must provide the same secure/amir.php
-// file used by the main local installation.
+// The local/test environment uses the same secure/amir.php file
+// used by the main local installation.
 if (!is_file($secretsFile)) {
     throw new RuntimeException(
         'IPPANEL secrets file was not found: ' . $secretsFile
-        . '. Make sure C:\\xampp\\htdocs\\secure\\amir.php exists.'
+        . '. Make sure C:\\xampp\\secure\\amir.php exists.'
     );
 }
 
