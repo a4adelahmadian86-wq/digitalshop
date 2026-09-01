@@ -1,0 +1,8 @@
+Add these imports to app/Providers/AppServiceProvider.php:
+
+use App\Models\Order;
+use App\Observers\OrderObserver;
+
+Inside boot():
+
+Order::observe(OrderObserver::class);
