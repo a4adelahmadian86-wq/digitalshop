@@ -1,0 +1,7 @@
+@extends('admin.layout')
+@section('title','پایگاه دانش محصولات')
+@section('content')
+<div class="admin-page ai-knowledge"><div class="admin-page-head"><div><div class="admin-eyebrow">AI COMMERCE · KNOWLEDGE BASE</div><h1>پایگاه دانش محصولات</h1><p>محتوای فایل منبع حقیقت است؛ تا زمانی که محتوای واقعی استخراج نشود، AI نباید ادعای محتوایی بسازد.</p></div></div>
+<section class="card">@forelse($products as $product)<div class="row"><div><strong>{{ $product->title }}</strong><small>{{ $product->files_count }} فایل · وضعیت AI: {{ $product->ai_status ?: 'not_checked' }}</small></div><form method="POST" action="{{ route('admin.ai.knowledge.index-product',$product) }}">@csrf<button type="submit">استخراج / به‌روزرسانی</button></form></div>@empty<p class="empty">محصولی وجود ندارد.</p>@endforelse{{ $products->links() }}</section></div>
+@endsection
+@push('styles')<style>.ai-knowledge{max-width:1100px}.card{background:#fff;border:1px solid #eaecf0;border-radius:16px;padding:20px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #edf0f4}.row:last-child{border-bottom:0}.row strong,.row small{display:block}.row strong{font-size:12px}.row small{font-size:10px;color:#98a2b3;margin-top:4px}.row button{border:0;border-radius:10px;padding:9px 13px;background:#111827;color:#fff;cursor:pointer;font:inherit;font-size:10px;font-weight:800}.empty{font-size:11px;color:#98a2b3}@media(max-width:650px){.row{align-items:flex-start;flex-direction:column}}</style>@endpush
