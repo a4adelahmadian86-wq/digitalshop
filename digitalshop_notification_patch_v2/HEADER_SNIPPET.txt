@@ -1,0 +1,5 @@
+In resources/views/partials/header.blade.php, place this where the account/cart/header actions are rendered:
+
+@include('partials.notification-center')
+
+The include is intentionally small so it can sit beside the existing cart/account controls without replacing the current header.
