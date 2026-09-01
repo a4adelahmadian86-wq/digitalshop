@@ -1,83 +1,17 @@
 @extends('layouts.app')
-
-@section('title', $product->title . ' | فروشگاه فایل')
-
-@section('description', Str::limit(
-    strip_tags($product->short_description ?: $product->description),
-    155
-))
-
+@section('title',$product->title.' | فروشگاه فایل')
+@section('description',Str::limit(strip_tags($product->short_description?:$product->description),155))
 @section('content')
-
-<div class="container product-page">
-
-    <div class="product-detail">
-
-        <div class="product-cover">
-            <span>📄</span>
-        </div>
-
-        <div class="product-info">
-
-            <div class="muted">محصول دیجیتال</div>
-
-            <h1>{{ $product->title }}</h1>
-
-            @if($product->short_description)
-                <p>{{ $product->short_description }}</p>
-            @endif
-
-            <div class="product-price">
-                {{ number_format($product->price) }}
-                تومان
-            </div>
-
-            @if($downloadItem)
-
-                <div class="purchased-badge">
-                    <span>✓</span>
-                    این فایل را خریداری کرده‌اید
-                </div>
-
-                <a
-                    href="{{ route('download', $downloadItem) }}"
-                    class="product-action product-download"
-                >
-                    <span class="action-icon">↓</span>
-                    <span>دانلود فایل</span>
-                </a>
-
-            @else
-
-                <form
-                    method="POST"
-                    action="{{ route('cart.add', $product) }}"
-                >
-                    @csrf
-
-                    <button
-                        type="submit"
-                        class="product-action product-buy"
-                    >
-                        <span class="action-icon">🛒</span>
-                        <span>افزودن به سبد</span>
-                    </button>
-                </form>
-
-            @endif
-
-        </div>
-
-    </div>
-
-    <div class="product-description">
-
-        <h2>توضیحات محصول</h2>
-
-        {!! nl2br(e($product->description)) !!}
-
-    </div>
-
+<div class="container product-page-v2">
+<div class="product-hero"><div class="product-cover"><span>📄</span><small>{{ $product->files->count() }} فایل</small></div><div class="product-info"><div class="muted">{{ $product->category?->name ?: 'محصول دیجیتال' }}</div><h1>{{ $product->title }}</h1>@if($product->short_description)<p>{{ $product->short_description }}</p>@endif<div class="product-price">{{ number_format($product->price) }} تومان</div>@if($downloadItem)<div class="purchased-badge">✓ این محصول را خریداری کرده‌اید</div><a href="{{ route('download',$downloadItem) }}" class="product-action product-download">↓ دانلود فایل</a>@else<form method="POST" action="{{ route('cart.add',$product) }}">@csrf<button class="product-action product-buy" type="submit">🛒 افزودن به سبد</button></form>@endif</div></div>
+<section class="product-description"><h2>توضیحات محصول</h2><div class="description-body">{!! nl2br(e($product->description)) !!}</div></section>
+<section class="feedback-grid"><div class="feedback-card"><div class="block-head"><div><h2>تجربه خریداران</h2><small>نظرات کاربران تجربه شخصی هستند، نه جایگزین بررسی محتوای فایل.</small></div><strong>{{ $product->reviews->count() }}</strong></div>@forelse($product->reviews as $review)<article class="review"><div class="review-top"><b>{{ $review->user?->first_name ?: 'خریدار' }}</b><span>{{ str_repeat('★',$review->rating) }}{{ str_repeat('☆',5-$review->rating) }}</span></div><p>{{ $review->body }}</p></article>@empty<p class="empty">هنوز نظری ثبت نشده است.</p>@endforelse @if($downloadItem)<form method="POST" action="{{ route('product.review.store',$product) }}" class="feedback-form">@csrf<h3>نظر شما</h3><select name="rating" required><option value="">امتیاز</option><option value="5">۵ — عالی</option><option value="4">۴ — خوب</option><option value="3">۳ — متوسط</option><option value="2">۲ — ضعیف</option><option value="1">۱ — بسیار ضعیف</option></select><textarea name="body" rows="4" maxlength="3000" placeholder="تجربه واقعی خود از فایل را بنویسید..." required></textarea><button class="product-action product-buy" type="submit">ثبت نظر</button></form>@endif</div>
+<div class="feedback-card"><div class="block-head"><div><h2>پرسش و پاسخ</h2><small>هر کاربر واردشده می‌تواند درباره محصول سؤال بپرسد.</small></div><strong>{{ $product->questions->count() }}</strong></div>@forelse($product->questions as $question)<article class="question"><div class="review-top"><b>{{ $question->user?->first_name ?: 'کاربر' }}</b></div><p>{{ $question->body }}</p>@foreach($question->answers as $answer)<div class="answer"><b>پاسخ</b><p>{{ $answer->body }}</p></div>@endforeach</article>@empty<p class="empty">هنوز پرسشی ثبت نشده است.</p>@endforelse @auth<form method="POST" action="{{ route('product.question.store',$product) }}" class="feedback-form">@csrf<h3>سؤال خود را بپرسید</h3><textarea name="body" rows="4" maxlength="3000" placeholder="چه چیزی درباره این محصول می‌خواهید بدانید؟" required></textarea><button class="product-action product-buy" type="submit">ثبت سؤال</button></form>@else<p class="login-hint">برای ثبت سؤال ابتدا وارد حساب کاربری شوید.</p>@endauth</div></section>
+@if($related->count())<section class="recommend-section"><div class="section-head"><h2>محصولات مرتبط</h2><span>بر اساس دسته‌بندی</span></div><div class="product-grid">@foreach($related as $p)<a href="{{ route('product.show',$p) }}" class="mini-product"><div class="mini-cover">📄</div><b>{{ $p->title }}</b><small>{{ number_format($p->price) }} تومان</small></a>@endforeach</div></section>@endif
+@if($recommended->count())<section class="recommend-section"><div class="section-head"><h2>پیشنهاد برای شما</h2><span>بر اساس محتوای فروشگاه و رفتار ثبت‌شده</span></div><div class="product-grid">@foreach($recommended as $p)<a href="{{ route('product.show',$p) }}" class="mini-product"><div class="mini-cover">✦</div><b>{{ $p->title }}</b><small>{{ number_format($p->price) }} تومان</small></a>@endforeach</div></section>@endif
+@if($related->count()>1)<section class="recommend-section"><div class="section-head"><h2>مقایسه محصولات مشابه</h2><span>مقایسه سریع</span></div><div class="compare-table"><div class="compare-row compare-head"><span>محصول</span><span>قیمت</span><span>دسته</span></div>@foreach($related->take(4) as $p)<a href="{{ route('product.show',$p) }}" class="compare-row"><span>{{ $p->title }}</span><span>{{ number_format($p->price) }}</span><span>{{ $p->category?->name }}</span></a>@endforeach</div></section>@endif
 </div>
-
 @endsection
+@push('styles')<style>
+.product-page-v2{max-width:1120px;padding:24px 0 60px}.product-hero{display:grid;grid-template-columns:300px 1fr;gap:28px}.product-cover{min-height:290px;border-radius:22px;background:#f4f6ff;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#4f46e5}.product-cover span{font-size:72px}.product-cover small{font-size:11px;color:#667085}.product-info{padding:12px 0}.product-info h1{font-size:32px;margin:10px 0}.product-info>p{color:#667085;line-height:2}.product-price{font-size:23px;font-weight:900;margin:22px 0}.product-action{display:inline-flex;justify-content:center;align-items:center;border:0;border-radius:12px;padding:12px 18px;text-decoration:none;cursor:pointer;font-weight:800}.product-buy{background:#111827;color:#fff}.product-download{background:#ecfdf3;color:#027a48}.purchased-badge{display:inline-block;padding:8px 11px;background:#ecfdf3;color:#027a48;border-radius:10px;font-size:11px;margin-bottom:12px}.product-description,.feedback-card,.recommend-section{margin-top:22px;background:#fff;border:1px solid #eaecf0;border-radius:18px;padding:22px}.product-description h2,.feedback-card h2,.recommend-section h2{margin:0 0 12px;font-size:18px}.description-body{line-height:2.2;color:#344054}.feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.block-head,.section-head,.review-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.block-head small,.section-head span{display:block;color:#98a2b3;font-size:10px;margin-top:4px}.review,.question{padding:13px 0;border-top:1px solid #f0f2f5}.review p,.question p{line-height:1.9;font-size:12px}.review-top span{letter-spacing:2px}.answer{margin-top:9px;padding:10px 12px;background:#f8fafc;border-radius:10px}.answer p{margin:4px 0}.feedback-form{display:grid;gap:8px;border-top:1px solid #edf0f4;margin-top:15px;padding-top:15px}.feedback-form textarea,.feedback-form select{border:1px solid #d0d5dd;border-radius:10px;padding:10px;font:inherit}.feedback-form .product-action{width:max-content}.empty,.login-hint{font-size:11px;color:#98a2b3}.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.mini-product{display:flex;flex-direction:column;gap:7px;padding:12px;border:1px solid #eaecf0;border-radius:13px;text-decoration:none;color:inherit}.mini-cover{height:90px;border-radius:10px;background:#f8fafc;display:grid;place-items:center;font-size:32px}.mini-product b{font-size:11px}.mini-product small{font-size:10px;color:#667085}.compare-table{border:1px solid #eaecf0;border-radius:12px;overflow:hidden}.compare-row{display:grid;grid-template-columns:2fr 1fr 1fr;padding:11px 13px;text-decoration:none;color:inherit;border-top:1px solid #edf0f4;font-size:11px}.compare-head{border-top:0;background:#f8fafc;font-weight:800}@media(max-width:800px){.product-hero,.feedback-grid{grid-template-columns:1fr}.product-cover{min-height:220px}.product-info h1{font-size:24px}.product-grid{grid-template-columns:1fr 1fr}}@media(max-width:500px){.product-grid{grid-template-columns:1fr}}
+</style>@endpush
