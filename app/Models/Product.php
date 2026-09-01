@@ -19,5 +19,7 @@ class Product extends Model
     public function files(): HasMany{return $this->hasMany(ProductFile::class)->orderBy('sort_order');}
     public function uploads(): HasMany{return $this->hasMany(ProductUpload::class);}
     public function questions(): HasMany{return $this->hasMany(ProductQuestion::class)->whereNull('parent_id');}
+    public function knowledgeDocuments(): HasMany{return $this->hasMany(AiProductDocument::class);}
+    public function aiFeedback(): HasMany{return $this->hasMany(AiFeedback::class);}
     public function orders(){return $this->belongsToMany(Order::class,'order_items')->withPivot('price');}
 }
