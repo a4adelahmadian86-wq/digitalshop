@@ -1,0 +1,528 @@
+
+/*one header......................................................................*/
+
+.is_source .course-top-section #course-header{
+    border: 1px solid var(--color-dark-background);
+    background: white;
+    color: black;
+}
+
+.is_source .course-top-section #course-header h1{
+    color: black;
+}
+
+.is_source .course-top-section #course-header .course-actions{
+    border-right: 1px solid #d0d0d0;
+    gap: 0px;
+}
+
+.is_source .course-top-section #course-header .course-actions > *{
+    color: black;
+}
+
+.is_source .course-top-section #course-header .course-actions .rate{
+    color: var(--color-star-rate);
+}
+
+/*sidebar.........................................................................*/
+
+.is_source .course-sidebar{
+    position: sticky;
+    top : 5px;
+}
+
+.is_source.admin-bar .course-sidebar{
+    top : 42px;
+}
+
+#source-attention{
+    background-image: url("/wp-content/themes/daneshlight/Images/source/background-sidebar.png");
+    padding: 15px 10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    border-radius: 8px;
+    margin: 0 0 14px 0;
+}
+
+#source-attention i{
+    font-size: 28px;
+}
+
+.is_source .heading-titr-box{
+    margin: 30px 0 10px 0;
+    padding: 4px;
+    border-radius: 8px;
+    /*background: #D6DDFF;*/
+}
+
+.is_source .heading-titr{
+    padding: 0 10px 0 0;
+    overflow: auto;
+    direction: ltr;
+}
+
+.is_source .heading-titr.first-scroll{
+    max-height: 280px;
+}
+
+.is_source .heading-titr.second-scroll{
+    max-height: 218px;
+}
+
+.is_source .heading-titr.third-scroll{
+    max-height: 166px;
+}
+
+.is_source .heading-titr a{
+    display: block;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #DFE5FF;
+    background: #F5F7FF;
+    color: #383535;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 28px;
+}
+
+.is_source .heading-titr a i{
+    display : none;
+    background: #304ACA;
+    color: white;
+    border-radius: 4px;
+    padding: 4px 2px;
+}
+
+.is_source .heading-titr a:hover , .is_source .heading-titr a:focus{
+    color: #304ACA;
+}
+
+.is_source .heading-titr a.current{
+    color: #304ACA;
+    border: 1px solid #304ACA;
+}
+
+.is_source .heading-titr a.current i{
+    display : inline-block;
+}
+
+
+/*source detail.......................................................................*/
+
+.is_source .source-detail{
+    background: #F5F7FF;
+    padding: 20px;
+    margin: 60px 0 20px 0;
+    border-radius: 10px;
+}
+
+.is_source .source-detail h2{
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 28px;
+}
+
+.is_source .source-detail div.items{
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+}
+
+.is_source .source-detail div.items div{
+    background: #FFFFFF;
+    margin: 0 0 20px 12px;
+    padding: 18px 10px;
+    border-radius: 5px;
+}
+
+.is_source .source-detail div.items div span , .is_source .source-detail div.items div a{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+.is_source .source-detail div.items div a{
+    color: #304aca;
+}
+
+.is_source .source-detail .prev-project{
+    color: #304aca;
+    cursor: pointer;
+}
+
+.is_source .my-modal.source-prev-project {
+    display: none;
+    padding:200px;
+    position: fixed;
+    z-index: 99;
+    left: 0%;
+    right : 0%;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0 0 0 / 56%);
+    border-radius: 0px;
+}
+
+.is_source .source-prev-project .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px 10px 10px 10px;
+    border: 1px solid #888;
+    width: 45%;
+    z-index: 99;
+    border-radius: 22px;
+}
+
+.is_source .source-prev-project .video-popup{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.is_source .source-prev-project .video-popup video{
+    width: 86%;
+    border-radius: 10px;
+}
+
+.is_source .source-prev-project .close {
+    color: #fc0808;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.is_source .source-prev-project .close:hover,
+.is_source .source-prev-project .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*source files................................................................*/
+
+.is_source .chapters-container .chapter-item{
+    border: none;
+    background: #F5F7FF;
+    margin: 60px 0;
+    padding: 20px;
+}
+
+.is_source .chapters-container .chapter-item .chapter-head{
+    border : none;
+    background: transparent;
+    display: block;
+    padding : 0;
+}
+
+.is_source .chapters-container .chapter-item .chapter-head h3{
+    font-size: 20px;
+}
+
+.is_source .chapter-items{
+    display : block;
+    padding : 0;
+}
+
+.is_source .chapter-items .source-file{
+    position: relative;
+}
+
+.is_source .chapter-items .source-file:before{
+    content: "";
+    background: linear-gradient(90deg, #D9DDF0 14.55%, rgba(255, 255, 255, 0.00) 100%);
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    z-index: 0;
+}
+
+.is_source .chapters-container .chapter-items .video-counter{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.is_source .chapter-items .file{
+    position: relative;
+    display: grid !important;
+    grid-template-columns: 30px auto 100px 54px;
+    background: white;
+    border: 1px solid #E6E6E6;
+    border-radius: 8px;
+    margin: 20px 40px 20px 0;
+    padding: 0 14px;
+    z-index : 1;
+}
+
+.is_source .chapter-items .file span.file-icon{
+    color: #304ACA;
+    font-size: 22px;
+    border-left: 1px solid #cbcbcb;
+}
+
+.is_source .chapter-items .file p{
+    color: black;
+    font-size: 16px;
+    font-weight: 700;
+    padding-right: 15px;
+}
+
+.is_source .chapter-items .file p > span{
+    display: block;
+    font-size: 14px;
+    color: grey;
+    font-weight: 500;
+}
+
+.is_source .chapter-items i.ic-download{
+    border-radius: 8px;
+    background: #E7F5F0;
+    color : #2BB080;
+    width: 37px;
+    height: 37px;
+    text-align: center;
+    line-height: 33px;
+}
+
+.is_source .chapter-items i.ic-lock , .is_source .chapter-items i.play-locked{
+    border-radius: 8px;
+    background: #FFF6E6;
+    color: #FF5C00;
+    width: 37px;
+    height: 37px;
+    text-align: center;
+    line-height: 33px;
+}
+
+/*comments...........................................................................*/
+
+.is_source .source-comment-message{
+    display : none;
+}
+
+/*gallery...........................................................................*/
+
+.is_source #sourceGallery{
+    margin-bottom : 60px;
+}
+
+.is_source #sourceGallery .video-img{
+    position: relative;
+    margin-bottom: 14px;
+}
+
+.is_source .video-img video , .is_source .video-img img{
+    aspect-ratio: 16/9;
+}
+
+.is_source .dont-show , .is_source .dont-show-icon{
+    display : none !important;
+}
+
+.is_source .video-img i{
+    display: block;
+    position: absolute;
+    top: 45%;
+    right: 50%;
+    color: blue;
+    background: white;
+    border-radius: 50%;
+    padding: 18px;
+    font-size: 20px;
+    cursor :pointer;
+}
+
+.is_source #sourceGallery .source-slider{
+    display: grid;
+    grid-template-columns: 60px auto 60px;
+    align-items: center;
+    grid-gap: 5px;
+    text-align: center;
+}
+
+.is_source .source-slider .swiper-next , .is_source .source-slider .swiper-prev{
+    cursor : pointer;
+}
+
+.is_source .source-slider .swiper-next i , .is_source .source-slider .swiper-prev i{
+    font-size : 18px;
+}
+
+.is_source .video-img-slide{
+    height: 90px;
+    cursor : pointer;
+}
+
+.is_source .video-img-slide img{
+    width: 100%;
+    height: 100%;
+    border: 2px solid #E6E6E6;
+    border-radius: 6px;
+}
+
+.is_source .video-img-slide i{
+    display: block;
+    position: absolute;
+    top: 38%;
+    right: 41%;
+    color: #979797;
+    background: white;
+    border-radius: 50%;
+    padding: 8px 8px 8px 11px;
+}
+
+/*other device......................................................................*/
+
+
+@media only screen and (min-width: 993px) and (max-width: 1400px) {
+    .is_source .source-prev-project .modal-content {
+        width: 70%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1199px) {
+    .is_source .course-sidebar{
+        padding-top: 0px !important;
+    }
+    .is_source .course-content {
+        margin-top: 0;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 992px) {
+    .is_source .my-modal.source-prev-project {
+        padding: 250px 20px 150px 20px;
+    }
+    .is_source .source-prev-project .modal-content {
+        width: 70%;
+        border-radius: 14px;
+    }
+}
+
+
+@media screen and (max-width: 768px){
+    .is_source .course-top-section #course-header .course-actions{
+        border-right: none;
+        justify-content: end;
+    }
+    .is_source .course-top-section #course-header .course-actions > *{
+        margin : 0 5px;
+    }
+
+    /*..............................*/
+
+    .is_source .copyright{
+        margin-bottom: 122px;
+    }
+    .is_source .course-sidebar{
+        z-index: 99;
+    }
+    .is_source .course-sidebar .course-metas{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        padding : 0 20px;
+    }
+    .is_source .course-sidebar .course-metas .price.has-discount{
+        margin-bottom: 55px;
+        padding: 8px 0 20px 0;
+    }
+    .is_source .course-sidebar .course-metas .special-remain{
+        margin : 5px 0;
+    }
+    .is_source .course-sidebar .course-metas .price.has-discount ins{
+        font-size : 22px;
+    }
+    .is_source .course-sidebar .is-student{
+        position: absolute;
+        top: 60px;
+        right: 28%;
+    }
+
+    /*...............................*/
+
+    .is_source .source-detail div.items{
+        grid-template-columns: 2fr;
+    }
+
+    /*..............................*/
+
+    .is_source .chapters-container .chapter-item .chapter-head h3 {
+        padding: 10px 10px 0 0;
+    }
+    .is_source .chapter-items{
+        padding-bottom : 1px;
+    }
+    .is_source .chapter-items .file{
+        grid-template-columns: 30px auto;
+        margin: 20px 30px 20px 10px;
+    }
+    .is_source .chapter-items .file span.file-icon{
+        font-size: 30px;
+        border : none;
+        margin-left: 5px;
+    }
+    .is_source .chapter-items .file p{
+        display : inline-block;
+        border-right: 1px solid #e5e5e5;
+        margin: 5px 5px 58px 5px;
+    }
+    .is_source .chapter-items .download{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+    .is_source .chapter-items .download i{
+        width: 90%;
+        margin: 5px auto 10px auto;
+        display: block;
+    }
+
+/*    ............................*/
+
+    .is_source #sourceGallery .source-slider{
+        display: block;
+    }
+    .is_source .source-slider .swiper-next , .is_source .source-slider .swiper-prev{
+        display : none;
+    }
+    .is_source .source-slider .mobile-slider{
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        width: 100%;
+        text-align: center;
+        overflow: auto;
+    }
+    .is_source .video-img-slide {
+        min-width: 133px;
+        position: relative;
+    }
+    .is_source .video-img i{
+        display : none;
+    }
+
+}
+
+
+@media only screen and (max-width: 600px) {
+    .is_source .my-modal.source-prev-project {
+        padding: 250px 20px 150px 20px;
+    }
+    .is_source .source-prev-project .modal-content {
+        width: 100%;
+        border-radius: 14px;
+    }
+}
+
