@@ -1,122 +1,12 @@
 @extends('layouts.app')
-
 @section('title','فروشگاه فایل | فایل‌های دیجیتال')
-
-@section('description',
-'خرید و دانلود فایل‌های دیجیتال، آموزشی، گرافیکی و کاربردی'
-)
-
+@section('description','خرید و دانلود فایل‌های دیجیتال، آموزشی، گرافیکی و کاربردی')
 @section('content')
-
-<div class="container">
-
-<section class="hero">
-
-<h1>فایل مورد نیازت را پیدا کن</h1>
-
-<p>
-محصولات دیجیتال کاربردی را پیدا کن، خریداری کن و بلافاصله دریافت کن.
-</p>
-
-<form class="search"
-action="{{ route('search') }}">
-
-<input name="q"
-placeholder="جستجوی فایل..."
-aria-label="جستجوی فایل">
-
-<button class="btn">جستجو</button>
-
-</form>
-
-</section>
-
-<section class="section">
-
-<div class="section-head">
-<h2>دسته‌بندی‌ها</h2>
+<div class="container home-page">
+<section class="hero"><span class="hero-kicker">فروشگاه هوشمند فایل</span><h1>فایل مناسب را سریع‌تر پیدا کن</h1><p>محصولات واقعی را جستجو کن، محتوای فایل را بررسی کن و اگر مردد بودی از دستیار صوتی کمک بگیر.</p><form class="search" action="{{ route('search') }}"><input name="q" placeholder="مثلاً فایل اکسل حسابداری..." aria-label="جستجوی فایل"><button class="btn" type="submit"><x-icon name="search" size="18" />جستجو</button></form><div class="hero-trust"><span><x-icon name="check" size="15" />بررسی محتوای فایل</span><span><x-icon name="download" size="15" />دریافت فوری</span><span><x-icon name="ai" size="15" />مشاور هوشمند</span></div></section>
+<section class="section"><div class="section-head"><div><span class="eyebrow">انتخاب سریع</span><h2>دسته‌بندی‌ها</h2></div></div><div class="categories">@foreach($categories as $category)<a class="category" href="{{ route('search',['category'=>$category->id]) }}"><span class="category-icon"><x-icon name="file" size="22" /></span><strong>{{ $category->name }}</strong><x-icon name="arrow-left" size="16" /></a>@endforeach</div></section>
+<section class="section"><div class="section-head"><div><span class="eyebrow">پیشنهاد تازه</span><h2>جدیدترین فایل‌ها</h2></div><a href="{{ route('search') }}" class="muted">مشاهده همه <x-icon name="arrow-left" size="15" /></a></div><div class="products">@foreach($products as $product)<article class="card"><a class="card-link" href="{{ route('product.show',$product) }}"><div class="card-img"><x-icon name="file" size="52" /></div><div class="card-body"><div class="card-meta">{{ $product->category?->name }}</div><h2>{{ $product->title }}</h2><p class="muted">{{ Str::limit($product->short_description,100) }}</p><div class="card-bottom"><span class="price">{{ number_format($product->price) }} <small>تومان</small></span><span class="view-link">مشاهده <x-icon name="arrow-left" size="14" /></span></div></div></a><form class="card-cart" method="POST" action="{{ route('cart.add',$product) }}">@csrf<button title="افزودن به سبد خرید" aria-label="افزودن به سبد خرید"><x-icon name="cart" size="19" /></button></form></article>@endforeach</div></section>
 </div>
-
-<div class="categories">
-
-@foreach($categories as $category)
-
-<a class="category" href="#">
-<span>◈</span>
-<strong>{{ $category->name }}</strong>
-</a>
-
-@endforeach
-
-</div>
-
-</section>
-
-<section class="section">
-
-<div class="section-head">
-<h2>جدیدترین فایل‌ها</h2>
-
-<a href="{{ route('search') }}"
-class="muted">مشاهده همه ←</a>
-</div>
-
-<div class="products">
-
-@foreach($products as $product)
-
-<article class="card">
-
-<a class="card-link"
-href="{{ route('product.show',$product) }}">
-
-<div class="card-img">📁</div>
-
-<div class="card-body">
-
-<h2>{{ $product->title }}</h2>
-
-<p class="muted">
-{{ $product->short_description }}
-</p>
-
-<div class="card-bottom">
-
-<span class="price">
-{{ number_format($product->price) }} تومان
-</span>
-
-</div>
-
-</div>
-
-</a>
-
-<form class="card-cart"
-method="POST"
-action="{{ route('cart.add',$product) }}">
-
-@csrf
-
-<button
-title="افزودن به سبد"
-aria-label="افزودن به سبد">🛒</button>
-
-</form>
-
-<a class="card-view"
-href="{{ route('product.show', $product) }}"
-title="مشاهده محصول"
-aria-label="مشاهده محصول">↗</a>
-
-</article>
-
-@endforeach
-
-</div>
-
-</section>
-
-</div>
-
 @endsection
+@push('styles')<style>.home-page{padding-bottom:25px}.hero{position:relative;overflow:hidden}.hero-kicker,.eyebrow{display:inline-block;font-size:11px;font-weight:900;color:#6541d8;letter-spacing:.2px}.hero h1{margin-top:8px}.hero .search{margin-top:24px}.search .btn{display:flex;align-items:center;gap:7px}.hero-trust{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:18px;color:#667085;font-size:11px}.hero-trust span{display:flex;align-items:center;gap:5px}.hero-trust svg{color:#6541d8}.section-head>div h2{margin-top:4px}.category{display:flex;align-items:center;gap:10px;text-align:right;padding:14px}.category-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#f0edff;color:#6541d8}.category strong{flex:1;font-size:13px}.category>.ds-icon{color:#98a2b3}.card-img{display:grid;place-items:center;color:#6541d8}.card-meta{font-size:10px;color:#6541d8;margin-bottom:5px}.card-bottom{gap:10px}.price small{font-size:9px;font-weight:700}.view-link{display:flex;align-items:center;gap:3px;color:#667085;font-size:11px}.card-cart button{display:grid;place-items:center}.muted{display:flex;align-items:center;gap:4px}@media(max-width:600px){.hero-trust{gap:10px}.hero-trust span{font-size:10px}}
+</style>@endpush
