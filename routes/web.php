@@ -47,6 +47,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 Route::get('/products', [ProductController::class, 'search'])->name('products.index');
 Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/products/{product:slug}/preview', [ProductReaderController::class, 'preview'])->name('product.preview');
+Route::get('/products/{product:slug}/pdf', [ProductReaderController::class, 'pdf'])->name('product.pdf');
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/ai/product/{product}', [\App\Http\Controllers\AiCommerceController::class, 'product'])->name('ai.product');
 Route::post('/ai/chat', [\App\Http\Controllers\AiCommerceController::class, 'chat'])->name('ai.chat');
