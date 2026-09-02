@@ -21,12 +21,11 @@ class ProductReaderController extends Controller
             $documents = $product->fresh()->knowledgeDocuments()->with(['chunks', 'file'])->get();
         }
 
-        $pages = $this->pages($documents, 7);
         return view('products.reader', [
             'product' => $product,
-            'pages' => $pages,
+            'pages' => $this->pages($documents, 7),
             'preview' => true,
-            'pageLimit' => min(7, count($pages)),
+            'pageLimit' => 7,
             'pdfFile' => $product->files->first(fn ($file) => strtolower($file->extension) === 'pdf'),
         ]);
     }
@@ -42,12 +41,11 @@ class ProductReaderController extends Controller
         $product->load('files');
         $documents = $product->knowledgeDocuments()->with(['chunks', 'file'])->get();
         abort_if($documents->isEmpty(), 404);
-        $pages = $this->pages($documents, null);
         return view('products.reader', [
             'product' => $product,
-            'pages' => $pages,
+            'pages' => $this->pages($documents, null),
             'preview' => false,
-            'pageLimit' => count($pages),
+            'pageLimit' => null,
             'pdfFile' => $product->files->first(fn ($file) => strtolower($file->extension) === 'pdf'),
         ]);
     }
@@ -58,17 +56,15 @@ class ProductReaderController extends Controller
         $file = $product->files()->whereRaw('LOWER(extension) = ?', ['pdf'])->orderBy('sort_order')->first();
         abort_unless($file, 404);
 
+        $owned = false;
         if ($request->user()) {
             $owned = OrderItem::where('product_id', $product->id)
                 ->whereHas('order', fn ($q) => $q->where('user_id', $request->user()->id)->where('status', 'paid'))
                 ->exists();
-            if ($owned) {
-                return $this->streamStorageFile($file, $storage, false);
-            }
         }
 
-        abort_unless($request->boolean('preview'), 403);
-        return $this->streamStorageFile($file, $storage, true);
+        abort_unless($owned || $request->boolean('preview'), 403);
+        return $this->streamStorageFile($file, $storage, !$owned);
     }
 
     private function streamStorageFile($file, StorageManager $storage, bool $preview)
@@ -79,16 +75,17 @@ class ProductReaderController extends Controller
         if ($provider->type === 'local') {
             $disk = $provider->config['disk'] ?? 'local';
             abort_unless(Storage::disk($disk)->exists($file->storage_path), 404);
-            return response()->streamDownload(function () use ($disk, $file) {
+            return response()->stream(function () use ($disk, $file) {
                 $stream = Storage::disk($disk)->readStream($file->storage_path);
-                if ($stream === false) abort(404);
+                abort_if($stream === false, 404);
                 fpassthru($stream);
                 fclose($stream);
-            }, $file->original_name, [
+            }, 200, [
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'inline; filename="' . addslashes($file->original_name) . '"',
                 'Cache-Control' => $preview ? 'private, no-store' : 'private, max-age=60',
                 'X-Content-Type-Options' => 'nosniff',
+                'Accept-Ranges' => 'bytes',
             ]);
         }
 
