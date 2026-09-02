@@ -18,6 +18,7 @@ class User extends Authenticatable
     public function wallet(): HasOne{return $this->hasOne(Wallet::class);}
     public function walletTopups(): HasMany{return $this->hasMany(WalletTopup::class);}
     public function roles(): BelongsToMany{return $this->belongsToMany(Role::class);}
+    public function supportTickets(): HasMany{return $this->hasMany(SupportTicket::class);}
     public function hasRole(string $role): bool{return $this->roles()->where('name',$role)->exists() || $this->role === $role;}
     public function hasPermission(string $permission): bool
     {
