@@ -1,0 +1,2833 @@
+﻿[
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "۰۱\nروز\n۰۳\nساعت\n۰۵\nدقیقه\n۲۰\nثانیه",
+        "href":  "https://www.daneshjooyar.com/landing/profile-completion/",
+        "src":  "",
+        "classes":  "view-smartbar smartbar-205 timer",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/landing/profile-completion/",
+                           "rel":  "nofollow",
+                           "data-smartbar":  "205",
+                           "class":  "view-smartbar smartbar-205 timer",
+                           "style":  "background-color: #003060",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/",
+        "src":  "",
+        "classes":  "nav-logo",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com",
+                           "class":  "nav-logo"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/#",
+        "src":  "",
+        "classes":  "nav-category-title ease rel",
+        "attributes":  {
+                           "href":  "#",
+                           "class":  "nav-category-title ease rel"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14236",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14236",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        فرانت اند                                    ",
+        "href":  "",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "#":  "",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Html/Css                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14239",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14239",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Bootstrap                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=2388",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=2388",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Js                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14241",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14241",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        بک اند                                    ",
+        "href":  "",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "#":  "",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        PHP                                                    ",
+        "href":  "https://www.daneshjooyar.com/category/php/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/category/php/",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Asp                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14246",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14246",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        پایتون(وب)                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14295",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14295",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Js                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14244",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14244",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        وردپرس                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14249",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14249",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14290",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14290",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        سی شارپ                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14291",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14291",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Java                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14294",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14294",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14263",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14263",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        اندروید                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14264",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14264",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Java                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14267",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14267",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Kotlin                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14724",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14724",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Ios                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14265",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14265",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Cross Platform                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14266",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14266",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14296",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14296",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Sql Server                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14298",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14298",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Mysql                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14301",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14301",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        SQLite                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=2662",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=2662",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        NoSql                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14302",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14302",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14309",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14309",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Unity                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14310",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14310",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Cry Engine                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14364",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14364",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14313",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14313",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        گرافیک تصویر                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14313",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14313",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Photoshop                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14314",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14314",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        3DMax                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=15142",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=15142",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        ویدئو                                    ",
+        "href":  "",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "#":  "",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        افترافکت                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14351",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14351",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        پریمیر                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14357",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14357",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=55198",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=55198",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        سئو                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14358",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14358",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        بازاریابی و فروش                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=55197",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=55197",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14304",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14304",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14356",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14356",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=54941",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=54941",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14277",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14277",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14352",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14352",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=55096",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=55096",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "سلام\n\nسید امیرمهدی عادل احمدیان",
+        "href":  "https://www.daneshjooyar.com/panel/dashboard/",
+        "src":  "",
+        "classes":  "nav-login",
+        "attributes":  {
+                           "href":  "/panel/dashboard/",
+                           "class":  "nav-login"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/panel/dashboard/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/panel/dashboard/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/panel/classes/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/panel/classes/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?do_logout=true\u0026_wpnonce=dd5e491c36",
+        "src":  "",
+        "classes":  "logout",
+        "attributes":  {
+                           "class":  "logout",
+                           "href":  "/?do_logout=true\u0026_wpnonce=dd5e491c36",
+                           "onclick":  "return confirm( \u0027برای خروج از سایت اطمینان دارید؟\u0027 );"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/cart-shop/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/cart-shop/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/android/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/android/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/cart-shop/",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/cart-shop/",
+                           "class":  "btn btn-primary",
+                           "rel":  "nofollow"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  " دسته بندی",
+        "href":  "https://www.daneshjooyar.com/#",
+        "src":  "",
+        "classes":  "nav-category-title ease rel",
+        "attributes":  {
+                           "href":  "#",
+                           "class":  "nav-category-title ease rel"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14236",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14236",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        فرانت اند                                    ",
+        "href":  "",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "#":  "",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Html/Css                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14239",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14239",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Bootstrap                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=2388",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=2388",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Js                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14241",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14241",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        بک اند                                    ",
+        "href":  "",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "#":  "",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        PHP                                                    ",
+        "href":  "https://www.daneshjooyar.com/category/php/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/category/php/",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Asp                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14246",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14246",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        پایتون(وب)                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14295",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14295",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Js                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14244",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14244",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        وردپرس                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14249",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14249",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14290",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14290",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        سی شارپ                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14291",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14291",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Java                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14294",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14294",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14263",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14263",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        اندروید                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14264",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14264",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Java                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14267",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14267",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Kotlin                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14724",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14724",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Ios                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14265",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14265",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Cross Platform                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14266",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14266",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14296",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14296",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Sql Server                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14298",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14298",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Mysql                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14301",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14301",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        SQLite                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=2662",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=2662",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        NoSql                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14302",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14302",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14309",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14309",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Unity                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14310",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14310",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        Cry Engine                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14364",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14364",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14313",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14313",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        گرافیک تصویر                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14313",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=14313",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        Photoshop                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14314",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14314",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        3DMax                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=15142",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=15142",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        ویدئو                                    ",
+        "href":  "",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "#":  "",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        افترافکت                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14351",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14351",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                                        پریمیر                                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14357",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14357",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=55198",
+        "src":  "",
+        "classes":  "has-child",
+        "attributes":  {
+                           "href":  "/?cat=55198",
+                           "class":  "has-child"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        سئو                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=14358",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14358",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "\n                                        بازاریابی و فروش                                    ",
+        "href":  "https://www.daneshjooyar.com/?cat=55197",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=55197",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14304",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14304",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14356",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14356",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=54941",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=54941",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14277",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14277",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=14352",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=14352",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/?cat=55096",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/?cat=55096",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره های طلایی",
+        "href":  "https://www.daneshjooyar.com/golden-courses/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/golden-courses/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "وبلاگ",
+        "href":  "https://www.daneshjooyar.com/blog/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/blog/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "بورسیه آموزشی",
+        "href":  "https://www.daneshjooyar.com/bursary/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/bursary/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "درباره ما",
+        "href":  "https://www.daneshjooyar.com/about-us/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/about-us/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره های من ",
+        "href":  "https://www.daneshjooyar.com/panel/classes/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/panel/classes/",
+                           "rel":  "nofollow"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/google-ai/",
+        "src":  "",
+        "classes":  "my-course",
+        "attributes":  {
+                           "class":  "my-course",
+                           "href":  "https://www.daneshjooyar.com/google-ai/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/internal-internet-tools/",
+        "src":  "",
+        "classes":  "my-course",
+        "attributes":  {
+                           "class":  "my-course",
+                           "href":  "https://www.daneshjooyar.com/internal-internet-tools/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/free-autocad/",
+        "src":  "",
+        "classes":  "my-course",
+        "attributes":  {
+                           "class":  "my-course",
+                           "href":  "https://www.daneshjooyar.com/free-autocad/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/panel/classes/",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/panel/classes/",
+                           "class":  "btn btn-primary"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "مشاوره تخصصی",
+        "href":  "https://www.daneshjooyar.com/specialized-advice/",
+        "src":  "",
+        "classes":  "how-teach ease",
+        "attributes":  {
+                           "href":  "/specialized-advice/",
+                           "target":  "_blank",
+                           "class":  "how-teach ease"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "درخواست تدریس",
+        "href":  "https://www.daneshjooyar.com/become-teacher/",
+        "src":  "",
+        "classes":  "how-teach ease",
+        "attributes":  {
+                           "href":  "/become-teacher/",
+                           "class":  "how-teach ease"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره های طلایی\n\nمحبوب ترین دوره های سایت\n\nمشاهده",
+        "href":  "https://www.daneshjooyar.com/golden-courses/",
+        "src":  "",
+        "classes":  "quick-gold",
+        "attributes":  {
+                           "href":  "/golden-courses/",
+                           "class":  "quick-gold"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "استعدادیابی\n\nکشف استعداد شما توسط دانشجویار\n\nآزمون",
+        "href":  "https://www.daneshjooyar.com/talent/",
+        "src":  "",
+        "classes":  "quick-talent",
+        "attributes":  {
+                           "href":  "/talent/",
+                           "class":  "quick-talent"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "مشاوره تخصصی\n\nمشاوره با متخصصین دانشجویار\n\nمشاوره",
+        "href":  "https://www.daneshjooyar.com/specialized-advice/",
+        "src":  "",
+        "classes":  "quick-advice",
+        "attributes":  {
+                           "href":  "/specialized-advice/",
+                           "class":  "quick-advice"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره های رایگان\n\nآموزش رایگان با دانشجویار\n\nشروع",
+        "href":  "https://www.daneshjooyar.com/free-courses/",
+        "src":  "",
+        "classes":  "quick-free",
+        "attributes":  {
+                           "href":  "/free-courses/",
+                           "class":  "quick-free"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/webinar/ai-age-winners/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/webinar/ai-age-winners/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/talent/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/talent/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/app/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/app/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/bursary/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/bursary/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/webinar/ai-age-winners/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/webinar/ai-age-winners/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/talent/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/talent/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/online-busines/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/online-busines/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره جامع راه اندازی کسب و کار اینترنتی (وردپرس، سئو، مارکتینگ و اپلیکیشن)",
+        "href":  "https://www.daneshjooyar.com/online-busines/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/online-busines/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/gold-front/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/gold-front/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره طلایی آموزش فرانت اند: ۰ تا ۱۰۰ طراحی وب حرفه‌ای!",
+        "href":  "https://www.daneshjooyar.com/gold-front/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/gold-front/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/advanced-photoshop-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/advanced-photoshop-training/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره آموزش پروژه محور فتوشاپ از صفر تا فوق حرفه ای🔥+ یادگیری هوش مصنوعی فتوشاپ",
+        "href":  "https://www.daneshjooyar.com/advanced-photoshop-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/advanced-photoshop-training/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/php-tutorial/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/php-tutorial/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره جامع آموزش PHP 💻 از مقدماتی تا ساخت پروژه‌های واقعی",
+        "href":  "https://www.daneshjooyar.com/php-tutorial/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/php-tutorial/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/android/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/android/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "جامع ترین آموزش برنامه نویسی اندروید با کاتلین و جت پک کامپوز",
+        "href":  "https://www.daneshjooyar.com/android/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/android/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/computer/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/computer/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دانشکده مجازی کامپیوتر – از صفر مطلق تا مباحث پیشرفته",
+        "href":  "https://www.daneshjooyar.com/computer/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/computer/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/machine-learning/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/machine-learning/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره جامع آموزش ماشین لرنینگ با پایتون (علم داده و یادگیری ماشین در سال ۲۰۲۵)⚡️",
+        "href":  "https://www.daneshjooyar.com/machine-learning/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/machine-learning/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/python-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/python-training/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره مسترکدر پایتون🧑‍💻 ۴۵ ساعت آموزش پایتون جامع در کاربردی ترین دوره ی فارسی",
+        "href":  "https://www.daneshjooyar.com/python-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/python-training/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/admini/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/admini/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "آموزش طلایی ادمینی با چاشنی هوش مصنوعی (از ایجاد پیج تا کسب درآمد)",
+        "href":  "https://www.daneshjooyar.com/admini/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/admini/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/video-making-with-premiere/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/video-making-with-premiere/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "صفر تا صد آموزش ویدیوسازی با پریمیر (از ایده تا تدوین) – پروژه‌محور",
+        "href":  "https://www.daneshjooyar.com/video-making-with-premiere/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/video-making-with-premiere/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/marketing-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/marketing-training/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره جامع آموزش بازاریابی و فروش اینترنتی + پروژه واقعی",
+        "href":  "https://www.daneshjooyar.com/marketing-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/marketing-training/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/unreal-engine-tutorial/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/unreal-engine-tutorial/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "آموزش جامع آنریل انجین (Unreal Engine) – از پایه تا ساخت یک بازی کامل",
+        "href":  "https://www.daneshjooyar.com/unreal-engine-tutorial/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/unreal-engine-tutorial/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "اندروید\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/android/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/android/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "پایتون\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/python-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/python-training/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "بک اند(PHP)\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/php-tutorial/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/php-tutorial/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "سی شارپ\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/csharp-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/csharp-training/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "افزونه نویسی\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/%d8%a2%d9%85%d9%88%d8%b2%d8%b4-%d8%b5%d9%81%d8%b1-%d8%aa%d8%a7-%d8%b5%d8%af-%d8%a7%d9%81%d8%b2%d9%88%d9%86%d9%87-%d9%86%d9%88%db%8c%d8%b3%db%8c-%d9%88%d8%b1%d8%af%d9%be%d8%b1%d8%b3/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/%d8%a2%d9%85%d9%88%d8%b2%d8%b4-%d8%b5%d9%81%d8%b1-%d8%aa%d8%a7-%d8%b5%d8%af-%d8%a7%d9%81%d8%b2%d9%88%d9%86%d9%87-%d9%86%d9%88%db%8c%d8%b3%db%8c-%d9%88%d8%b1%d8%af%d9%be%d8%b1%d8%b3/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "زبان انگلیسی\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/english-grammar/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/english-grammar/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "UI UX\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/ui-ux-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/ui-ux-training/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "هوش مصنوعی\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/machine-learning/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/machine-learning/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "کسب و کار اینترنتی\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/online-busines/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/online-busines/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "ASP.net\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/asp-net-core-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/asp-net-core-training/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "طراحی تصویر\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/advanced-photoshop-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/advanced-photoshop-training/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "تدوین ویدیو\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/video-making-with-premiere/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/video-making-with-premiere/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "بازی سازی\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/gold-unity/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/gold-unity/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "ادمینی\nمشاهده دوره طلایی ",
+        "href":  "https://www.daneshjooyar.com/admini/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/admini/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "مشاهده همه\nمشاهده کل دوره های طلایی ",
+        "href":  "https://www.daneshjooyar.com/golden-courses/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/golden-courses/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "مشاهده دوره ها",
+        "href":  "https://www.daneshjooyar.com/landing/immigration-course/",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/landing/immigration-course/",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "هنرستانی ها",
+        "href":  "https://www.daneshjooyar.com/landing/conservatory",
+        "src":  "",
+        "classes":  "h",
+        "attributes":  {
+                           "href":  "/landing/conservatory",
+                           "class":  "h",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دانشجویان",
+        "href":  "https://www.daneshjooyar.com/landing/students",
+        "src":  "",
+        "classes":  "d",
+        "attributes":  {
+                           "href":  "/landing/students",
+                           "class":  "d",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "کودکان",
+        "href":  "https://www.daneshjooyar.com/category/%d8%a2%d9%85%d9%88%d8%b2%d8%b4-%d8%a8%d8%b1%d9%86%d8%a7%d9%85%d9%87-%d9%86%d9%88%db%8c%d8%b3%db%8c-%d8%a8%d9%87-%da%a9%d9%88%d8%af%da%a9%d8%a7%d9%86/",
+        "src":  "",
+        "classes":  "k",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/category/%d8%a2%d9%85%d9%88%d8%b2%d8%b4-%d8%a8%d8%b1%d9%86%d8%a7%d9%85%d9%87-%d9%86%d9%88%db%8c%d8%b3%db%8c-%d8%a8%d9%87-%da%a9%d9%88%d8%af%da%a9%d8%a7%d9%86/",
+                           "class":  "k",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "ناشنوایان",
+        "href":  "https://www.daneshjooyar.com/landing/deaf",
+        "src":  "",
+        "classes":  "deaf",
+        "attributes":  {
+                           "href":  "/landing/deaf",
+                           "class":  "deaf",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "استعلام مدرک",
+        "href":  "https://www.daneshjooyar.com/certificate-tracking",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/certificate-tracking",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/teacher/alireza-ahmadi/#teacher-courses",
+        "src":  "",
+        "classes":  "btn btn-outline",
+        "attributes":  {
+                           "href":  "/teacher/alireza-ahmadi/#teacher-courses",
+                           "class":  "btn btn-outline",
+                           "target":  "_blank",
+                           "data-offset":  "-150"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/teacher/alireza-ahmadi",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/teacher/alireza-ahmadi",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/teacher/hamedmoody/#teacher-courses",
+        "src":  "",
+        "classes":  "btn btn-outline",
+        "attributes":  {
+                           "href":  "/teacher/hamedmoody/#teacher-courses",
+                           "class":  "btn btn-outline",
+                           "target":  "_blank",
+                           "data-offset":  "-150"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/teacher/hamedmoody",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/teacher/hamedmoody",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/teacher/sohrabism/#teacher-courses",
+        "src":  "",
+        "classes":  "btn btn-outline",
+        "attributes":  {
+                           "href":  "/teacher/sohrabism/#teacher-courses",
+                           "class":  "btn btn-outline",
+                           "target":  "_blank",
+                           "data-offset":  "-150"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/teacher/sohrabism",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/teacher/sohrabism",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/teacher/rayared/#teacher-courses",
+        "src":  "",
+        "classes":  "btn btn-outline",
+        "attributes":  {
+                           "href":  "/teacher/rayared/#teacher-courses",
+                           "class":  "btn btn-outline",
+                           "target":  "_blank",
+                           "data-offset":  "-150"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/teacher/rayared",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/teacher/rayared",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره های مدرس",
+        "href":  "https://www.daneshjooyar.com/teacher/babaknouriit85/#teacher-courses",
+        "src":  "",
+        "classes":  "btn btn-outline",
+        "attributes":  {
+                           "href":  "/teacher/babaknouriit85/#teacher-courses",
+                           "class":  "btn btn-outline",
+                           "target":  "_blank",
+                           "data-offset":  "-150"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "مشاهده رزومه",
+        "href":  "https://www.daneshjooyar.com/teacher/babaknouriit85",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/teacher/babaknouriit85",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "برو بریم",
+        "href":  "https://www.daneshjooyar.com/become-teacher/",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/become-teacher/",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "همه مقالات",
+        "href":  "https://www.daneshjooyar.com/blog/",
+        "src":  "",
+        "classes":  "section-continue btn btn-secondary",
+        "attributes":  {
+                           "href":  "/blog/",
+                           "class":  "section-continue btn btn-secondary"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "post-3382637\u003e",
+        "name":  "",
+        "type":  "",
+        "text":  "امنیت اینترنت اشیا چیست؟ بررسی تهدیدها، اهمیت و راهکارهای امنیت IoT\n\n زمان برای مطالعه: ۱۶ دقیقه",
+        "href":  "https://www.daneshjooyar.com/blog/what-is-iot-security/",
+        "src":  "",
+        "classes":  "blog-card post-3382637 blog type-blog status-publish has-post-thumbnail hentry category-security-training blog-series-55155",
+        "attributes":  {
+                           "class":  "blog-card post-3382637 blog type-blog status-publish has-post-thumbnail hentry category-security-training blog-series-55155",
+                           "id":  "post-3382637\u003e",
+                           "href":  "https://www.daneshjooyar.com/blog/what-is-iot-security/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "post-3382591\u003e",
+        "name":  "",
+        "type":  "",
+        "text":  "ارتقا سطح دسترسی (Privilege Escalation) چیست؟ (راهنمای جامع)\n\n زمان برای مطالعه: ۲۲.۵ دقیقه",
+        "href":  "https://www.daneshjooyar.com/blog/what-is-privilege-escalation/",
+        "src":  "",
+        "classes":  "blog-card post-3382591 blog type-blog status-publish has-post-thumbnail hentry category-security-training blog-series-55155",
+        "attributes":  {
+                           "class":  "blog-card post-3382591 blog type-blog status-publish has-post-thumbnail hentry category-security-training blog-series-55155",
+                           "id":  "post-3382591\u003e",
+                           "href":  "https://www.daneshjooyar.com/blog/what-is-privilege-escalation/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "post-3382456\u003e",
+        "name":  "",
+        "type":  "",
+        "text":  "Reverse Shell چیست؟ از نحوه کار تا شناسایی و مقابله با شل معکوس\n\n زمان برای مطالعه: ۲۹ دقیقه",
+        "href":  "https://www.daneshjooyar.com/blog/what-is-reverse-shell/",
+        "src":  "",
+        "classes":  "blog-card post-3382456 blog type-blog status-publish has-post-thumbnail hentry category-security-training blog-series-55155",
+        "attributes":  {
+                           "class":  "blog-card post-3382456 blog type-blog status-publish has-post-thumbnail hentry category-security-training blog-series-55155",
+                           "id":  "post-3382456\u003e",
+                           "href":  "https://www.daneshjooyar.com/blog/what-is-reverse-shell/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "post-3382376\u003e",
+        "name":  "",
+        "type":  "",
+        "text":  "شکار تهدید چیست؟ بررسی Threat Hunting، مراحل، روش‌ها و ابزارها\n\n زمان برای مطالعه: ۱۴.۵ دقیقه",
+        "href":  "https://www.daneshjooyar.com/blog/what-is-threat-hunting/",
+        "src":  "",
+        "classes":  "blog-card post-3382376 blog type-blog status-publish has-post-thumbnail hentry category-security-training blog-series-55155",
+        "attributes":  {
+                           "class":  "blog-card post-3382376 blog type-blog status-publish has-post-thumbnail hentry category-security-training blog-series-55155",
+                           "id":  "post-3382376\u003e",
+                           "href":  "https://www.daneshjooyar.com/blog/what-is-threat-hunting/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "کاربران برتر ما",
+        "href":  "https://www.daneshjooyar.com/best-students/",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/best-students/",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "درخواست دوره",
+        "href":  "https://www.daneshjooyar.com/course-request",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/course-request",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "مشاهده منابع",
+        "href":  "https://www.daneshjooyar.com/source",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "href":  "/source",
+                           "class":  "btn btn-primary",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "سایر ویدئوها",
+        "href":  "https://www.daneshjooyar.com/dantv/",
+        "src":  "",
+        "classes":  "section-continue btn btn-secondary",
+        "attributes":  {
+                           "href":  "/dantv/",
+                           "class":  "section-continue btn btn-secondary"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "post-3375741\u003e",
+        "name":  "",
+        "type":  "",
+        "text":  "آموزش حذف ایمن فلش و هارد اکسترنال | معرفی دو نرم‌افزار حرفه‌ای\n\n زمان برای مطالعه: ۰.۵ دقیقه",
+        "href":  "https://www.daneshjooyar.com/dantv/how-to-remove-flash-safely/",
+        "src":  "",
+        "classes":  "blog-card post-3375741 dantv type-dantv status-publish has-post-thumbnail hentry dantv_category-application-software",
+        "attributes":  {
+                           "class":  "blog-card post-3375741 dantv type-dantv status-publish has-post-thumbnail hentry dantv_category-application-software",
+                           "id":  "post-3375741\u003e",
+                           "href":  "https://www.daneshjooyar.com/dantv/how-to-remove-flash-safely/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "post-3375596\u003e",
+        "name":  "",
+        "type":  "",
+        "text":  "برش فیلم در ویندوز با ساده‌ترین نرم‌افزارها\n\n زمان برای مطالعه: ۱ دقیقه",
+        "href":  "https://www.daneshjooyar.com/dantv/video-cutter-in-windows/",
+        "src":  "",
+        "classes":  "blog-card post-3375596 dantv type-dantv status-publish has-post-thumbnail hentry dantv_category-windows-tricks dantv_category-application-software",
+        "attributes":  {
+                           "class":  "blog-card post-3375596 dantv type-dantv status-publish has-post-thumbnail hentry dantv_category-windows-tricks dantv_category-application-software",
+                           "id":  "post-3375596\u003e",
+                           "href":  "https://www.daneshjooyar.com/dantv/video-cutter-in-windows/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "post-3375473\u003e",
+        "name":  "",
+        "type":  "",
+        "text":  "بهترین سایت‌ها برای دانلود رایگان و قانونی نرم افزارهای پولی\n\n زمان برای مطالعه: ۱ دقیقه",
+        "href":  "https://www.daneshjooyar.com/dantv/download-paid-software-for-free/",
+        "src":  "",
+        "classes":  "blog-card post-3375473 dantv type-dantv status-publish has-post-thumbnail hentry dantv_category-windows-tricks",
+        "attributes":  {
+                           "class":  "blog-card post-3375473 dantv type-dantv status-publish has-post-thumbnail hentry dantv_category-windows-tricks",
+                           "id":  "post-3375473\u003e",
+                           "href":  "https://www.daneshjooyar.com/dantv/download-paid-software-for-free/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "post-3375238\u003e",
+        "name":  "",
+        "type":  "",
+        "text":  "تبدیل فایل‌های تلگرام به لینک دائمی با ربات تلگرام\n\n زمان برای مطالعه: ۱.۵ دقیقه",
+        "href":  "https://www.daneshjooyar.com/dantv/convert-telegram-file-to-link/",
+        "src":  "",
+        "classes":  "blog-card post-3375238 dantv type-dantv status-publish has-post-thumbnail hentry dantv_category-telegram-bot",
+        "attributes":  {
+                           "class":  "blog-card post-3375238 dantv type-dantv status-publish has-post-thumbnail hentry dantv_category-telegram-bot",
+                           "id":  "post-3375238\u003e",
+                           "href":  "https://www.daneshjooyar.com/dantv/convert-telegram-file-to-link/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://trustseal.enamad.ir/?id=12748\u0026Code=%5BREDACTED%5D",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "referrerpolicy":  "origin",
+                           "target":  "_blank",
+                           "href":  "https://trustseal.enamad.ir/?id=12748\u0026Code=$nZISDP4KfGv0C1uem!c"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  " روبیکا",
+        "href":  "https://rubika.ir/daneshjooyarcom",
+        "src":  "",
+        "classes":  "rubika",
+        "attributes":  {
+                           "href":  "https://rubika.ir/daneshjooyarcom",
+                           "class":  "rubika",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  " تلگرام",
+        "href":  "https://t.me/daneshjooyar",
+        "src":  "",
+        "classes":  "telegram",
+        "attributes":  {
+                           "href":  "https://t.me/daneshjooyar",
+                           "class":  "telegram",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  " اینستاگرام",
+        "href":  "https://www.instagram.com/daneshjooyar_com/",
+        "src":  "",
+        "classes":  "instagram",
+        "attributes":  {
+                           "href":  "https://www.instagram.com/daneshjooyar_com/",
+                           "class":  "instagram",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  " لینکدین",
+        "href":  "https://www.linkedin.com/company/daneshjooyar/",
+        "src":  "",
+        "classes":  "linkedin",
+        "attributes":  {
+                           "href":  "https://www.linkedin.com/company/daneshjooyar/",
+                           "class":  "linkedin",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  " یوتیوب",
+        "href":  "https://www.youtube.com/@Daneshjooyar_Official",
+        "src":  "",
+        "classes":  "youtube",
+        "attributes":  {
+                           "href":  "https://www.youtube.com/@Daneshjooyar_Official",
+                           "class":  "youtube",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  " آپارات",
+        "href":  "https://www.aparat.com/daneshjooyar",
+        "src":  "",
+        "classes":  "aparatn",
+        "attributes":  {
+                           "href":  "https://www.aparat.com/daneshjooyar",
+                           "class":  "aparatn",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "تماس با ما",
+        "href":  "https://www.daneshjooyar.com/contact-us/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/contact-us/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "شرایط بازگشت وجه",
+        "href":  "https://www.daneshjooyar.com/refund-terms/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/refund-terms/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "قوانین دانشجویار",
+        "href":  "https://www.daneshjooyar.com/main-rules/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/main-rules/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "درباره ما",
+        "href":  "https://www.daneshjooyar.com/about-us/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/about-us/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "استعلام مدرک",
+        "href":  "https://www.daneshjooyar.com/certificate-tracking/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/certificate-tracking/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "آموزش کار با سایت",
+        "href":  "https://www.daneshjooyar.com/how-use-site/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "https://www.daneshjooyar.com/how-use-site/"
+                       }
+    }
+]
