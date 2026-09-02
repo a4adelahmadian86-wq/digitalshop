@@ -1,0 +1,462 @@
+﻿[
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "target":  "_blank",
+                           "href":  "/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "پیشخوان",
+        "href":  "https://www.daneshjooyar.com/panel/dashboard",
+        "src":  "",
+        "classes":  "router-link-exact-active router-link-active",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/dashboard",
+                           "aria-current":  "page",
+                           "class":  "router-link-exact-active router-link-active"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "صفحه اصلی",
+        "href":  "https://www.daneshjooyar.com/",
+        "src":  "",
+        "classes":  "home_url",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/",
+                           "target":  "_blank",
+                           "class":  "home_url"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "پروفایل کاربری",
+        "href":  "https://www.daneshjooyar.com/panel/dashboard/#",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "#"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "ویرایش پروفایل کاربری",
+        "href":  "https://www.daneshjooyar.com/panel/profile",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/profile",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "تغییر گذرواژه",
+        "href":  "https://www.daneshjooyar.com/panel/change-password",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/change-password",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره های من",
+        "href":  "https://www.daneshjooyar.com/panel/classes",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/classes",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "لایسنس های من",
+        "href":  "https://www.daneshjooyar.com/panel/license/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/license/",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "تخفیف های من",
+        "href":  "https://www.daneshjooyar.com/panel/discount/personal",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/discount/personal",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "مشارکت در فروش",
+        "href":  "https://www.daneshjooyar.com/panel/dashboard/#",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "#"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "ورودی",
+        "href":  "https://www.daneshjooyar.com/panel/affiliation",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/affiliation",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "درخواست مالی",
+        "href":  "https://www.daneshjooyar.com/panel/affiliation-requests",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/affiliation-requests",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "تیکت ها",
+        "href":  "https://www.daneshjooyar.com/panel/support/ticket",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/support/ticket",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "سوالات متداول",
+        "href":  "https://www.daneshjooyar.com/panel/support/faq",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/support/faq",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "علاقه مندی ها",
+        "href":  "https://www.daneshjooyar.com/panel/wishlist/favorites",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/wishlist/favorites",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "سفارشات و تراکنش ها",
+        "href":  "https://www.daneshjooyar.com/panel/order",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/order",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "کیف پول",
+        "href":  "https://www.daneshjooyar.com/panel/wallet",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/wallet",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "اعلانات من",
+        "href":  "https://www.daneshjooyar.com/panel/notification",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/notification",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "بزن بریم تکمیل پروفایل",
+        "href":  "https://www.daneshjooyar.com/panel/profile/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "href":  "/panel/profile/"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/panel/dashboard/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "",
+        "href":  "https://www.daneshjooyar.com/panel/login/?logout",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "href":  "/panel/login/?logout",
+                           "data-toggle":  "modal",
+                           "data-target":  "#logoutPopup"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "مشاهده همه دوره ها",
+        "href":  "https://www.daneshjooyar.com/panel/classes",
+        "src":  "",
+        "classes":  "btn btn-outline-primary widget-view-all-btn",
+        "attributes":  {
+                           "data-v-61d0851d":  "",
+                           "href":  "/panel/classes",
+                           "class":  "btn btn-outline-primary widget-view-all-btn"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره رایگان آموزش اتوکد (AutoCAD) مقدماتی + تمرین عملی",
+        "href":  "https://www.daneshjooyar.com/free-autocad/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-61d0851d":  "",
+                           "href":  "https://www.daneshjooyar.com/free-autocad/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره آموزش هوش مصنوعی گوگل | یادگیری Gemini و ابزارهای Google AI",
+        "href":  "https://www.daneshjooyar.com/google-ai/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-61d0851d":  "",
+                           "href":  "https://www.daneshjooyar.com/google-ai/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "معرفی ابزارهای جایگزین در زمان اینترنت ملی در 4 دسته کاربردی",
+        "href":  "https://www.daneshjooyar.com/internal-internet-tools/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-61d0851d":  "",
+                           "href":  "https://www.daneshjooyar.com/internal-internet-tools/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "آموزش بازاریابی و فروش اینترنتی رایگان | مهارت ضروری برای رشد آنلاین",
+        "href":  "https://www.daneshjooyar.com/free-marketing-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-61d0851d":  "",
+                           "href":  "https://www.daneshjooyar.com/free-marketing-training/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "دوره آموزش PHP رایگان💻 با 20 ساعت آموزش پروژه‌محور و پشتیبانی ویژه",
+        "href":  "https://www.daneshjooyar.com/free-php-training/",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-61d0851d":  "",
+                           "href":  "https://www.daneshjooyar.com/free-php-training/",
+                           "target":  "_blank"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "مشاهده همه سفارشات",
+        "href":  "https://www.daneshjooyar.com/panel/order",
+        "src":  "",
+        "classes":  "btn btn-outline-primary widget-view-all-btn",
+        "attributes":  {
+                           "data-v-05351442":  "",
+                           "href":  "/panel/order",
+                           "class":  "btn btn-outline-primary widget-view-all-btn"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "3498214",
+        "href":  "https://www.daneshjooyar.com/panel/order/3498214",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-05351442":  "",
+                           "href":  "/panel/order/3498214",
+                           "class":  ""
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "View",
+        "href":  "https://www.daneshjooyar.com/panel/dashboard/#",
+        "src":  "",
+        "classes":  "attachment_exists_url",
+        "attributes":  {
+                           "class":  "attachment_exists_url",
+                           "href":  "#"
+                       }
+    },
+    {
+        "tag":  "A",
+        "id":  "",
+        "name":  "",
+        "type":  "",
+        "text":  "Edit",
+        "href":  "https://www.daneshjooyar.com/panel/dashboard/#",
+        "src":  "",
+        "classes":  "attachment_exists_link",
+        "attributes":  {
+                           "class":  "attachment_exists_link",
+                           "href":  "#"
+                       }
+    }
+]
