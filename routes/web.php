@@ -6,11 +6,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductReaderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminUserController;
@@ -46,6 +46,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 Route::get('/products', [ProductController::class, 'search'])->name('products.index');
 Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/products/{product:slug}/preview', [ProductReaderController::class, 'preview'])->name('product.preview');
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/ai/product/{product}', [\App\Http\Controllers\AiCommerceController::class, 'product'])->name('ai.product');
 Route::post('/ai/chat', [\App\Http\Controllers\AiCommerceController::class, 'chat'])->name('ai.chat');
@@ -73,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/account/security', [AccountController::class, 'updateSecurity'])->name('account.security.update');
     Route::get('/account/notifications', [AccountController::class, 'notifications'])->name('account.notifications');
     Route::get('/account/notifications/{id}/read', [AccountController::class, 'readNotification'])->name('account.notifications.read');
+    Route::get('/products/{product:slug}/reader', [ProductReaderController::class, 'read'])->name('product.reader');
     Route::post('/products/{product}/review', [\App\Http\Controllers\ProductFeedbackController::class, 'review'])->name('product.review.store');
     Route::post('/products/{product}/question', [\App\Http\Controllers\ProductFeedbackController::class, 'question'])->name('product.question.store');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
