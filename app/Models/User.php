@@ -6,56 +6,28 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
     use Notifiable;
-
-    protected $fillable = [
-        'phone',
-        'first_name',
-        'last_name',
-        'national_code',
-        'phone_verified_at',
-        'national_code_verified_at',
-        'password',
-        'role',
-        'is_active',
-    ];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    protected function casts(): array
+    protected $fillable=['phone','first_name','last_name','email','national_code','phone_verified_at','national_code_verified_at','password','role','is_active'];
+    protected $hidden=['password','remember_token'];
+    protected function casts(): array{return ['phone_verified_at'=>'datetime','national_code_verified_at'=>'datetime','is_active'=>'boolean','password'=>'hashed'];}
+    public function orders(): HasMany{return $this->hasMany(Order::class);}
+    public function wallet(): HasOne{return $this->hasOne(Wallet::class);}
+    public function walletTopups(): HasMany{return $this->hasMany(WalletTopup::class);}
+    public function roles(): BelongsToMany{return $this->belongsToMany(Role::class);}
+    public function hasRole(string $role): bool{return $this->roles()->where('name',$role)->exists() || $this->role === $role;}
+    public function hasPermission(string $permission): bool
     {
-        return [
-            'phone_verified_at' => 'datetime',
-            'national_code_verified_at' => 'datetime',
-            'is_active' => 'boolean',
-            'password' => 'hashed',
-        ];
+        if ($this->role === 'admin') return true;
+        return $this->roles()->whereHas('permissions',fn($q)=>$q->where('name',$permission))->exists();
     }
-
-    public function orders(): HasMany
+    public function syncSystemRole(): void
     {
-        return $this->hasMany(
-            Order::class
-        );
-    }
-
-    public function wallet(): HasOne
-    {
-        return $this->hasOne(
-            Wallet::class
-        );
-    }
-
-    public function walletTopups(): HasMany
-    {
-        return $this->hasMany(
-            WalletTopup::class
-        );
+        if (!$this->role) return;
+        $role=Role::where('name',$this->role)->first();
+        if ($role) $this->roles()->syncWithoutDetaching([$role->id]);
     }
 }
