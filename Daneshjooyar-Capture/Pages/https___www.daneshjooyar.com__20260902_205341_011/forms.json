@@ -1,0 +1,54 @@
+﻿[
+    {
+        "action":  "https://www.daneshjooyar.com/",
+        "method":  "get",
+        "fields":  [
+                       {
+                           "tag":  "INPUT",
+                           "type":  "search",
+                           "name":  "s",
+                           "id":  "nav-search-input",
+                           "placeholder":  "هر آموزشی میخوای جستجو کن",
+                           "value":  ""
+                       },
+                       {
+                           "tag":  "BUTTON",
+                           "type":  "submit",
+                           "name":  "",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  ""
+                       }
+                   ]
+    },
+    {
+        "action":  "[object HTMLInputElement]",
+        "method":  "get",
+        "fields":  [
+                       {
+                           "tag":  "INPUT",
+                           "type":  "email",
+                           "name":  "email",
+                           "id":  "newsletter-email",
+                           "placeholder":  "ایمیل خود را وارد کنید",
+                           "value":  ""
+                       },
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "action",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "BUTTON",
+                           "type":  "submit",
+                           "name":  "",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  ""
+                       }
+                   ]
+    }
+]
