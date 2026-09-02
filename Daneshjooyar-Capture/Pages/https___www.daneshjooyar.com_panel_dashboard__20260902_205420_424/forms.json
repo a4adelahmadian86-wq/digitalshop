@@ -1,0 +1,177 @@
+﻿[
+    {
+        "action":  "[object HTMLInputElement]",
+        "method":  "post",
+        "fields":  [
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "action",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "_wpnonce",
+                           "id":  "_wpnonce",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "_wp_http_referer",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "INPUT",
+                           "type":  "text",
+                           "name":  "foldername",
+                           "id":  "",
+                           "placeholder":  "Folder name",
+                           "value":  ""
+                       },
+                       {
+                           "tag":  "BUTTON",
+                           "type":  "submit",
+                           "name":  "",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  ""
+                       }
+                   ]
+    },
+    {
+        "action":  "https://www.daneshjooyar.com/panel/dashboard/",
+        "method":  "post",
+        "fields":  [
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "",
+                           "id":  "allow_duplicate_file_attachment",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "BUTTON",
+                           "type":  "button",
+                           "name":  "",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  ""
+                       },
+                       {
+                           "tag":  "BUTTON",
+                           "type":  "button",
+                           "name":  "",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  ""
+                       }
+                   ]
+    },
+    {
+        "action":  "[object HTMLInputElement]",
+        "method":  "post",
+        "fields":  [
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "action",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "_wpnonce",
+                           "id":  "_wpnonce",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "_wp_http_referer",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "TEXTAREA",
+                           "type":  "textarea",
+                           "name":  "remote_download_list",
+                           "id":  "remote_download_list",
+                           "placeholder":  "http://****",
+                           "value":  ""
+                       },
+                       {
+                           "tag":  "BUTTON",
+                           "type":  "submit",
+                           "name":  "",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  ""
+                       }
+                   ]
+    },
+    {
+        "action":  "https://www.daneshjooyar.com/panel/dashboard/",
+        "method":  "post",
+        "fields":  [
+
+                   ]
+    },
+    {
+        "action":  "[object HTMLInputElement]",
+        "method":  "post",
+        "fields":  [
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "action",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "INPUT",
+                           "type":  "hidden",
+                           "name":  "nonce",
+                           "id":  "ftps_rename_nonce",
+                           "placeholder":  "",
+                           "value":  "[REDACTED]"
+                       },
+                       {
+                           "tag":  "INPUT",
+                           "type":  "text",
+                           "name":  "from",
+                           "id":  "ftps_rename_from",
+                           "placeholder":  "",
+                           "value":  ""
+                       },
+                       {
+                           "tag":  "INPUT",
+                           "type":  "text",
+                           "name":  "to",
+                           "id":  "ftps_rename_to",
+                           "placeholder":  "",
+                           "value":  ""
+                       },
+                       {
+                           "tag":  "BUTTON",
+                           "type":  "submit",
+                           "name":  "",
+                           "id":  "",
+                           "placeholder":  "",
+                           "value":  ""
+                       }
+                   ]
+    }
+]
