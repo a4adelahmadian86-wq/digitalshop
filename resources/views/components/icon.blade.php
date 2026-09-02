@@ -7,6 +7,7 @@
     $paths = [
         'arrow-left' => '<path d="M15 18l-6-6 6-6"/>',
         'arrow-right' => '<path d="M9 18l6-6-6-6"/>',
+        'arrow-down' => '<path d="M12 4v14M6 12l6 6 6-6"/>',
         'cart' => '<path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.6L20 7H6"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/>',
         'search' => '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
         'user' => '<circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/>',
