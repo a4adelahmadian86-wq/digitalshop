@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\Schema;
+return new class extends Migration{public function up():void{Schema::table('discount_codes',function(Blueprint $table){$table->foreignId('target_user_id')->nullable()->constrained('users')->nullOnDelete()->index();$table->boolean('ai_generated')->default(false);$table->string('campaign_key',100)->nullable()->index();});}public function down():void{Schema::table('discount_codes',function(Blueprint $table){$table->dropForeign(['target_user_id']);$table->dropColumn(['target_user_id','ai_generated','campaign_key']);});}};
