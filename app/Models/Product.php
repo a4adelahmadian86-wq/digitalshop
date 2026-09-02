@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
-    protected $fillable=['category_id','storage_provider_id','title','slug','short_description','description','price','file_name','file_path','storage_path','thumbnail','is_published','ai_status','ai_score','ai_summary','ai_report','ai_source_hash','ai_indexed_at'];
-    protected $casts=['is_published'=>'boolean','ai_report'=>'array','ai_indexed_at'=>'datetime'];
+    protected $fillable=['category_id','storage_provider_id','title','slug','short_description','description','price','file_name','file_path','storage_path','thumbnail','is_published','ai_status','ai_score','ai_summary','ai_report','ai_source_hash','ai_indexed_at','approval_status','submitted_by','approved_by','approved_at','approval_note'];
+    protected $casts=['is_published'=>'boolean','ai_report'=>'array','ai_indexed_at'=>'datetime','approved_at'=>'datetime'];
     public function category(): BelongsTo{return $this->belongsTo(Category::class);}
     public function storageProvider(): BelongsTo{return $this->belongsTo(StorageProvider::class);}
     public function orderItems(): HasMany{return $this->hasMany(OrderItem::class);}
