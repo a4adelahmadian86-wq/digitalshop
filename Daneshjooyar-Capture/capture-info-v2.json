@@ -1,0 +1,14 @@
+﻿{
+    "security":  {
+                     "session_tokens_saved":  false,
+                     "request_bodies_saved":  false,
+                     "nonce_values_saved":  false,
+                     "response_bodies_saved":  false,
+                     "passwords_saved":  false,
+                     "authorization_saved":  false,
+                     "csrf_tokens_saved":  false,
+                     "cookies_saved":  false
+                 },
+    "started_at":  "2026-09-02 20:53:18",
+    "application":  "Daneshjooyar Capture V2"
+}
