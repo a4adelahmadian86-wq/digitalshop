@@ -1,0 +1,296 @@
+﻿[
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Css/fonts.css?ver=9.8.2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\fonts.css",
+        "size":  7491
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/daneshjooyar/daneshjooyar.css?ver=9.8.2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\daneshjooyar.css",
+        "size":  7798
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/font-icons/danicon.min.css?ver=9.8.2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\danicon.min.css",
+        "size":  14672
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Css/panel.css",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\panel.css",
+        "size":  1447
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/panel/css/app.css?ver=9.8.2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\app.css",
+        "size":  596289
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/panel/css/chunk-vendors.css?ver=9.8.2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\chunk-vendors.css",
+        "size":  28164
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/ftp-selector/Assets/Css/ftpselector.min.css",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\ftpselector.min.css",
+        "size":  30386
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/panel/js/chunk-vendors.js?ver=9.8.2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\chunk-vendors.js",
+        "size":  1869309
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/panel/js/app.js?ver=9.8.2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\app.js",
+        "size":  2343591
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/ftp-selector/Assets/Js/jquery-3.5.1.min.js",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\jquery-3.5.1.min.js",
+        "size":  89390
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/ftp-selector/Assets/Js/template7.min.js",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\template7.min.js",
+        "size":  11806
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/ftp-selector/Assets/Js/jquery.md5.min.js",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\jquery.md5.min.js",
+        "size":  3668
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/ftp-selector/Assets/Js/toastr.min.js",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\toastr.min.js",
+        "size":  5017
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/ftp-selector/Assets/Js/ftp.min.js",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\ftp.min.js",
+        "size":  20915
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff2/IRANSansWeb(FaNum)_Black.woff2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_Black.woff2",
+        "size":  2447
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff/IRANSansWeb(FaNum)_Black.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_Black.woff",
+        "size":  2445
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/ttf/IRANSansWeb(FaNum)_Black.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_Black.ttf",
+        "size":  2443
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff2/IRANSansWeb(FaNum)_Medium.woff2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_Medium.woff2",
+        "size":  2448
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff/IRANSansWeb(FaNum)_Medium.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_Medium.woff",
+        "size":  2446
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/ttf/IRANSansWeb(FaNum)_Medium.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_Medium.ttf",
+        "size":  2444
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff2/IRANSansWeb(FaNum)_Light.woff2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_Light.woff2",
+        "size":  2447
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff/IRANSansWeb(FaNum)_Light.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_Light.woff",
+        "size":  2445
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/ttf/IRANSansWeb(FaNum)_Light.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_Light.ttf",
+        "size":  2443
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff2/IRANSansWeb(FaNum)_UltraLight.woff2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_UltraLight.woff2",
+        "size":  2452
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff/IRANSansWeb(FaNum)_UltraLight.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_UltraLight.woff",
+        "size":  2450
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/ttf/IRANSansWeb(FaNum)_UltraLight.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum)_UltraLight.ttf",
+        "size":  2448
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff2/IRANSansWeb(FaNum).woff2",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum).woff2",
+        "size":  2441
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/woff/IRANSansWeb(FaNum).woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum).woff",
+        "size":  2439
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/Fonts/ttf/IRANSansWeb(FaNum).ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\IRANSansWeb(FaNum).ttf",
+        "size":  2437
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-08-Fat.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-08-Fat.woff",
+        "size":  60300
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-08-Fat.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-08-Fat.ttf",
+        "size":  60300
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-07-Heavy.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-07-Heavy.woff",
+        "size":  60096
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-07-Heavy.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-07-Heavy.ttf",
+        "size":  60096
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-06-Bold.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-06-Bold.woff",
+        "size":  60024
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-06-Bold.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-06-Bold.ttf",
+        "size":  60024
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-05-Medium.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-05-Medium.woff",
+        "size":  60364
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-05-Medium.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-05-Medium.ttf",
+        "size":  60364
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-04-Regular.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-04-Regular.woff",
+        "size":  60576
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-04-Regular.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-04-Regular.ttf",
+        "size":  60576
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-03-Light.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-03-Light.woff",
+        "size":  60996
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-03-Light.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-03-Light.ttf",
+        "size":  60996
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-02-Thin.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-02-Thin.woff",
+        "size":  61088
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-02-Thin.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-02-Thin.ttf",
+        "size":  61088
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-01-Hairline.woff",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-01-Hairline.woff",
+        "size":  61132
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/YekanBakh/FaNum/Yekan-Bakh-FaNum-01-Hairline.ttf",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\Yekan-Bakh-FaNum-01-Hairline.ttf",
+        "size":  61132
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/daneshjooyar/daneshjooyar.woff2?1b4a1ab3261a4a7b2093e6094d06fd0d",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\daneshjooyar.woff2",
+        "size":  30548
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Fonts/daneshjooyar/daneshjooyar.woff?1b4a1ab3261a4a7b2093e6094d06fd0d",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\daneshjooyar.woff",
+        "size":  35756
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/dashboard/danicon.woff2?v=1.5.4",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\danicon.woff2",
+        "size":  2435
+    },
+    {
+        "status":  "downloaded",
+        "url":  "https://www.daneshjooyar.com/panel/dashboard/danicon.woff?v=1.5.4",
+        "file":  "C:\\Users\\RTS\\Desktop\\Daneshjooyar-Capture\\Assets\\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424\\danicon.woff",
+        "size":  2434
+    }
+]
