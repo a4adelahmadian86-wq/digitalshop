@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 use App\Services\Storage\StorageManager;
 use App\Services\Sms\KPanelSmsProvider;
 use App\Services\Sms\SmsProviderInterface;
@@ -27,21 +26,7 @@ class AppServiceProvider extends ServiceProvider
     }
     public function boot(): void
     {
-        Order::observe(OrderObserver::class); Product::observe(ProductAiObserver::class);
-        Route::middleware('web')->group(function(){
-            Route::post('/ai/chat',[\App\Http\Controllers\AiCommerceController::class,'chat'])->name('ai.chat');
-            Route::get('/ai/product/{product}',[\App\Http\Controllers\AiCommerceController::class,'product'])->name('ai.product');
-            Route::middleware('auth')->group(function(){
-                Route::post('/products/{product}/review',[\App\Http\Controllers\ProductFeedbackController::class,'review'])->name('product.review.store');
-                Route::post('/products/{product}/question',[\App\Http\Controllers\ProductFeedbackController::class,'question'])->name('product.question.store');
-            });
-            Route::middleware(['auth','role:admin'])->prefix('admin')->group(function(){
-                Route::get('/ai',[\App\Http\Controllers\AdminAiDashboardController::class,'index'])->name('admin.ai.dashboard');
-                Route::post('/products/uploads',[\App\Http\Controllers\AdminProductUploadController::class,'store'])->name('admin.products.uploads.store');
-                Route::delete('/products/uploads/{upload}',[\App\Http\Controllers\AdminProductUploadController::class,'destroy'])->name('admin.products.uploads.destroy');
-                Route::get('/products/draft',[\App\Http\Controllers\AdminProductDraftController::class,'show'])->name('admin.products.draft.show');
-                Route::post('/products/draft',[\App\Http\Controllers\AdminProductDraftController::class,'store'])->name('admin.products.draft.store');
-            });
-        });
+        Order::observe(OrderObserver::class);
+        Product::observe(ProductAiObserver::class);
     }
 }
