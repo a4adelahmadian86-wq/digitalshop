@@ -1,0 +1,17 @@
+﻿{
+    "application":  "Daneshjooyar Professional Capture",
+    "started_at":  "2026-09-02 17:55:25",
+    "firefox_bidi_endpoint":  "ws://127.0.0.1:9222/session",
+    "home_url":  "https://www.daneshjooyar.com/",
+    "dashboard_url":  "https://www.daneshjooyar.com/panel/dashboard",
+    "security":  {
+                     "cookies_saved":  false,
+                     "passwords_saved":  false,
+                     "authorization_saved":  false,
+                     "session_tokens_saved":  false,
+                     "csrf_tokens_saved":  false,
+                     "nonce_values_saved":  false,
+                     "request_bodies_saved":  false,
+                     "response_bodies_saved":  false
+                 }
+}
