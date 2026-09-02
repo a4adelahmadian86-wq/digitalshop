@@ -1,0 +1,35 @@
+    <!DOCTYPE html>
+    <html lang="fa">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="/favicon.ico">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>پنل کاربری » دانشجویار</title>
+        <meta name="robots" content="noindex">
+        <script>var login = {"secret":"B6cNxOtsb(Lb","otp_length":5,"otp_duration":180,"home_url":"https:\/\/www.daneshjooyar.com","verify_nonce":"31e820a0ea","debug_nonce":"40f3a70359","google_client_id":"340279487806-jusmraehsg3lqn2harjkcvkj30uv8log.apps.googleusercontent.com","redirect":"\/panel\/Fonts\/ttf\/IRANSansWeb(FaNum)_Light.ttf\/","google_url":"\/wp-json\/api\/v1\/auth\/google","captcha_type":"captcha"}</script>
+        <script type="module" crossorigin src="https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Modules/login/login-qIAfWHIj.js"></script>
+        <link rel="stylesheet" href="https://www.daneshjooyar.com/wp-content/plugins/daneshjooyar-core/Assets/Modules/login/login-BqWfZ3Dn.css">
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56611543-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-56611543-1');
+        </script>
+
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-KZL36WC');</script>
+        <!-- End Google Tag Manager -->
+
+            </head>
+    <body class="panel-login">
+        <div id="login-app"></div>
+        <script async defer src="https://apis.google.com/js/api:client.js" onerror="document.querySelector('#login-app').classList.add('api-client-error');"></script>
+        <!--<script src="https://www.google.com/recaptcha/api.js?render=" onerror="document.querySelector('#login-app').classList.add('api-error');"></script>-->
+    </body>
+    </html>
