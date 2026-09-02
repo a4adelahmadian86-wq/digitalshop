@@ -1,0 +1,43 @@
+﻿[
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "",
+        "href":  "",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "aria-label":  "search"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "تأیید",
+        "href":  "",
+        "src":  "",
+        "classes":  "btn btn-primary",
+        "attributes":  {
+                           "class":  "btn btn-primary"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "__daneshjooyar_capture_button",
+        "name":  "",
+        "type":  "button",
+        "text":  "⏳ دریافت HTML...",
+        "href":  "",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "id":  "__daneshjooyar_capture_button",
+                           "type":  "button",
+                           "style":  "position: fixed !important; right: 18px !important; bottom: 18px !important; z-index: 2147483647 !important; border: 0px !important; border-radius: 12px !important; padding: 9px 13px !important; background: rgb(183, 121, 0); color: rgb(255, 255, 255) !important; font-family: Tahoma, Arial, sans-serif !important; font-size: 12px !important; line-height: 1.4 !important; cursor: wait; box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 18px !important; opacity: 0.92 !important; direction: rtl !important; transition: 0.2s !important;"
+                       }
+    }
+]
