@@ -1,0 +1,225 @@
+﻿[
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "",
+        "href":  "",
+        "src":  "",
+        "classes":  "sidebar-toggle",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "class":  "sidebar-toggle"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "button",
+        "text":  "",
+        "href":  "",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "type":  "button",
+                           "data-dismiss":  "modal",
+                           "aria-label":  "Close",
+                           "style":  "border: medium; background: transparent;"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "بزن بریم تکمیل پروفایل",
+        "href":  "",
+        "src":  "",
+        "classes":  "btn-action btn-primary",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "class":  "btn-action btn-primary"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "بعدا یادآوری کن",
+        "href":  "",
+        "src":  "",
+        "classes":  "btn-action btn-outline-primary",
+        "attributes":  {
+                           "data-v-6b35e102":  "",
+                           "data-dismiss":  "modal",
+                           "aria-label":  "Close",
+                           "class":  "btn-action btn-outline-primary",
+                           "style":  "min-width: 112px; padding: 9px 10px;"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "button",
+        "text":  "",
+        "href":  "",
+        "src":  "",
+        "classes":  "close",
+        "attributes":  {
+                           "data-v-fb2e2098":  "",
+                           "type":  "button",
+                           "data-dismiss":  "modal",
+                           "aria-label":  "Close",
+                           "class":  "close"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "خیر",
+        "href":  "",
+        "src":  "",
+        "classes":  "btn-action",
+        "attributes":  {
+                           "data-v-fb2e2098":  "",
+                           "data-dismiss":  "modal",
+                           "aria-label":  "Close",
+                           "class":  "btn-action"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "reject",
+        "type":  "button",
+        "text":  " بله ",
+        "href":  "",
+        "src":  "",
+        "classes":  "btn-action danger",
+        "attributes":  {
+                           "data-v-fb2e2098":  "",
+                           "type":  "button",
+                           "name":  "reject",
+                           "class":  "btn-action danger"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "button",
+        "text":  "",
+        "href":  "",
+        "src":  "",
+        "classes":  "close",
+        "attributes":  {
+                           "data-v-1d19d1d3":  "",
+                           "type":  "button",
+                           "data-dismiss":  "modal",
+                           "aria-label":  "Close",
+                           "class":  "close"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "\n\t\t\t\tcreate_new_folder\n\t\t\t\tCreate folder\t\t\t",
+        "href":  "",
+        "src":  "",
+        "classes":  "ftps-btn material-ripple",
+        "attributes":  {
+                           "class":  "ftps-btn material-ripple"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "button",
+        "text":  "\n\t\t\t\tAllow\t\t\t",
+        "href":  "",
+        "src":  "",
+        "classes":  "ftps-btn allow-duplicate-material material-ripple",
+        "attributes":  {
+                           "type":  "button",
+                           "class":  "ftps-btn allow-duplicate-material material-ripple"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "button",
+        "text":  "\n\t\t\t\tDisallow\t\t\t",
+        "href":  "",
+        "src":  "",
+        "classes":  "ftps-btn close-dialog material-ripple",
+        "attributes":  {
+                           "type":  "button",
+                           "class":  "ftps-btn close-dialog material-ripple"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "\n                cloud_download\n                Download from urls            ",
+        "href":  "",
+        "src":  "",
+        "classes":  "ftps-btn material-ripple",
+        "attributes":  {
+                           "class":  "ftps-btn material-ripple"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "\n                create_new_folder\n                Change name            ",
+        "href":  "",
+        "src":  "",
+        "classes":  "ftps-btn material-ripple",
+        "attributes":  {
+                           "class":  "ftps-btn material-ripple"
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "",
+        "name":  "",
+        "type":  "submit",
+        "text":  "\n\t\t\t\t\t\t\tsearch\n\t\t\t\t\t\t",
+        "href":  "",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+
+                       }
+    },
+    {
+        "tag":  "BUTTON",
+        "id":  "__daneshjooyar_capture_button",
+        "name":  "",
+        "type":  "button",
+        "text":  "⏳ دریافت HTML...",
+        "href":  "",
+        "src":  "",
+        "classes":  "",
+        "attributes":  {
+                           "id":  "__daneshjooyar_capture_button",
+                           "type":  "button",
+                           "style":  "position: fixed !important; right: 18px !important; bottom: 18px !important; z-index: 2147483647 !important; border: 0px !important; border-radius: 12px !important; padding: 9px 13px !important; background: rgb(183, 121, 0); color: rgb(255, 255, 255) !important; font-family: Tahoma, Arial, sans-serif !important; font-size: 12px !important; line-height: 1.4 !important; cursor: wait; box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 18px !important; opacity: 0.92 !important; direction: rtl !important; transition: 0.2s !important;"
+                       }
+    }
+]
