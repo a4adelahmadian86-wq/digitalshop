@@ -1,0 +1,178 @@
+﻿[2026-09-02 20:53:18] Capture V2 started.
+[2026-09-02 20:53:18] Starting Firefox...
+[2026-09-02 20:53:21] Waiting for Firefox remote debugging...
+[2026-09-02 20:53:21] Connecting to Firefox...
+[2026-09-02 20:53:22] Firefox BiDi connected.
+[2026-09-02 20:53:22] Creating BiDi session...
+[2026-09-02 20:53:23] BiDi session ready.
+[2026-09-02 20:53:23] Opening Daneshjooyar homepage...
+[2026-09-02 20:53:36] Floating capture button installed.
+[2026-09-02 20:53:36] Floating capture button installed.
+[2026-09-02 20:53:37] Floating capture button installed.
+[2026-09-02 20:53:38] Floating capture button installed.
+[2026-09-02 20:53:40] Floating capture button installed.
+[2026-09-02 20:53:40] Manual capture requested.
+[2026-09-02 20:53:40] Starting page capture...
+[2026-09-02 20:53:59] Asset failed: https://www.daneshjooyar.com/danicon.woff2?v=1.5.4
+[2026-09-02 20:54:00] Asset failed: https://www.daneshjooyar.com/danicon.woff?v=1.5.4
+[2026-09-02 20:54:01] ------------------------------------------------------------
+[2026-09-02 20:54:01] CAPTURE COMPLETE
+[2026-09-02 20:54:01] URL: https://www.daneshjooyar.com/
+[2026-09-02 20:54:01] HTML: 296619 characters
+[2026-09-02 20:54:01] Assets found: 92
+[2026-09-02 20:54:01] Assets downloaded: 90
+[2026-09-02 20:54:01] Directory: C:\Users\RTS\Desktop\Daneshjooyar-Capture\Pages\https___www.daneshjooyar.com__20260902_205341_011
+[2026-09-02 20:54:01] ------------------------------------------------------------
+[2026-09-02 20:54:05] Floating capture button installed.
+[2026-09-02 20:54:06] Floating capture button installed.
+[2026-09-02 20:54:08] Floating capture button installed.
+[2026-09-02 20:54:09] Floating capture button installed.
+[2026-09-02 20:54:10] Floating capture button installed.
+[2026-09-02 20:54:12] Floating capture button installed.
+[2026-09-02 20:54:13] Floating capture button installed.
+[2026-09-02 20:54:14] Floating capture button installed.
+[2026-09-02 20:54:15] Floating capture button installed.
+[2026-09-02 20:54:17] Floating capture button installed.
+[2026-09-02 20:54:18] Floating capture button installed.
+[2026-09-02 20:54:19] Floating capture button installed.
+[2026-09-02 20:54:19] Manual capture requested.
+[2026-09-02 20:54:20] Starting page capture...
+[2026-09-02 20:54:59] ------------------------------------------------------------
+[2026-09-02 20:54:59] CAPTURE COMPLETE
+[2026-09-02 20:54:59] URL: https://www.daneshjooyar.com/panel/dashboard/
+[2026-09-02 20:54:59] HTML: 93271 characters
+[2026-09-02 20:55:00] Assets found: 49
+[2026-09-02 20:55:00] Assets downloaded: 49
+[2026-09-02 20:55:00] Directory: C:\Users\RTS\Desktop\Daneshjooyar-Capture\Pages\https___www.daneshjooyar.com_panel_dashboard__20260902_205420_424
+[2026-09-02 20:55:00] ------------------------------------------------------------
+[2026-09-02 20:55:02] Floating capture button installed.
+[2026-09-02 20:55:03] Monitor error: Exception calling "GetResult" with "0" argument(s): "The remote party closed the WebSocket connection without completing the close handshake."
+[2026-09-02 20:55:04] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:05] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:07] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:08] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:09] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:10] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:11] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:13] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:14] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:15] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:16] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:18] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:19] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:20] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:21] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:22] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:24] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:25] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:26] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:27] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:28] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:30] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:31] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:32] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:33] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:35] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:36] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:37] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:38] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:39] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:41] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:42] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:43] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:44] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:46] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:47] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:48] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:49] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:50] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:52] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:53] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:54] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:55] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:57] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:58] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:55:59] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:00] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:01] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:03] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:04] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:05] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:06] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:08] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:09] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:10] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:11] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:12] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:14] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:15] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:16] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:17] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:19] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:20] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:21] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:22] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:23] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:25] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:26] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:27] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:28] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:30] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:31] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:32] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:33] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:34] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:36] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:37] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:38] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:39] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:40] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:42] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:43] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:44] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:45] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:47] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:48] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:49] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:50] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:51] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:53] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:54] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:55] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:56] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:57] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:56:59] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:00] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:01] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:02] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:04] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:05] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:06] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:07] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:08] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:10] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:11] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:12] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:13] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:15] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:16] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:17] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:18] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:19] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:21] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:22] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:23] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:24] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:25] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:27] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:28] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:29] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:30] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:32] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:33] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:34] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:35] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:36] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:38] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:39] Monitor error: Firefox BiDi connection is not open.
+[2026-09-02 20:57:40] Monitor error: Firefox BiDi connection is not open.
