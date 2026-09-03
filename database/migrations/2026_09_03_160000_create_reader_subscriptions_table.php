@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\Schema;
+return new class extends Migration{public function up():void{Schema::create('reader_subscriptions',function(Blueprint $t){$t->id();$t->foreignId('user_id')->constrained()->cascadeOnDelete();$t->string('plan',50)->default('monthly');$t->unsignedInteger('price')->default(0);$t->timestamp('starts_at');$t->timestamp('ends_at');$t->string('status',20)->default('active');$t->json('metadata')->nullable();$t->timestamps();$t->index(['user_id','status','ends_at']);});}public function down():void{Schema::dropIfExists('reader_subscriptions');}};
