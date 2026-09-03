@@ -1,272 +1,38 @@
 @extends('admin.layout')
-
-@section('title', 'محصولات')
-
+@section('title','افزودن محصول')
 @section('content')
-
-<div class="admin-page">
-
-    <div class="admin-page-head">
-
-        <div>
-
-            <div class="admin-eyebrow">
-                مدیریت فروشگاه
-            </div>
-
-            <h1>
-                محصولات
-            </h1>
-
-            <p>
-                مدیریت محصولات، فایل‌ها و Storage
-            </p>
-
-        </div>
-
-        <a
-            href="{{ route('admin.products.create') }}"
-            class="admin-primary-btn"
-        >
-            + افزودن محصول
-        </a>
-
-    </div>
-
-
-    @if(session('success'))
-
-        <div class="admin-alert success">
-            {{ session('success') }}
-        </div>
-
-    @endif
-
-
-    @if(session('error'))
-
-        <div class="admin-alert error">
-            {{ session('error') }}
-        </div>
-
-    @endif
-
-
-    <section class="admin-table-card">
-
-        <div class="admin-table-wrap">
-
-            <table class="admin-table">
-
-                <thead>
-
-                    <tr>
-                        <th>محصول</th>
-                        <th>دسته‌بندی</th>
-                        <th>قیمت</th>
-                        <th>Storage</th>
-                        <th>فایل</th>
-                        <th>وضعیت</th>
-                        <th>فروش</th>
-                        <th>عملیات</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                @forelse($products as $product)
-
-                    <tr>
-
-                        {{-- Product --}}
-                        <td>
-
-                            <strong>
-                                {{ $product->title }}
-                            </strong>
-
-                            <div
-                                class="muted"
-                                style="margin-top:5px;"
-                            >
-                                {{ $product->slug }}
-                            </div>
-
-                        </td>
-
-
-                        {{-- Category --}}
-                        <td>
-                            {{ $product->category?->name ?? 'بدون دسته‌بندی' }}
-                        </td>
-
-
-                        {{-- Price --}}
-                        <td>
-                            {{ number_format($product->price) }}
-                            تومان
-                        </td>
-
-
-                        {{-- Storage --}}
-                        <td>
-                            {{ $product->storageProvider?->name ?? '—' }}
-                        </td>
-
-
-                        {{-- File --}}
-                        <td>
-
-                            @if($product->storage_path)
-
-                                <span class="status-badge active">
-                                    موجود
-                                </span>
-
-                            @else
-
-                                <span class="status-badge danger">
-                                    بدون فایل
-                                </span>
-
-                            @endif
-
-                        </td>
-
-
-                        {{-- Publish Status --}}
-                        <td>
-
-                            @if($product->is_published)
-
-                                <span class="status-badge active">
-                                    منتشر شده
-                                </span>
-
-                            @else
-
-                                <span class="status-badge inactive">
-                                    پیش‌نویس
-                                </span>
-
-                            @endif
-
-                        </td>
-
-
-                        {{-- Sales --}}
-                        <td>
-                            {{ number_format($product->sales_count) }}
-                        </td>
-
-
-                        {{-- Actions --}}
-                        <td>
-
-                            <div class="admin-actions">
-
-                                {{-- Edit --}}
-                                <a
-                                    href="{{ route('admin.products.edit', $product) }}"
-                                    class="action-btn edit"
-                                >
-                                    ویرایش
-                                </a>
-
-
-                                {{-- Toggle Publish --}}
-                                <form
-                                    method="POST"
-                                    action="{{ route('admin.products.toggle', $product) }}"
-                                >
-
-                                    @csrf
-                                    @method('PATCH')
-
-                                    <button
-                                        type="submit"
-                                        class="action-btn toggle"
-                                    >
-                                        {{ $product->is_published
-                                            ? 'پیش‌نویس'
-                                            : 'انتشار'
-                                        }}
-                                    </button>
-
-                                </form>
-
-
-                                {{-- Delete --}}
-                                @if(!$product->orderItems()->exists())
-
-                                    <form
-                                        method="POST"
-                                        action="{{ route('admin.products.destroy', $product) }}"
-                                        onsubmit="return confirm('آیا از حذف این محصول مطمئن هستید؟');"
-                                    >
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="action-btn delete"
-                                        >
-                                            حذف
-                                        </button>
-
-                                    </form>
-
-                                @endif
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                @empty
-
-                    <tr>
-
-                        <td
-                            colspan="8"
-                            style="text-align:center;padding:60px;"
-                        >
-
-                            هنوز محصولی ایجاد نشده است.
-
-                            <br><br>
-
-                            <a
-                                href="{{ route('admin.products.create') }}"
-                                class="admin-primary-btn"
-                            >
-                                افزودن اولین محصول
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
-
-
-    <div style="margin-top:20px;">
-
-        {{ $products->links() }}
-
-    </div>
-
-</div>
-
+<div class="admin-page product-create-page">
+<div class="admin-page-head"><div><div class="admin-eyebrow">مدیریت فروشگاه · محصول جدید</div><h1>افزودن محصول</h1><p>اطلاعات، توضیحات و فایل محصول را در یک جریان امن ثبت کنید.</p></div><a href="{{ route('admin.products.index') }}" class="admin-secondary-btn">بازگشت</a></div>
+@if($errors->any())<div class="admin-alert error"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
+<form id="productForm" method="POST" action="{{ route('admin.products.store') }}">@csrf
+<section class="admin-form-card product-section"><div class="section-title"><b>۱</b><div><h2>اطلاعات اصلی</h2><p>عنوان، دسته‌بندی، قیمت، Slug و Storage Provider.</p></div></div>
+<div class="form-row"><div class="form-group"><label>عنوان محصول <i>*</i></label><input id="title" name="title" value="{{ old('title',data_get($draft?->payload,'title')) }}" maxlength="255" required placeholder="مثلاً آموزش جامع اکسل"></div><div class="form-group"><label>دسته‌بندی <i>*</i></label><select id="category_id" name="category_id" required><option value="">انتخاب دسته‌بندی</option>@foreach($categories as $category)<option value="{{ $category->id }}" @selected(old('category_id',data_get($draft?->payload,'category_id'))==$category->id)>{{ $category->name }}</option>@endforeach</select></div></div>
+<div class="form-row"><div class="form-group"><label>قیمت <i>*</i></label><input id="price" type="number" min="0" name="price" value="{{ old('price',data_get($draft?->payload,'price',0)) }}" required><small>تومان</small></div><div class="form-group"><label>Slug</label><input id="slug" dir="ltr" name="slug" value="{{ old('slug',data_get($draft?->payload,'slug')) }}" maxlength="255" placeholder="اختیاری"><small>اگر خالی باشد سیستم آن را خودکار تولید می‌کند.</small></div></div>
+<div class="form-group"><label>Storage Provider</label><select id="storage_provider_id" name="storage_provider_id"><option value="">خودکار — Storage Provider پیش‌فرض</option>@foreach($storageProviders as $provider)<option value="{{ $provider->id }}" @selected(old('storage_provider_id',data_get($draft?->payload,'storage_provider_id'))==$provider->id)>{{ $provider->name }} — {{ strtoupper($provider->type) }}{{ $provider->is_default?' · پیش‌فرض':'' }}</option>@endforeach</select><small>اگر خالی باشد، سیستم Storage Provider فعال پیش‌فرض را انتخاب می‌کند.</small></div>
+</section>
+<section class="admin-form-card product-section"><div class="section-title"><b>۲</b><div><h2>توضیحات و سئو</h2><p>توضیحات باید با محتوای واقعی فایل قابل تطبیق باشد.</p></div></div>
+<div class="form-group"><label>توضیح کوتاه</label><textarea id="short_description" name="short_description" rows="3" maxlength="1000" placeholder="خلاصه واقعی و کوتاه محصول...">{{ old('short_description',data_get($draft?->payload,'short_description')) }}</textarea><small id="shortCount">۰ / ۱۰۰۰</small></div>
+<div class="form-group"><label>توضیحات کامل</label><div class="editor"><div class="editor-toolbar"><button type="button" data-cmd="bold"><b>B</b></button><button type="button" data-cmd="italic"><i>I</i></button><button type="button" data-cmd="formatBlock" data-value="H2">H2</button><button type="button" data-cmd="formatBlock" data-value="H3">H3</button><button type="button" data-cmd="insertUnorderedList">• لیست</button><button type="button" data-cmd="insertOrderedList">۱. لیست</button><button type="button" data-cmd="formatBlock" data-value="BLOCKQUOTE">❝</button></div><div id="descriptionEditor" class="editor-content" contenteditable="true" data-placeholder="توضیحات کامل محصول را اینجا بنویسید..."></div><textarea id="description" name="description" hidden>{{ old('description',data_get($draft?->payload,'description')) }}</textarea><div class="editor-footer"><span id="wordCount">۰ کلمه</span><span>H1 در توضیحات مجاز نیست.</span></div></div></div>
+</section>
+<section class="admin-form-card product-section"><div class="section-title"><b>۳</b><div><h2>انتخاب فایل محصول</h2><p>فقط PDF، DOC و DOCX · چند فایل · حداکثر ۲۰۰MB برای هر فایل.</p></div></div>
+<div class="file-dropzone" id="dropzone"><div class="drop-icon">↥</div><strong>فایل‌ها را اینجا بکشید و رها کنید</strong><span>یا چند فایل را هم‌زمان انتخاب کنید</span><button type="button" class="admin-primary-btn" id="chooseFiles">انتخاب فایل</button><input id="fileInput" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple hidden></div><div id="uploadedList" class="uploaded-list"></div><div id="uploadIds"></div><div class="file-rules"><span>✓ PDF</span><span>✓ DOC</span><span>✓ DOCX</span><span>✓ ۲۰۰MB برای هر فایل</span><span>✓ جلوگیری از فایل تکراری</span></div><div class="image-policy"><b>تصویر فروشنده در این مرحله دریافت نمی‌شود.</b><span>تصویر پیش‌فرض PDF/Word/ترکیبی و بعداً تصویر AI استفاده خواهد شد.</span></div>
+</section>
+<section class="admin-form-card product-section"><div class="section-title"><b>۴</b><div><h2>بررسی و ثبت</h2><p>محصول ابتدا برای بررسی محتوایی ثبت می‌شود و انتشار مستقیم ندارد.</p></div></div><div class="check-grid"><div><b>منبع حقیقت</b><span>فایل واقعی محصول</span></div><div><b>Slug خالی</b><span>تولید خودکار</span></div><div><b>Storage خالی</b><span>انتخاب خودکار Provider</span></div><div><b>انتشار</b><span>پس از تأیید محتوایی</span></div></div><div class="form-actions"><a href="{{ route('admin.products.index') }}" class="admin-secondary-btn">انصراف</a><button type="submit" class="admin-primary-btn" id="submitProduct">ایجاد و ارسال برای بررسی</button></div><div id="autosaveStatus" class="autosave">ذخیره خودکار فعال است.</div></section>
+</form></div>
 @endsection
+@push('styles')
+<style>
+.product-create-page{max-width:1120px}.product-section{margin-bottom:16px;padding:22px}.section-title{display:flex;gap:12px;margin-bottom:20px}.section-title>b{width:32px;height:32px;display:grid;place-items:center;border-radius:11px;background:#eef2ff;color:#4f46e5;font-size:12px}.section-title h2{margin:0;font-size:16px}.section-title p{margin:5px 0 0;color:#667085;font-size:11px;line-height:1.8}.form-group label i{color:#f04438;font-style:normal}.editor{border:1px solid #dfe3ea;border-radius:14px;overflow:hidden}.editor-toolbar{display:flex;gap:5px;flex-wrap:wrap;padding:8px;background:#f8fafc;border-bottom:1px solid #edf0f4}.editor-toolbar button{border:1px solid #e4e7ec;background:#fff;border-radius:8px;padding:7px 10px;cursor:pointer}.editor-content{min-height:230px;padding:14px;outline:0;line-height:2;font-size:12px}.editor-content:empty:before{content:attr(data-placeholder);color:#98a2b3}.editor-footer{display:flex;justify-content:space-between;padding:7px 11px;border-top:1px solid #edf0f4;color:#98a2b3;font-size:9px}.file-dropzone{border:2px dashed #cfd5df;border-radius:18px;padding:34px 20px;text-align:center;background:#fafbff;display:flex;flex-direction:column;align-items:center;gap:8px}.file-dropzone.drag{border-color:#6366f1;background:#f5f7ff}.drop-icon{width:50px;height:50px;display:grid;place-items:center;border-radius:15px;background:#eef2ff;color:#4f46e5;font-size:25px}.file-dropzone strong{font-size:14px}.file-dropzone span{font-size:10px;color:#667085}.uploaded-list{display:grid;gap:8px;margin-top:12px}.uploaded-item{display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;border:1px solid #eaecf0;border-radius:12px;padding:10px 12px}.file-type{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:#f2f4f7;font-size:9px;font-weight:900}.uploaded-item strong,.uploaded-item small{display:block}.uploaded-item strong{font-size:11px}.uploaded-item small{font-size:9px;color:#98a2b3;margin-top:3px}.remove-file{border:0;background:#fff1f3;color:#c01048;border-radius:8px;padding:7px;cursor:pointer}.file-rules{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.file-rules span{padding:7px 9px;border:1px solid #eaecf0;background:#f8fafc;border-radius:8px;color:#667085;font-size:9px}.image-policy{display:flex;flex-direction:column;gap:4px;margin-top:12px;padding:12px 14px;border:1px solid #dfe4ff;background:#f8f9ff;border-radius:12px}.image-policy b{font-size:10px}.image-policy span{font-size:9px;color:#667085}.check-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.check-grid>div{padding:12px;border:1px solid #eaecf0;background:#f8fafc;border-radius:11px}.check-grid b,.check-grid span{display:block}.check-grid b{font-size:10px}.check-grid span{font-size:9px;color:#667085;margin-top:4px}.autosave{text-align:left;color:#98a2b3;font-size:9px;margin-top:8px}@media(max-width:800px){.check-grid{grid-template-columns:1fr 1fr}}@media(max-width:600px){.product-section{padding:16px}.check-grid{grid-template-columns:1fr}.editor-footer{flex-direction:column;gap:4px}}
+</style>
+@endpush
+@push('scripts')
+<script>
+(()=>{const form=document.getElementById('productForm'),input=document.getElementById('fileInput'),drop=document.getElementById('dropzone'),list=document.getElementById('uploadedList'),ids=document.getElementById('uploadIds'),editor=document.getElementById('descriptionEditor'),description=document.getElementById('description'),short=document.getElementById('short_description'),csrf=@json(csrf_token()),uploadUrl=@json(route('admin.products.uploads.store')),deleteUrl=@json(url('/admin/products/uploads')),draftUrl=@json(route('admin.products.draft.store')),draftId=@json($draft?->id);let uploaded=[],timer;
+editor.innerHTML=description.value||'';const fmt=n=>n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(1)+' MB';const sync=()=>description.value=editor.innerHTML.replace(/<h1\b[^>]*>(.*?)<\/h1>/gi,'<h2>$1</h2>');const count=()=>{document.getElementById('shortCount').textContent=short.value.length.toLocaleString('fa-IR')+' / ۱۰۰۰';document.getElementById('wordCount').textContent=(editor.innerText.trim()?editor.innerText.trim().split(/\s+/u).length:0).toLocaleString('fa-IR')+' کلمه'};
+const render=()=>{ids.innerHTML=uploaded.map(x=>`<input type="hidden" name="upload_ids[]" value="${x.id}">`).join('');list.innerHTML=uploaded.map(x=>`<div class="uploaded-item"><div class="file-type">${x.extension}</div><div><strong>${x.name}</strong><small>${fmt(x.size)} · آماده ثبت</small></div><button type="button" class="remove-file" data-id="${x.id}">حذف</button></div>`).join('')};
+async function upload(file){const fd=new FormData();fd.append('file',file);const provider=document.getElementById('storage_provider_id').value;if(provider)fd.append('storage_provider_id',provider);const r=await fetch(uploadUrl,{method:'POST',headers:{'X-CSRF-TOKEN':csrf,Accept:'application/json'},body:fd});const d=await r.json();if(!r.ok||!d.ok)throw Error(d.message||'آپلود ناموفق بود');uploaded.push(d.file);render();save()}
+async function handle(files){for(const file of files){try{if(!/\.(pdf|doc|docx)$/i.test(file.name))throw Error('فقط PDF، DOC و DOCX مجاز است.');if(file.size>209715200)throw Error('حجم هر فایل حداکثر ۲۰۰MB است.');await upload(file)}catch(e){alert(file.name+'\n'+e.message)}}}
+function save(){clearTimeout(timer);sync();const p={title:form.title.value,category_id:form.category_id.value,slug:form.slug.value,price:form.price.value,storage_provider_id:form.storage_provider_id.value,short_description:short.value,description:description.value,upload_ids:uploaded.map(x=>x.id)};localStorage.setItem('digitalshop_product_draft_v4',JSON.stringify(p));document.getElementById('autosaveStatus').textContent='در حال ذخیره...';timer=setTimeout(async()=>{try{const r=await fetch(draftUrl,{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':csrf,Accept:'application/json'},body:JSON.stringify({draft_id:draftId,payload:p})});const d=await r.json();if(d.ok){draftId=d.draft_id;document.getElementById('autosaveStatus').textContent='ذخیره شد'}}catch(e){document.getElementById('autosaveStatus').textContent='ذخیره محلی انجام شد'}},1400)}
+form.querySelectorAll('input,select,textarea').forEach(x=>x.addEventListener('input',save));editor.addEventListener('input',()=>{sync();count();save()});short.addEventListener('input',count);document.querySelectorAll('.editor-toolbar button').forEach(b=>b.addEventListener('click',()=>{editor.focus();document.execCommand(b.dataset.cmd,false,b.dataset.value||null);sync();count();save()}));document.getElementById('chooseFiles').onclick=()=>input.click();input.onchange=()=>handle(input.files);['dragenter','dragover'].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.add('drag')}));['dragleave','drop'].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.remove('drag')}));drop.addEventListener('drop',e=>handle(e.dataTransfer.files));list.addEventListener('click',async e=>{const b=e.target.closest('.remove-file');if(!b)return;const r=await fetch(deleteUrl+'/'+Number(b.dataset.id),{method:'DELETE',headers:{'X-CSRF-TOKEN':csrf,Accept:'application/json'}});if(r.ok)uploaded=uploaded.filter(x=>x.id!==Number(b.dataset.id));render();save()});form.addEventListener('submit',e=>{sync();if(!uploaded.length){e.preventDefault();alert('حداقل یک فایل محصول را آپلود کنید.');return}document.getElementById('submitProduct').disabled=true});count()})();
+</script>
+@endpush

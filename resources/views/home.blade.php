@@ -1,122 +1,14 @@
 @extends('layouts.app')
-
-@section('title','فروشگاه فایل | فایل‌های دیجیتال')
-
-@section('description',
-'خرید و دانلود فایل‌های دیجیتال، آموزشی، گرافیکی و کاربردی'
-)
-
+@section('title','فروشگاه فایل | مرجع فایل‌های دیجیتال')
+@section('description','خرید، بررسی و مطالعه فایل‌های دیجیتال با جستجوی هوشمند و دستیار هوش مصنوعی')
 @section('content')
-
-<div class="container">
-
-<section class="hero">
-
-<h1>فایل مورد نیازت را پیدا کن</h1>
-
-<p>
-محصولات دیجیتال کاربردی را پیدا کن، خریداری کن و بلافاصله دریافت کن.
-</p>
-
-<form class="search"
-action="{{ route('search') }}">
-
-<input name="q"
-placeholder="جستجوی فایل..."
-aria-label="جستجوی فایل">
-
-<button class="btn">جستجو</button>
-
-</form>
-
-</section>
-
-<section class="section">
-
-<div class="section-head">
-<h2>دسته‌بندی‌ها</h2>
+<div class="dj-home">
+<section class="dj-hero container"><div class="dj-hero-copy"><h1>فایل مورد نیازت را سریع پیدا کن</h1><p>مثل ساختار دانشجویار، مسیر کشف محتوا از جستجو، دسته‌بندی و پیشنهادهای هوشمند شروع می‌شود؛ با این تفاوت که اینجا تمرکز روی فایل‌های واقعی و قابل دانلود است.</p><form class="dj-hero-search" action="{{ route('search') }}"><input name="q" placeholder="مثلاً فایل اکسل حسابداری، پروژه PHP یا گزارش آماده"><button class="dj-btn" type="submit"><x-icon name="search" size="18"/> جستجو</button></form><div class="dj-quick"><a href="{{ route('search') }}"><span class="quick-icon"><x-icon name="search" size="23"/></span><h3>جستجوی هوشمند</h3><p>جستجو در عنوان و محتوای واقعی فایل</p></a><a href="{{ route('products.index') }}"><span class="quick-icon"><x-icon name="file" size="23"/></span><h3>جدیدترین فایل‌ها</h3><p>محصولات تازه منتشرشده</p></a><a href="{{ route('page.faq') }}"><span class="quick-icon"><x-icon name="ai" size="23"/></span><h3>مشاور هوشمند</h3><p>کمک برای انتخاب فایل مناسب</p></a><a href="{{ route('support.index') }}"><span class="quick-icon"><x-icon name="note" size="23"/></span><h3>پشتیبانی</h3><p>پاسخ‌گویی و پیگیری درخواست</p></a></div></div><div class="dj-slider"><div class="dj-slide active"><img src="{{ asset('Images/pdf.png') }}" alt="فروش فایل PDF"></div><div class="dj-slide"><img src="{{ asset('Images/word.png') }}" alt="فروش فایل Word"></div><div class="dj-slide"><img src="{{ asset('Images/excel.png') }}" alt="فروش فایل Excel"></div><div class="dj-slider-controls"><button type="button" data-dj-slide="prev" aria-label="قبلی"><x-icon name="arrow-right" size="18"/></button><button type="button" data-dj-slide="next" aria-label="بعدی"><x-icon name="arrow-left" size="18"/></button></div></div></section>
+<section class="dj-section container"><div class="dj-section-head"><div><h2>محبوب‌ترین فایل‌ها</h2><p>محصولات منتخب بر اساس داده‌های واقعی فروشگاه</p></div><a href="{{ route('products.index') }}">مشاهده همه</a></div><div class="dj-products">@foreach($products as $product)<article class="dj-product"><a href="{{ route('product.show',$product) }}"><img src="{{ $product->thumbnail_url }}" alt="{{ $product->title }}" loading="lazy"><div class="dj-product-body"><div class="meta">{{ $product->category?->name ?: 'فایل دیجیتال' }} · #{{ $product->id }}</div><h3>{{ $product->title }}</h3><div class="price">{{ number_format($product->price) }} تومان</div></div></a><form method="POST" action="{{ route('cart.add',$product) }}">@csrf<button class="cart" aria-label="افزودن به سبد" title="افزودن به سبد"><x-icon name="cart" size="18"/></button></form></article>@endforeach</div></section>
+<section class="dj-section container"><div class="dj-section-head"><div><h2>دسته‌بندی‌های فایل</h2><p>ساختار دسته‌بندی فروشگاه را مثل منوی اصلی مرجع، سریع و قابل کشف نگه داشته‌ایم.</p></div></div><div class="dj-category-grid">@foreach($categories as $category)<a class="dj-category-card" href="{{ route('search',['category'=>$category->id]) }}">@if($category->image)<img src="{{ str_starts_with($category->image,'http')?$category->image:asset($category->image) }}" alt="{{ $category->name }}" loading="lazy">@else<img src="{{ asset('Images/pdf.png') }}" alt="{{ $category->name }}" loading="lazy">@endif<strong>{{ $category->name }}</strong></a>@endforeach</div></section>
+<section class="container"><div class="dj-feature blue"><div><h2>دانش را به فایل قابل استفاده تبدیل کن</h2><p>فایل را پیدا کن، پیش‌نمایش را ببین و قبل از خرید درباره محتوای واقعی آن مطمئن شو.</p><a class="dj-btn" href="{{ route('products.index') }}">مشاهده فروشگاه</a></div><div class="dj-feature-art"><img src="{{ asset('Images/pdf.png') }}" alt="فایل PDF"></div><div></div></div></section>
+<section class="container"><div class="dj-feature dark"><div><h2>فروشنده شو</h2><p>فایل خودت را ارسال کن؛ فرآیند بررسی، دانش فایل و تأیید مدیر در همان پنل یکپارچه انجام می‌شود.</p>@auth<a class="dj-btn" href="{{ route('account.dashboard') }}">ورود به پنل</a>@else<a class="dj-btn" href="{{ route('login') }}">ورود / ثبت‌نام</a>@endauth</div><div class="dj-feature-art"><img src="{{ asset('Images/word.png') }}" alt="فروش فایل Word"></div><div></div></div></section>
+@if($latestPosts->count())<section class="dj-section container"><div class="dj-section-head"><div><h2>آخرین مقالات</h2><p>محتوای آموزشی و راهنمای انتخاب فایل</p></div><a href="{{ route('blog.index') }}">همه مقالات</a></div><div class="dj-blog-grid">@foreach($latestPosts as $post)<a class="dj-blog-card" href="{{ route('blog.show',$post->slug) }}">@if($post->image)<img src="{{ str_starts_with($post->image,'http')?$post->image:asset($post->image) }}" alt="{{ $post->title }}" loading="lazy">@else<img src="{{ asset('Images/pdf.png') }}" alt="{{ $post->title }}" loading="lazy">@endif<h3>{{ $post->title }}</h3><p>{{ \Illuminate\Support\Str::limit(strip_tags($post->excerpt ?: $post->body),100) }}</p></a>@endforeach</div></section>@endif
 </div>
-
-<div class="categories">
-
-@foreach($categories as $category)
-
-<a class="category" href="#">
-<span>◈</span>
-<strong>{{ $category->name }}</strong>
-</a>
-
-@endforeach
-
-</div>
-
-</section>
-
-<section class="section">
-
-<div class="section-head">
-<h2>جدیدترین فایل‌ها</h2>
-
-<a href="{{ route('search') }}"
-class="muted">مشاهده همه ←</a>
-</div>
-
-<div class="products">
-
-@foreach($products as $product)
-
-<article class="card">
-
-<a class="card-link"
-href="{{ route('product.show',$product) }}">
-
-<div class="card-img">📁</div>
-
-<div class="card-body">
-
-<h2>{{ $product->title }}</h2>
-
-<p class="muted">
-{{ $product->short_description }}
-</p>
-
-<div class="card-bottom">
-
-<span class="price">
-{{ number_format($product->price) }} تومان
-</span>
-
-</div>
-
-</div>
-
-</a>
-
-<form class="card-cart"
-method="POST"
-action="{{ route('cart.add',$product) }}">
-
-@csrf
-
-<button
-title="افزودن به سبد"
-aria-label="افزودن به سبد">🛒</button>
-
-</form>
-
-<a class="card-view"
-href="{{ route('product.show', $product) }}"
-title="مشاهده محصول"
-aria-label="مشاهده محصول">↗</a>
-
-</article>
-
-@endforeach
-
-</div>
-
-</section>
-
-</div>
-
 @endsection
+@push('scripts')<script>document.addEventListener('DOMContentLoaded',()=>{const slides=[...document.querySelectorAll('.dj-slide')];if(!slides.length)return;let i=0;const show=n=>{i=(n+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===i))};document.querySelector('[data-dj-slide="next"]')?.addEventListener('click',()=>show(i+1));document.querySelector('[data-dj-slide="prev"]')?.addEventListener('click',()=>show(i-1));setInterval(()=>show(i+1),5000)});</script>@endpush

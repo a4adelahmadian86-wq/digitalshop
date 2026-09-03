@@ -2,61 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\OrderItem;
+use App\Models\Product;
+use App\Services\AI\CustomerIntentService;
+use App\Services\AI\ProductSearchService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductController extends Controller
 {
-    public function show(Product $product)
+    public function show(Product $product, CustomerIntentService $intent, ProductSearchService $searchService)
     {
         abort_unless($product->is_published, 404);
 
         $recent = session('recent_products', []);
         $recent = array_diff($recent, [$product->id]);
-
         array_unshift($recent, $product->id);
+        session(['recent_products' => array_slice($recent, 0, 8)]);
 
-        session([
-            'recent_products' => array_slice($recent, 0, 8)
+        $downloadItem = auth()->check()
+            ? OrderItem::where('product_id', $product->id)
+                ->whereHas('order', fn ($q) => $q->where('user_id', auth()->id())->where('status', 'paid'))
+                ->first()
+            : null;
+
+        $product->load([
+            'category',
+            'files',
+            'reviews' => fn ($q) => $q->where('is_published', true)->latest(),
+            'questions' => fn ($q) => $q->where('is_published', true)->with(['user', 'answers.user']),
         ]);
 
-        $downloadItem = null;
+        $related = Product::where('is_published', true)
+            ->where('category_id', $product->category_id)
+            ->whereKeyNot($product->id)
+            ->latest('id')
+            ->take(6)
+            ->get();
 
-        if (auth()->check()) {
-            $downloadItem = OrderItem::where(
-                'product_id',
-                $product->id
-            )->whereHas('order', function ($q) {
-                $q->where('user_id', auth()->id())
-                  ->where('status', 'paid');
-            })->first();
-        }
+        $recommended = $searchService->recommend(auth()->id(), $product->id, 6);
+        $intent->record('product_view', null, $product->id);
 
-        return view('product', [
-            'product' => $product,
-            'downloadItem' => $downloadItem
-        ]);
+        return view('product', compact('product', 'downloadItem', 'related', 'recommended'));
     }
 
-    public function search(Request $request)
+    public function search(Request $request, CustomerIntentService $intent, ProductSearchService $searchService)
     {
-        $q = trim($request->q ?? '');
+        $q = trim((string) $request->input('q', ''));
+        if ($q !== '') $intent->record('search', $q);
 
-        $products = Product::where('is_published', 1)
-            ->when($q, fn($query) =>
-                $query->where(function ($q2) use ($q) {
-                    $q2->where('title', 'like', "%{$q}%")
-                       ->orWhere(
-                           'short_description',
-                           'like',
-                           "%{$q}%"
-                       );
-                })
-            )
-            ->latest()
-            ->paginate(12)
-            ->withQueryString();
+        if ($q === '') {
+            $products = Product::where('is_published', true)
+                ->latest('id')
+                ->paginate(12)
+                ->withQueryString();
+        } else {
+            $all = $searchService->search($q, 48);
+            $page = max(1, (int) $request->input('page', 1));
+            $perPage = 12;
+            $slice = $all->slice(($page - 1) * $perPage, $perPage)->values();
+            $products = new LengthAwarePaginator(
+                $slice,
+                $all->count(),
+                $perPage,
+                $page,
+                ['path' => $request->url(), 'query' => $request->query()]
+            );
+        }
 
         return view('search', compact('products', 'q'));
     }

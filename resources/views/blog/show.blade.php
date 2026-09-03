@@ -1,0 +1,5 @@
+@extends('layouts.app')
+@section('title',$post->title.' | وبلاگ')
+@section('description',$post->excerpt)
+@section('content')<main class="container article-page"><article class="article-card"><span>وبلاگ فایل‌مارکت</span><h1>{{ $post->title }}</h1><small>{{ $post->published_at?->format('Y/m/d') }}</small><p class="lead">{{ $post->excerpt }}</p><div class="article-content">{!! $post->content !!}</div></article></main>@endsection
+@push('styles')<style>.article-page{max-width:850px;padding:35px 0 70px}.article-card{background:#fff;border:1px solid #eaecf0;border-radius:20px;padding:30px}.article-card>span{color:#6941c6;font-size:11px;font-weight:900}.article-card h1{font-size:30px;margin:8px 0}.article-card small{color:#98a2b3}.lead{font-size:15px;line-height:2;color:#667085;padding:18px 0;border-bottom:1px solid #eaecf0}.article-content{line-height:2.25;color:#344054}.article-content h2{font-size:19px;color:#101828;margin-top:28px}@media(max-width:600px){.article-card{padding:18px}.article-card h1{font-size:24px}}</style>@endpush

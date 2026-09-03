@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Services\AI;
+
+use App\Models\AiUserEvent;
+use App\Models\Product;
+use Illuminate\Support\Collection;
+
+class ProductSearchService
+{
+    public function search(string $query, int $limit = 12): Collection
+    {
+        $query = trim($query);
+        $terms = $this->terms($query);
+
+        $products = Product::query()
+            ->where('is_published', true)
+            ->with('category')
+            ->when($query !== '', function ($q) use ($query) {
+                $like = '%' . $query . '%';
+                $q->where(function ($inner) use ($like) {
+                    $inner->where('title', 'like', $like)
+                        ->orWhere('short_description', 'like', $like)
+                        ->orWhere('description', 'like', $like)
+                        ->orWhereHas('knowledgeDocuments', function ($doc) use ($like) {
+                            $doc->whereHas('chunks', fn ($chunk) => $chunk->where('content', 'like', $like));
+                        });
+                });
+            })
+            ->latest('id')
+            ->limit(max($limit * 4, 30))
+            ->get();
+
+        $products->each(function (Product $product) use ($terms) {
+            $product->smart_score = $this->scoreProduct($product, $terms);
+            $product->evidence = $this->evidence($product, implode(' ', $terms), 2);
+        });
+
+        return $products->sortByDesc('smart_score')->take($limit)->values();
+    }
+
+    public function recommend(?int $userId, int $excludeProductId = 0, int $limit = 6): Collection
+    {
+        $signals = $userId
+            ? AiUserEvent::where('user_id', $userId)->latest('id')->limit(80)->get()
+            : collect();
+
+        $terms = [];
+        $productIds = [];
+        foreach ($signals as $event) {
+            if ($event->query) $terms = array_merge($terms, $this->terms($event->query));
+            if ($event->product_id) $productIds[] = (int) $event->product_id;
+        }
+
+        $products = Product::where('is_published', true)
+            ->whereKeyNot($excludeProductId)
+            ->with('category')
+            ->latest('id')
+            ->limit(80)
+            ->get();
+
+        $products->each(function (Product $product) use ($terms, $productIds) {
+            $score = $this->scoreProduct($product, $terms);
+            if (in_array($product->id, $productIds, true)) $score += 8;
+            $product->recommendation_score = $score;
+            $product->evidence = $terms ? $this->evidence($product, implode(' ', $terms), 1) : [];
+        });
+
+        return $products->sortByDesc('recommendation_score')->take($limit)->values();
+    }
+
+    public function evidence(Product $product, string $query, int $limit = 5): array
+    {
+        $terms = $this->terms($query);
+        if (!$terms) return [];
+
+        $rows = [];
+        foreach ($product->knowledgeDocuments()->with(['chunks', 'file'])->get() as $document) {
+            foreach ($document->chunks as $chunk) {
+                $text = mb_strtolower($chunk->content);
+                $score = 0;
+                $first = null;
+                foreach ($terms as $term) {
+                    $count = substr_count($text, $term);
+                    if ($count > 0 && $first === null) $first = mb_strpos($text, $term);
+                    $score += min($count, 8);
+                }
+                if ($score <= 0) continue;
+
+                $original = $chunk->content;
+                $start = max(0, (int) ($first ?? 0) - 220);
+                $rows[] = [
+                    'document_id' => $document->id,
+                    'chunk_id' => $chunk->id,
+                    'file' => $document->file?->original_name ?? 'فایل محصول',
+                    'score' => $score,
+                    'snippet' => trim(mb_substr($original, $start, 650)),
+                    'source_hash' => $document->source_hash,
+                ];
+            }
+        }
+
+        usort($rows, fn ($a, $b) => $b['score'] <=> $a['score']);
+        return array_slice($rows, 0, max(1, $limit));
+    }
+
+    private function scoreProduct(Product $product, array $terms): int
+    {
+        if (!$terms) return 0;
+        $score = 0;
+        $title = mb_strtolower((string) $product->title);
+        $short = mb_strtolower((string) $product->short_description);
+        $description = mb_strtolower((string) $product->description);
+        foreach ($terms as $term) {
+            if (str_contains($title, $term)) $score += 20;
+            if (str_contains($short, $term)) $score += 8;
+            if (str_contains($description, $term)) $score += 4;
+        }
+        $score += count($this->evidence($product, implode(' ', $terms), 3)) * 12;
+        return $score;
+    }
+
+    private function terms(string $text): array
+    {
+        $text = mb_strtolower(trim($text));
+        $text = preg_replace('/[^\p{L}\p{N}\s-]+/u', ' ', $text) ?? '';
+        $stop = ['و','در','از','به','برای','با','را','که','این','آن','یک','من','می','میشه','میخواهم','می‌خواهم','دنبال','نیاز','است','هست','the','and','for','with'];
+        $terms = preg_split('/\s+/u', $text, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        return array_values(array_unique(array_filter($terms, fn ($term) => mb_strlen($term) >= 2 && !in_array($term, $stop, true))));
+    }
+}
