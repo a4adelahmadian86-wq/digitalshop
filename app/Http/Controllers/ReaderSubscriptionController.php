@@ -1,0 +1,8 @@
+<?php
+namespace App\Http\Controllers;
+use App\Models\ReaderSubscription;use App\Models\WalletTransaction;use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;
+class ReaderSubscriptionController extends Controller
+{
+ public function index(Request $request){$user=$request->user();$current=$user->activeReaderSubscription;$history=$user->readerSubscriptions()->latest()->paginate(10);$price=(int)env('READER_SUBSCRIPTION_PRICE',99000);return view('account.reader-subscription',compact('current','history','price'));}
+ public function purchase(Request $request){$user=$request->user();$price=(int)env('READER_SUBSCRIPTION_PRICE',99000);$days=(int)env('READER_SUBSCRIPTION_DAYS',30);$wallet=$user->wallet;if(!$wallet||!$wallet->hasBalance($price))return back()->with('error','موجودی کیف پول برای خرید اشتراک کافی نیست.');DB::transaction(function()use($user,$wallet,$price,$days){$before=$wallet->balance;$wallet->decrement('balance',$price);WalletTransaction::create(['wallet_id'=>$wallet->id,'type'=>'debit','amount'=>$price,'balance_before'=>$before,'balance_after'=>$before-$price,'status'=>'completed','reference_type'=>'reader_subscription','description'=>'خرید اشتراک خوانشگر']);$start=optional($user->activeReaderSubscription)->ends_at?->isFuture()?$user->activeReaderSubscription->ends_at:now();ReaderSubscription::create(['user_id'=>$user->id,'plan'=>'monthly','price'=>$price,'starts_at'=>$start,'ends_at'=>$start->copy()->addDays($days),'status'=>'active']);});return back()->with('success','اشتراک خوانشگر با موفقیت فعال شد.');}
+}
