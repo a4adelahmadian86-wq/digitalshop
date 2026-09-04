@@ -12,6 +12,7 @@
     <meta property="og:description" content="@yield('description', 'فروشگاه فایل‌های دیجیتال')">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/unified.css') }}">
     <link rel="stylesheet" href="{{ asset('css/ai-assistant.css') }}">
     @stack('styles')
 </head>
