@@ -1,0 +1,5 @@
+<?php
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+return new class extends Migration{public function up():void{Schema::create('newsletter_subscribers',function(Blueprint $t){$t->id();$t->string('email')->unique();$t->foreignId('user_id')->nullable()->constrained()->nullOnDelete();$t->boolean('is_active')->default(true);$t->timestamp('confirmed_at')->nullable();$t->timestamp('unsubscribed_at')->nullable();$t->timestamps();});Schema::create('newsletter_campaigns',function(Blueprint $t){$t->id();$t->string('title');$t->string('status')->default('draft');$t->unsignedInteger('recipient_count')->default(0);$t->unsignedInteger('sent_count')->default(0);$t->unsignedInteger('failed_count')->default(0);$t->timestamp('sent_at')->nullable();$t->timestamps();});}public function down():void{Schema::dropIfExists('newsletter_campaigns');Schema::dropIfExists('newsletter_subscribers');}};
