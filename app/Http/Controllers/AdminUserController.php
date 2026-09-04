@@ -1,44 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
-
-use App\Models\User;
-use App\Models\Role;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-
+use App\Models\User;use App\Models\Role;use Illuminate\Http\Request;use Illuminate\Support\Facades\Hash;use Illuminate\Validation\Rule;
 class AdminUserController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query=User::with('roles');
-        if($search=trim($request->input('search',''))){$query->where(fn($q)=>$q->where('first_name','like',"%{$search}%")->orWhere('last_name','like',"%{$search}%")->orWhere('phone','like',"%{$search}%"));}
-        if($request->filled('role')){$query->where('role',$request->input('role'));}
-        if($request->filled('status')){$query->where('is_active',$request->input('status')==='active');}
-        $users=$query->latest()->paginate(20)->withQueryString();
-        $stats=['total'=>User::count(),'active'=>User::where('is_active',true)->count(),'inactive'=>User::where('is_active',false)->count(),'admins'=>User::where('role','admin')->count(),'verified'=>User::whereNotNull('phone_verified_at')->count()];
-        return view('admin.users.index',compact('users','stats'));
-    }
-    public function create(){return view('admin.users.create',['roles'=>Role::orderBy('is_system','desc')->orderBy('label')->get()]);}
-    public function store(Request $request)
-    {
-        $data=$request->validate(['first_name'=>'required|string|max:100','last_name'=>'nullable|string|max:100','phone'=>['required','string','regex:/^09\d{9}$/','unique:users,phone'],'password'=>'required|string|min:8|confirmed','role'=>'required|exists:roles,name']);
-        $user=User::create(['first_name'=>$data['first_name'],'last_name'=>$data['last_name']??null,'phone'=>$this->normalizePhone($data['phone']),'password'=>Hash::make($data['password']),'role'=>$data['role'],'is_active'=>true,'phone_verified_at'=>now()]);
-        $user->syncSystemRole();
-        return redirect()->route('admin.users.index')->with('success','کاربر ساخته شد و نیاز به تأیید OTP ندارد.');
-    }
-    public function show(User $user){$user->load(['wallet','wallet.transactions','wallet.topups','roles']);$orders=$user->orders()->with(['items.product','payment'])->latest()->paginate(10,['*'],'orders_page');$purchasedItems=$user->orderItems()->with(['order','product','downloads'])->latest()->get();$totalOrders=$user->orders()->count();$totalPurchased=$user->orders()->where('status','paid')->sum('total');$purchasedFilesCount=$purchasedItems->filter(fn($i)=>$i->product!==null)->count();return view('admin.users.show',compact('user','orders','purchasedItems','totalOrders','totalPurchased','purchasedFilesCount'));}
-    public function edit(User $user){return view('admin.users.edit',compact('user'));}
-    public function update(Request $request,User $user)
-    {
-        $data=$request->validate(['first_name'=>'required|string|max:100','last_name'=>'nullable|string|max:100','phone'=>['required','string','regex:/^09\d{9}$/',Rule::unique('users','phone')->ignore($user->id)],'role'=>'required|exists:roles,name','password'=>'nullable|string|min:8|confirmed']);
-        if(auth()->id()===$user->id && $data['role']!=='admin')return back()->withErrors(['role'=>'نمی‌توانید نقش مدیر حساب فعلی را حذف کنید.'])->withInput();
-        $user->update(['first_name'=>$data['first_name'],'last_name'=>$data['last_name']??null,'phone'=>$this->normalizePhone($data['phone']),'role'=>$data['role']]);
-        if(!empty($data['password']))$user->update(['password'=>Hash::make($data['password'])]);
-        $user->syncSystemRole();
-        return redirect()->route('admin.users.edit',$user)->with('success','اطلاعات کاربر بروزرسانی شد.');
-    }
-    public function toggle(User $user){if(auth()->id()===$user->id)return back()->with('error','نمی‌توانید حساب خودتان را غیرفعال کنید.');$user->update(['is_active'=>!$user->is_active]);return back()->with('success',$user->is_active?'حساب کاربر فعال شد.':'حساب کاربر غیرفعال شد.');}
-    private function normalizePhone(string $phone): string{return strtr(trim($phone),['۰'=>'0','۱'=>'1','۲'=>'2','۳'=>'3','۴'=>'4','۵'=>'5','۶'=>'6','۷'=>'7','۸'=>'8','۹'=>'9','٠'=>'0','١'=>'1','٢'=>'2','٣'=>'3','٤'=>'4','٥'=>'5','٦'=>'6','٧'=>'7','٨'=>'8','٩'=>'9']);}
+ public function index(Request $request){$query=User::with('roles');if($search=trim($request->input('search','')))$query->where(fn($q)=>$q->where('first_name','like',"%{$search}%")->orWhere('last_name','like',"%{$search}%")->orWhere('phone','like',"%{$search}%"));if($request->filled('role'))$query->where('role',$request->input('role'));if($request->filled('status'))$query->where('is_active',$request->input('status')==='active');$users=$query->latest()->paginate(20)->withQueryString();$stats=['total'=>User::count(),'active'=>User::where('is_active',true)->count(),'inactive'=>User::where('is_active',false)->count(),'admins'=>User::where('role','admin')->count(),'verified'=>User::whereNotNull('phone_verified_at')->count()];return view('admin.users.index',compact('users','stats'));}
+ public function create(){return view('admin.users.create',['roles'=>Role::orderBy('is_system','desc')->orderBy('label')->get()]);}
+ public function store(Request $request){$data=$request->validate(['first_name'=>'required|string|max:100','last_name'=>'nullable|string|max:100','phone'=>['required','string','regex:/^09\d{9}$/','unique:users,phone'],'password'=>'required|string|min:8|confirmed','roles'=>'required|array|min:1','roles.*'=>'exists:roles,name']);$primary=$data['roles'][0];$user=User::create(['first_name'=>$data['first_name'],'last_name'=>$data['last_name']??null,'phone'=>$this->normalizePhone($data['phone']),'password'=>Hash::make($data['password']),'role'=>$primary,'is_active'=>true,'phone_verified_at'=>now()]);$user->roles()->sync(Role::whereIn('name',$data['roles'])->pluck('id'));return redirect()->route('admin.users.index')->with('success','کاربر ساخته شد و نقش‌های انتخاب‌شده اعمال شد.');}
+ public function show(User $user){$user->load(['wallet','wallet.transactions','wallet.topups','roles']);$orders=$user->orders()->with(['items.product','payment'])->latest()->paginate(10,['*'],'orders_page');$purchasedItems=$user->orderItems()->with(['order','product','downloads'])->latest()->get();$totalOrders=$user->orders()->count();$totalPurchased=$user->orders()->where('status','paid')->sum('total');$purchasedFilesCount=$purchasedItems->filter(fn($i)=>$i->product!==null)->count();return view('admin.users.show',compact('user','orders','purchasedItems','totalOrders','totalPurchased','purchasedFilesCount'));}
+ public function edit(User $user){return view('admin.users.edit',['user'=>$user,'roles'=>Role::with('permissions')->orderBy('is_system','desc')->orderBy('label')->get()]);}
+ public function update(Request $request,User $user){$data=$request->validate(['first_name'=>'required|string|max:100','last_name'=>'nullable|string|max:100','phone'=>['required','string','regex:/^09\d{9}$/',Rule::unique('users','phone')->ignore($user->id)],'roles'=>'required|array|min:1','roles.*'=>'exists:roles,name','primary_role'=>'required|exists:roles,name','password'=>'nullable|string|min:8|confirmed']);if(!in_array($data['primary_role'],$data['roles'],true))return back()->withErrors(['primary_role'=>'نقش اصلی باید یکی از نقش‌های انتخاب‌شده باشد.'])->withInput();if(auth()->id()===$user->id&&!in_array('admin',$data['roles'],true))return back()->withErrors(['roles'=>'نمی‌توانید نقش مدیر حساب فعلی را حذف کنید.'])->withInput();$user->update(['first_name'=>$data['first_name'],'last_name'=>$data['last_name']??null,'phone'=>$this->normalizePhone($data['phone']),'role'=>$data['primary_role']]);$user->roles()->sync(Role::whereIn('name',$data['roles'])->pluck('id'));if(!empty($data['password']))$user->update(['password'=>Hash::make($data['password'])]);return redirect()->route('admin.users.edit',$user)->with('success','اطلاعات و سطح دسترسی کاربر بروزرسانی شد.');}
+ public function toggle(User $user){if(auth()->id()===$user->id)return back()->with('error','نمی‌توانید حساب خودتان را غیرفعال کنید.');$user->update(['is_active'=>!$user->is_active]);return back()->with('success',$user->is_active?'حساب کاربر فعال شد.':'حساب کاربر غیرفعال شد.');}
+ private function normalizePhone(string $phone):string{return strtr(trim($phone),['۰'=>'0','۱'=>'1','۲'=>'2','۳'=>'3','۴'=>'4','۵'=>'5','۶'=>'6','۷'=>'7','۸'=>'8','۹'=>'9','٠'=>'0','١'=>'1','٢'=>'2','٣'=>'3','٤'=>'4','٥'=>'5','٦'=>'6','٧'=>'7','٨'=>'8','٩'=>'9']);}
 }
