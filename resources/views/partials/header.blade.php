@@ -1,124 +1,64 @@
 @php
-$cart = session('cart', []);
-$cartProducts = empty($cart)
-? collect()
-: \App\Models\Product::whereIn('id', array_keys($cart))->get();
-
-$cartTotal = $cartProducts->sum('price');
+    $cart = session('cart', []);
+    $cartProducts = empty($cart)
+        ? collect()
+        : \App\Models\Product::whereIn('id', array_keys($cart))->get();
+    $cartTotal = $cartProducts->sum(fn ($product) => $product->price * ($cart[$product->id] ?? 1));
 @endphp
 
 <header class="header">
-<div class="container nav">
+    <div class="container nav">
+        <a class="logo" href="{{ route('home') }}">فایل‌مارکت</a>
+        <nav aria-label="منوی اصلی">
+            <ul class="menu">
+                <li><a href="{{ route('home') }}">خانه</a></li>
+                <li><a href="{{ route('products.index') }}">فروشگاه</a></li>
+                <li><a href="#">دسته‌بندی‌ها</a></li>
+                <li><a href="#">وبلاگ</a></li>
+            </ul>
+        </nav>
 
-<a class="logo" href="{{ route('home') }}">فایل‌مارکت</a>
+        <div class="nav-actions">
+            <button class="cart-trigger" type="button" onclick="toggleCart()" aria-label="سبد خرید">
+                <span>🛒</span><span>سبد</span><b>{{ array_sum($cart) }}</b>
+            </button>
 
-<nav>
-<ul class="menu">
-<li><a href="{{ route('home') }}">خانه</a></li>
-<li><a href="{{ route('products.index') }}">فروشگاه</a></li>
-<li><a href="#">دسته‌بندی‌ها</a></li>
-<li><a href="#">وبلاگ</a></li>
-</ul>
-</nav>
-
-<div class="nav-actions">
-
-<button class="cart-trigger" onclick="toggleCart()">
-<span>🛒</span>
-<span>سبد</span>
-<b>{{ array_sum($cart) }}</b>
-</button>
-
-@auth
-
-@include('partials.notification-center')
-
-<a
-class="wallet-header-link"
-href="{{ route('wallet.index') }}"
-
->
-
-```
-<span class="wallet-header-icon">₺</span>
-```
-
-```
-<span>
-    کیف پول
-</span>
-
-@php
-    $headerWallet = auth()->user()->wallet;
-@endphp
-
-@if($headerWallet)
-    <b>
-        {{ number_format($headerWallet->balance) }}
-    </b>
-@endif
-```
-
-</a>
-
-<form method="POST" action="{{ route('logout') }}">
-@csrf
-<button class="login">خروج</button>
-</form>
-
-@else
-
-<a class="login" href="{{ route('login') }}">
-ورود
-</a>
-
-<a class="register-link" href="{{ route('register') }}">
-ثبت‌نام
-</a>
-
-@endauth
-
-</div>
-
-</div>
+            @auth
+                @include('partials.notification-center')
+                <a class="wallet-header-link" href="{{ route('wallet.index') }}" aria-label="کیف پول">
+                    <span class="wallet-header-icon">◈</span>
+                    <span>کیف پول</span>
+                    @php($headerWallet = auth()->user()->wallet)
+                    @if($headerWallet)<b>{{ number_format($headerWallet->balance) }}</b>@endif
+                </a>
+                <a class="account-header-link" href="{{ route('account.dashboard') }}">حساب من</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="login" type="submit">خروج</button>
+                </form>
+            @else
+                <a class="login" href="{{ route('login') }}">ورود</a>
+                <a class="register-link" href="{{ route('register') }}">ثبت‌نام</a>
+            @endauth
+        </div>
+    </div>
 </header>
 
-<aside id="cart-panel" class="cart-panel">
-
-<div class="cart-head">
-<strong>سبد خرید</strong>
-<button onclick="toggleCart()">×</button>
-</div>
-
-<div class="cart-items">
-
-@forelse($cartProducts as $product)
-
-<div class="mini-cart">
-<span>{{ $product->title }}</span>
-<strong>{{ number_format($product->price) }}</strong>
-</div>
-
-@empty
-
-<div class="empty">سبد خرید خالی است.</div>
-
-@endforelse
-
-</div>
-
-@if($cartProducts->count())
-
-<div class="cart-total">
-مجموع: {{ number_format($cartTotal) }} تومان
-</div>
-
-<a class="checkout-btn" href="{{ route('cart') }}">
-مشاهده سبد خرید
-</a>
-
-@endif
-
+<aside id="cart-panel" class="cart-panel" aria-label="سبد خرید">
+    <div class="cart-head"><strong>سبد خرید</strong><button type="button" onclick="toggleCart()" aria-label="بستن">×</button></div>
+    <div class="cart-items">
+        @forelse($cartProducts as $product)
+            <div class="mini-cart">
+                <span>{{ $product->title }}</span>
+                <strong>{{ number_format($product->price * ($cart[$product->id] ?? 1)) }}</strong>
+            </div>
+        @empty
+            <div class="empty">سبد خرید خالی است.</div>
+        @endforelse
+    </div>
+    @if($cartProducts->count())
+        <div class="cart-total">مجموع: {{ number_format($cartTotal) }} تومان</div>
+        <a class="checkout-btn" href="{{ route('cart') }}">مشاهده سبد خرید</a>
+    @endif
 </aside>
-
 <div id="cart-overlay" onclick="toggleCart()"></div>
