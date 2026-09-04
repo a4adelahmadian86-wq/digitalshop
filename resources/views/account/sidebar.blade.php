@@ -13,10 +13,39 @@
 @if($user->hasRole('seller'))<div class="panel-nav-title">فروشنده</div><a href="{{ route('seller.products.index') }}"><x-icon name="bag" size="17"/>محصولات من</a><a href="{{ route('seller.products.create') }}"><x-icon name="add-file" size="17"/>افزودن محصول</a>@endif
 @if($user->hasRole('admin'))
 <div class="panel-nav-title">مدیریت سامانه</div>
-@php($groups=[
-'users'=>'کاربران','products'=>'محصولات','orders'=>'سفارش‌ها','finance'=>'مالی','subscriptions'=>'اشتراک‌ها','assets'=>'فایل‌ها و دارایی‌ها','reader'=>'خوانشگر','loyalty'=>'باشگاه مشتریان','content'=>'محتوا','marketing'=>'بازاریابی','ai'=>'هوش مصنوعی','support'=>'پشتیبانی','notifications'=>'اعلان‌ها','reports'=>'گزارش‌ها و تحلیل‌ها','storage'=>'فضای ذخیره‌سازی','search'=>'جستجو','sellers'=>'فروشندگان','security'=>'امنیت','settings'=>'تنظیمات','system'=>'سیستم','newsletter'=>'خبرنامه محصولات','sms'=>'پیامک و رمز یکبارمصرف']);
-@php($icons=['users'=>'users','products'=>'bag','orders'=>'document','finance'=>'wallet','subscriptions'=>'clock','assets'=>'folder','reader'=>'eye','loyalty'=>'gift','content'=>'document','marketing'=>'discount','ai'=>'ai','support'=>'support','notifications'=>'notification','reports'=>'chart','storage'=>'database','search'=>'search','sellers'=>'users','security'=>'lock','settings'=>'settings','system'=>'dashboard','newsletter'=>'send','sms'=>'send'])
-@php($subs=['users'=>['همه کاربران','کاربران فعال','در انتظار تأیید','نقش‌ها و دسترسی‌ها','فعالیت کاربران'],'products'=>['همه محصولات','افزودن محصول','پیش‌نویس‌ها','در انتظار تأیید','تأییدشده','ردشده','دسته‌بندی‌ها','نظرات'],'orders'=>['همه سفارش‌ها','در انتظار پرداخت','موفق','ناموفق','لغوشده','تکمیل‌شده','استرداد وجه'],'finance'=>['تراکنش‌ها','پرداخت‌ها','کیف پول','برداشت‌ها','تسویه‌ها','فاکتورها','کمیسیون‌ها','مالیات'],'subscriptions'=>['همه اشتراک‌ها','پلن‌ها','تمدیدها','تغییر پلن'],'assets'=>['کتابخانه فایل‌ها','پوشه‌ها','فایل‌های من','فایل‌های خریداری‌شده','فضای ذخیره‌سازی'],'reader'=>['کتابخانه','بوکمارک‌ها','هایلایت‌ها','یادداشت‌ها','تاریخچه مطالعه'],'loyalty'=>['مشتریان','امتیازات','سطوح','جوایز'],'content'=>['صفحات','رسانه','بنرها','نظرات'],'marketing'=>['تخفیف‌ها','کمپین‌ها','همکاری در فروش','معرفی دوستان','تبلیغات'],'ai'=>['مرکز هوش مصنوعی','مدل‌ها','ارائه‌دهندگان','ارزیابی مدل‌ها','پرامپت‌ها','تولید محتوا','مصرف و اعتبار'],'support'=>['مرکز پشتیبانی','تیکت‌ها','ارجاع‌ها','زمان پاسخ و حل','پایگاه دانش'],'notifications'=>['همه اعلان‌ها','ارسال اعلان','قالب‌ها','کمپین‌های اطلاع‌رسانی'],'reports'=>['گزارش فروش','گزارش مالی','گزارش کاربران','گزارش محصولات','گزارش محتوا','گزارش هوش مصنوعی','گزارش پشتیبانی'],'storage'=>['نمای کلی','فایل‌های بزرگ','فایل‌های قدیمی','سهمیه‌ها','تنظیمات'],'search'=>['تنظیمات جستجو','تحلیل جستجو','پیشنهادها'],'sellers'=>['همه فروشندگان','درخواست‌های فروشندگی','عملکرد','کمیسیون'],'security'=>['مرکز امنیت','ورودها','نشست‌ها','رخدادهای امنیتی','گزارش حسابرسی'],'settings'=>['عمومی','فروشگاه','پرداخت','ایمیل','پیامک','اعلان‌ها','امنیت'],'system'=>['سلامت سیستم','گزارش رویدادها','صف پردازش','حافظه موقت','پشتیبان‌گیری','حالت تعمیرات','ویژگی‌های آزمایشی'],'newsletter'=>['مرکز خبرنامه','مشترکان ایمیل','کمپین‌ها','پیشنهادهای هوشمند'],'sms'=>['مرکز پیامک','گزارش رمز یکبارمصرف','گزارش ارسال‌ها','تنظیمات پیامک']]);
-@foreach($groups as $key=>$label) @php($open=str_starts_with($path,'admin/'.$key))<div class="panel-nav-group {{ $open?'open':'' }}"><button type="button" class="panel-nav-parent" aria-expanded="{{ $open?'true':'false' }}"><x-icon name="{{ $icons[$key] }}" size="17"/><span>{{ $label }}</span><x-icon name="arrow-left" size="14"/></button><div class="panel-submenu">@foreach($subs[$key]??['نمای کلی'] as $i=>$sub)<a href="{{ url('/admin/'.$key.'/'.($i===0?'overview':$i)) }}">{{ $sub }}</a>@endforeach</div></div>@endforeach
+@php
+$groups=[
+'users'=>['کاربران','users.manage',['همه کاربران','کاربران فعال','در انتظار تأیید','نقش‌ها و دسترسی‌ها','گروه‌های کاربری','فعالیت کاربران']],
+'products'=>['محصولات','products.manage',['همه محصولات','افزودن محصول','پیش‌نویس‌ها','در انتظار تأیید','تأییدشده','ردشده','دسته‌بندی‌ها','ویژگی‌ها','قیمت‌گذاری','نظرات']],
+'orders'=>['سفارش‌ها','orders.manage',['همه سفارش‌ها','در انتظار پرداخت','موفق','ناموفق','لغوشده','تکمیل‌شده','استرداد وجه']],
+'finance'=>['مالی','finance.manage',['تراکنش‌ها','پرداخت‌ها','کیف پول','برداشت‌ها','تسویه‌ها','فاکتورها','کمیسیون‌ها','مالیات']],
+'subscriptions'=>['اشتراک‌ها','subscriptions.manage',['اشتراک‌ها','پلن‌ها','تمدیدها','تغییر پلن']],
+'assets'=>['فایل‌ها و دارایی‌ها','assets.manage',['کتابخانه فایل‌ها','پوشه‌ها','فایل‌های من','فایل‌های خریداری‌شده','فضای ذخیره‌سازی']],
+'reader'=>['خوانشگر','reader.manage',['کتابخانه','بوکمارک‌ها','هایلایت‌ها','یادداشت‌ها','تاریخچه مطالعه']],
+'loyalty'=>['باشگاه مشتریان','loyalty.manage',['مشتریان','امتیازات','سطوح','جوایز']],
+'content'=>['محتوا','content.manage',['صفحات','وبلاگ','دسته‌بندی‌ها','رسانه','بنرها','نظرات']],
+'marketing'=>['بازاریابی','marketing.manage',['تخفیف‌ها','کمپین‌ها','همکاری در فروش','معرفی دوستان','تبلیغات']],
+'ai'=>['هوش مصنوعی','ai.manage',['مرکز هوش مصنوعی','مدل‌ها','ارائه‌دهندگان','ارزیابی مدل‌ها','پرامپت‌ها','تولید محتوا','مصرف و اعتبار','تنظیمات AI']],
+'support'=>['پشتیبانی','support.manage',['مرکز پشتیبانی','تیکت‌ها','تیکت‌های من','ارجاع‌ها','زمان پاسخ و حل','پایگاه دانش']],
+'notifications'=>['اعلان‌ها','notifications.manage',['اعلان‌ها','ارسال اعلان','قالب‌ها','کمپین‌های اطلاع‌رسانی']],
+'reports'=>['گزارش‌ها و تحلیل‌ها','reports.manage',['گزارش فروش','گزارش مالی','گزارش کاربران','گزارش محصولات','گزارش محتوا','گزارش هوش مصنوعی','گزارش پشتیبانی']],
+'search'=>['جستجو','search.manage',['تنظیمات جستجو','تحلیل جستجو','پیشنهادها']],
+'sellers'=>['فروشندگان','sellers.manage',['مدیریت فروشندگان','درخواست‌های فروشندگی','عملکرد','کمیسیون']],
+'workflow'=>['گردش کار','admin.modules',['گردش کار','تأییدها','صف‌های کاری']],
+'tasks'=>['وظایف','admin.modules',['وظایف من','وظایف تیم','یادآوری‌ها']],
+'security'=>['امنیت','security.manage',['مرکز امنیت','ورودها','نشست‌ها','رخدادهای امنیتی','گزارش حسابرسی']],
+'integrations'=>['یکپارچه‌سازی‌ها','admin.modules',['سرویس‌ها','API','کلیدهای API','وب‌هوک‌ها','سرویس‌های خارجی']],
+'settings'=>['تنظیمات','settings.manage',['عمومی','فروشگاه','پرداخت','ایمیل','پیامک','اعلان‌ها','امنیت']],
+'system'=>['سیستم','system.manage',['سلامت سیستم','گزارش رویدادها','صف پردازش','حافظه موقت','پشتیبان‌گیری','بازیابی','حالت تعمیرات','ویژگی‌های آزمایشی']],
+'developer'=>['توسعه‌دهنده','admin.modules',['مستندات API','برنامه‌ها','OAuth','وب‌هوک‌ها','محیط آزمایشی']],
+'newsletter'=>['خبرنامه محصولات','newsletter.manage',['مرکز خبرنامه','مشترکان ایمیل','کمپین‌ها','پیشنهادهای هوشمند']],
+'sms'=>['پیامک و رمز یکبارمصرف','sms.manage',['مرکز پیامک','گزارش رمز یکبارمصرف','گزارش ارسال‌ها','تنظیمات پیامک']]
+];
+$icons=['users'=>'users','products'=>'bag','orders'=>'document','finance'=>'wallet','subscriptions'=>'clock','assets'=>'folder','reader'=>'eye','loyalty'=>'gift','content'=>'document','marketing'=>'discount','ai'=>'ai','support'=>'support','notifications'=>'notification','reports'=>'chart','search'=>'search','sellers'=>'users','workflow'=>'check','tasks'=>'calendar','security'=>'lock','integrations'=>'code','settings'=>'settings','system'=>'dashboard','developer'=>'code','newsletter'=>'send','sms'=>'message'];
+$special=['users'=>['نقش‌ها و دسترسی‌ها'=>url('/admin/roles')],'products'=>['افزودن محصول'=>route('admin.products.create'),'در انتظار تأیید'=>route('admin.products.approvals')],'content'=>['صفحات'=>route('admin.content.index'),'وبلاگ'=>route('admin.blog.index')],'marketing'=>['تخفیف‌ها'=>route('admin.discounts.index')],'ai'=>['مرکز هوش مصنوعی'=>route('admin.ai.dashboard'),'ارزیابی مدل‌ها'=>route('admin.ai.evaluation'),'تنظیمات AI'=>route('admin.ai.settings')],'support'=>['مرکز پشتیبانی'=>route('admin.support.index')],'storage'=>['نمای کلی'=>route('admin.storage.index')]];
+@endphp
+@foreach($groups as $key=>$group)
+@if($user->hasPermission($group[1]))<div class="panel-nav-group {{ str_starts_with($path,'admin/'.$key)?'open':'' }}"><button type="button" class="panel-nav-parent" aria-expanded="{{ str_starts_with($path,'admin/'.$key)?'true':'false' }}"><x-icon name="{{ $icons[$key]??'folder' }}" size="17"/><span>{{ $group[0] }}</span><x-icon name="arrow-left" size="14"/></button><div class="panel-submenu">@foreach($group[2] as $i=>$sub)@php($href=$special[$key][$sub]??url('/admin/'.$key.'/'.($i===0?'overview':$i)))<a class="{{ request()->fullUrlIs($href)?'active':'' }}" href="{{ $href }}">{{ $sub }}</a>@endforeach</div></div>@endif
+@endforeach
 @endif
 </nav>
