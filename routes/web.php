@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +23,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\AdminWalletController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AiAssistantController;
 
 
 // ======================================================
@@ -197,27 +198,36 @@ Route::delete(
 
 
 // ======================================================
+// Public AI Assistant
+// ======================================================
+
+Route::post(
+    '/ai/assistant/chat',
+    [AiAssistantController::class, 'chat']
+)->middleware('throttle:30,1')
+  ->name('ai.assistant.chat');
+
+
+// ======================================================
 // Checkout
 // ======================================================
 
 Route::middleware('auth')->group(function () {
 
-        /* Buyer Panel Routes */
+    /* Buyer Panel Routes */
 
-// Buyer Panel routes - add inside the existing Route::middleware('auth')->group(...)
-Route::get('/account', fn () => redirect()->route('account.dashboard'))->name('account');
-Route::get('/account/dashboard', [AccountController::class, 'dashboard'])->name('account.dashboard');
-Route::get('/account/orders', [AccountController::class, 'orders'])->name('account.orders');
-Route::get('/account/orders/{order}', [AccountController::class, 'order'])->name('account.orders.show');
-Route::get('/account/files', [AccountController::class, 'files'])->name('account.files');
-Route::get('/account/wallet', [AccountController::class, 'wallet'])->name('account.wallet');
-Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
-Route::put('/account/profile', [AccountController::class, 'updateProfile'])->name('account.profile.update');
-Route::get('/account/security', [AccountController::class, 'security'])->name('account.security');
-Route::put('/account/security', [AccountController::class, 'updateSecurity'])->name('account.security.update');
-Route::get('/account/notifications', [AccountController::class, 'notifications'])->name('account.notifications');
-Route::get('/account/notifications/{id}/read', [AccountController::class, 'readNotification'])->name('account.notifications.read');
-
+    Route::get('/account', fn () => redirect()->route('account.dashboard'))->name('account');
+    Route::get('/account/dashboard', [AccountController::class, 'dashboard'])->name('account.dashboard');
+    Route::get('/account/orders', [AccountController::class, 'orders'])->name('account.orders');
+    Route::get('/account/orders/{order}', [AccountController::class, 'order'])->name('account.orders.show');
+    Route::get('/account/files', [AccountController::class, 'files'])->name('account.files');
+    Route::get('/account/wallet', [AccountController::class, 'wallet'])->name('account.wallet');
+    Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
+    Route::put('/account/profile', [AccountController::class, 'updateProfile'])->name('account.profile.update');
+    Route::get('/account/security', [AccountController::class, 'security'])->name('account.security');
+    Route::put('/account/security', [AccountController::class, 'updateSecurity'])->name('account.security.update');
+    Route::get('/account/notifications', [AccountController::class, 'notifications'])->name('account.notifications');
+    Route::get('/account/notifications/{id}/read', [AccountController::class, 'readNotification'])->name('account.notifications.read');
 
     Route::get(
         '/notifications',
@@ -315,14 +325,14 @@ Route::get('/account/notifications/{id}/read', [AccountController::class, 'readN
         [PaymentController::class, 'callback']
     )->name('payment.callback');
 
-// ==================================================
-// Invoice
-// ==================================================
+    // ==================================================
+    // Invoice
+    // ==================================================
 
-Route::get(
-    '/account/orders/{order}/invoice',
-    [InvoiceController::class, 'show']
-)->name('account.invoice');
+    Route::get(
+        '/account/orders/{order}/invoice',
+        [InvoiceController::class, 'show']
+    )->name('account.invoice');
 
     // ==================================================
     // Downloads
@@ -387,23 +397,24 @@ Route::prefix('admin')
         );
 
 
-// ==================================================
-// Users
-// ==================================================
+        // ==================================================
+        // Users
+        // ==================================================
 
-Route::resource(
-    'users',
-    AdminUserController::class
-)
-    ->except([
-        'destroy',
-    ])
-    ->names('admin.users');
+        Route::resource(
+            'users',
+            AdminUserController::class
+        )
+            ->except([
+                'destroy',
+            ])
+            ->names('admin.users');
 
-Route::patch(
-    '/users/{user}/toggle',
-    [AdminUserController::class, 'toggle']
-)->name('admin.users.toggle');
+        Route::patch(
+            '/users/{user}/toggle',
+            [AdminUserController::class, 'toggle']
+        )->name('admin.users.toggle');
+
         // ==================================================
         // Categories
         // ==================================================
@@ -577,4 +588,3 @@ Route::patch(
         )->name('admin.wallets.debit');
 
     });
-
