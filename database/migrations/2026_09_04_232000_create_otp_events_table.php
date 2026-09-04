@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\Schema;
+return new class extends Migration{public function up():void{Schema::create('otp_events',function(Blueprint $t){$t->id();$t->string('phone',20)->index();$t->string('event',30)->index();$t->string('channel',20)->default('sms');$t->ipAddress('ip')->nullable();$t->timestamps();});}public function down():void{Schema::dropIfExists('otp_events');}};
