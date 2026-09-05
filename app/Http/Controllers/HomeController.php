@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BlogPost;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
@@ -17,18 +18,21 @@ class HomeController extends Controller
         $bestSellingProducts = (clone $productsQuery)->withCount('orderItems')->orderByDesc('order_items_count')->latest('id')->take(8)->get();
         $usefulProducts = (clone $productsQuery)->whereNotNull('short_description')->where('short_description', '<>', '')->latest('id')->take(8)->get();
 
+        $hasHierarchy = Schema::hasColumn('categories', 'parent_id');
+        $hasStatus = Schema::hasColumn('categories', 'status');
+
         $categories = Category::query()
             ->where('is_active', true)
-            ->when(\Illuminate\Schema\Builder::hasColumn('categories', 'status'), fn ($q) => $q->where('status', true))
-            ->whereNull('parent_id')
+            ->when($hasStatus, fn ($q) => $q->where('status', true))
+            ->when($hasHierarchy, fn ($q) => $q->whereNull('parent_id'))
             ->orderBy('sort_order')
             ->orderBy('name')
             ->get();
 
         $popularCategories = Category::query()
             ->where('is_active', true)
-            ->when(\Illuminate\Schema\Builder::hasColumn('categories', 'status'), fn ($q) => $q->where('status', true))
-            ->whereNull('parent_id')
+            ->when($hasStatus, fn ($q) => $q->where('status', true))
+            ->when($hasHierarchy, fn ($q) => $q->whereNull('parent_id'))
             ->withCount(['products as published_products_count' => fn ($q) => $q->where('is_published', true)])
             ->orderByDesc('published_products_count')
             ->orderBy('sort_order')
@@ -54,14 +58,8 @@ class HomeController extends Controller
             : collect();
 
         return view('home', compact(
-            'categories',
-            'popularCategories',
-            'quickCategories',
-            'products',
-            'bestSellingProducts',
-            'usefulProducts',
-            'latestProducts',
-            'latestPosts'
+            'categories', 'popularCategories', 'quickCategories', 'products',
+            'bestSellingProducts', 'usefulProducts', 'latestProducts', 'latestPosts'
         ));
     }
 }
