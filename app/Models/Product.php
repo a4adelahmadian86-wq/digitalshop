@@ -15,30 +15,31 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'is_published' => 'boolean', 'ai_report' => 'array', 'ai_indexed_at' => 'datetime', 'submitted_at' => 'datetime', 'approved_at' => 'datetime', 'page_count' => 'integer'
+        'is_published'=>'boolean','ai_report'=>'array','ai_indexed_at'=>'datetime','submitted_at'=>'datetime','approved_at'=>'datetime','page_count'=>'integer'
     ];
 
     protected $appends = ['thumbnail_url'];
 
     public function getThumbnailUrlAttribute(): string
     {
-        if ($this->thumbnail) return str_starts_with($this->thumbnail, 'http') ? $this->thumbnail : asset($this->thumbnail);
-        $e = $this->relationLoaded('files') ? $this->files->pluck('extension')->map(fn($x) => strtolower((string)$x))->all() : [];
-        if (in_array('pdf',$e,true)) return asset('Images/pdf.png');
-        if (array_intersect(['doc','docx'],$e)) return asset('Images/word.png');
-        if (array_intersect(['xls','xlsx','csv'],$e)) return asset('Images/excel.png');
-        if (array_intersect(['ppt','pptx'],$e)) return asset('Images/powerpoint.png');
-        if (in_array('html',$e,true)) return asset('Images/html.png');
-        if (in_array('css',$e,true)) return asset('Images/css.png');
-        if (in_array('js',$e,true)) return asset('Images/JavaScript.png');
-        if (in_array('py',$e,true)) return asset('Images/Python.png');
-        if (in_array('php',$e,true)) return asset('Images/php.png');
-        if (in_array('sql',$e,true)) return asset('Images/SQL.png');
-        if (in_array('json',$e,true)) return asset('Images/JSON.png');
-        if (in_array('apk',$e,true)) return asset('Images/APK.png');
-        if (in_array('svg',$e,true)) return asset('Images/svg.png');
-        if (in_array('wordpress',$e,true)) return asset('Images/WordPress.png');
-        return asset('Images/pdf.png');
+        if ($this->thumbnail) {
+            if (str_starts_with($this->thumbnail,'http')) return $this->thumbnail;
+            if (str_starts_with($this->thumbnail,'/')) return url($this->thumbnail);
+            return asset($this->thumbnail);
+        }
+
+        $extensions = $this->relationLoaded('files')
+            ? $this->files->pluck('extension')->map(fn ($x) => strtolower((string)$x))->all()
+            : [];
+        $type = 'file';
+        foreach ([
+            'pdf'=>'pdf','doc'=>'word','docx'=>'word','xls'=>'excel','xlsx'=>'excel','csv'=>'excel',
+            'ppt'=>'powerpoint','pptx'=>'powerpoint','html'=>'html','css'=>'css','js'=>'javascript',
+            'py'=>'python','php'=>'php','sql'=>'sql','json'=>'json','apk'=>'apk','svg'=>'svg','wordpress'=>'wordpress'
+        ] as $extension=>$cover) {
+            if (in_array($extension,$extensions,true)) { $type=$cover; break; }
+        }
+        return url('/media/cover/'.$type);
     }
 
     public function category(): BelongsTo { return $this->belongsTo(Category::class); }
