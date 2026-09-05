@@ -1,17 +1,2 @@
-function toggleCart(){
-    const panel=document.getElementById('cart-panel');
-    const overlay=document.getElementById('cart-overlay');
-
-    if(!panel)return;
-
-    panel.classList.toggle('open');
-
-    if(overlay)
-        overlay.style.display=panel.classList.contains('open')?'block':'none';
-}
-
-document.addEventListener('DOMContentLoaded',()=>{
-    const added=document.body.dataset.cartAdded;
-
-    if(added==='1') toggleCart();
-});
+function toggleCart(){const panel=document.getElementById('cart-panel');const overlay=document.getElementById('cart-overlay');if(!panel)return;panel.classList.toggle('open');if(overlay)overlay.style.display=panel.classList.contains('open')?'block':'none'}
+document.addEventListener('DOMContentLoaded',()=>{const added=document.body.dataset.cartAdded;if(added==='1')toggleCart();if(location.pathname==='/login'&&!document.querySelector('[data-email-onboarding]')){const form=document.getElementById('loginForm');if(form){const box=document.createElement('div');box.dataset.emailOnboarding='1';box.className='email-login-option';box.innerHTML='<span>یا</span><a href="/email/start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="m4 6 8 6 8-6"/></svg> ورود و ساخت پروفایل با ایمیل</a><small>ایمیل فقط برای پیشنهادهای مرتبط است؛ شناسه اصلی حساب شماره موبایل خواهد بود.</small>';form.after(box);const s=document.createElement('style');s.textContent='.email-login-option{display:grid;gap:8px;text-align:center;margin-top:14px}.email-login-option>span{font-size:10px;color:#98a2b3}.email-login-option a{height:46px;display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid #dfe3ea;border-radius:11px;background:#fff;color:#344054;text-decoration:none;font:inherit;font-size:11px;font-weight:800;transition:.18s}.email-login-option a:hover{border-color:#c8d0ff;background:#f8f9ff;color:#304aca;box-shadow:0 0 0 4px rgba(48,74,202,.07)}.email-login-option svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.email-login-option small{font-size:8px;line-height:1.8;color:#98a2b3}';document.head.appendChild(s)}}});
