@@ -12,10 +12,7 @@ class DatabaseSeeder extends Seeder
             AccessControlSeeder::class,
             StorageProviderSeeder::class,
             AdminUserSeeder::class,
+            StoreCategoriesSqlSeeder::class,
         ]);
-
-        if (is_file(base_path('store_categories_mysql.sql'))) {
-            $this->call(StoreCategoriesSqlSeeder::class);
-        }
     }
 }
