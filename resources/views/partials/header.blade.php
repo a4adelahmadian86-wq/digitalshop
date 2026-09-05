@@ -1,5 +1,16 @@
 @php($cart=session('cart',[]))
-@php($navCategories=$categories ?? \Illuminate\Support\Facades\Cache::remember('nav_active_categories',300,fn()=>\App\Models\Category::with('children')->whereNull('parent_id')->where('is_active',true)->where('status',true)->orderBy('sort_order')->orderBy('name')->get()))
+@php($navCategories=collect())
+@php
+try {
+    $navCategories=\Illuminate\Support\Facades\Cache::remember('nav_active_categories',300,fn()=>\App\Models\Category::with('children')->whereNull('parent_id')->where('is_active',true)->where('status',true)->orderBy('sort_order')->orderBy('name')->get());
+} catch (\Throwable $e) {
+    try {
+        $navCategories=\Illuminate\Support\Facades\Cache::remember('nav_active_categories_legacy',300,fn()=>\App\Models\Category::where('is_active',true)->orderBy('sort_order')->orderBy('name')->get());
+    } catch (\Throwable $ignored) {
+        $navCategories=collect();
+    }
+}
+@endphp
 @php($unreadCount=auth()->check()?auth()->user()->unreadNotifications()->count():0)
 @php($recentNotifications=auth()->check()?auth()->user()->notifications()->latest()->limit(5)->get():collect())
 @php($cartIds=array_values(array_filter(array_map('intval',array_keys($cart)),fn($id)=>$id>0)))
