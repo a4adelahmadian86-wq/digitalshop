@@ -1,4 +1,7 @@
-@php($cart=session('cart',[]))
+@php
+$cart=session('cart',[]);
+$cart=is_array($cart)?$cart:[];
+@endphp
 @php($navCategories=collect())
 @php($hierarchyReady=false)
 @php
@@ -21,6 +24,7 @@ try {
 @php($cartCount=array_sum($cart))
 @php($recentSearches=session('recent_searches',[]))
 @php($trendingSearches=['هوش مصنوعی','پایتون','وردپرس','اکسل','PHP','طراحی سایت','SQL','جاوااسکریپت'])
+@endphp
 <header class="site-header dj-site-header">
 <div class="dj-header-main"><div class="container dj-header-grid">
 <a class="dj-logo" href="{{ route('home') }}" aria-label="صفحه اصلی"><span class="dj-logo-mark"><x-icon name="file" size="22"/></span><span class="dj-logo-text"><b>فایل‌مارکت</b><small>فروشگاه فایل دیجیتال</small></span></a>
