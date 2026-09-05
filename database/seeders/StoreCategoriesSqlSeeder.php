@@ -21,32 +21,33 @@ class StoreCategoriesSqlSeeder extends Seeder
             }
         }
 
-        $path=base_path('store_categories_mysql.sql');
+        $path = base_path('store_categories_mysql.sql');
         if (!is_file($path)) {
-            $response=Http::timeout(20)->get('https://raw.githubusercontent.com/a4adelahmadian86-wq/digitalshop/main/store_categories_mysql.sql');
-            if (!$response->successful() || trim($response->body())==='') {
+            $response = Http::timeout(30)->get('https://raw.githubusercontent.com/a4adelahmadian86-wq/digitalshop/main/store_categories_mysql.sql');
+            if (!$response->successful() || trim($response->body()) === '') {
                 throw new \RuntimeException('فایل دسته‌بندی پیدا نشد و دریافت خودکار آن نیز ناموفق بود.');
             }
-            file_put_contents($path,$response->body());
+            file_put_contents($path, $response->body());
         }
 
-        $sql=file_get_contents($path);
-        if ($sql===false || trim($sql)==='') {
+        $sql = file_get_contents($path);
+        if ($sql === false || trim($sql) === '') {
             throw new \RuntimeException('فایل دسته‌بندی خالی یا غیرقابل خواندن است.');
         }
 
-        $sql=preg_replace('/^\s*(SET\s+[^;]+;|START\s+TRANSACTION\s*;|COMMIT\s*;|ROLLBACK\s*;)/im','',$sql)??$sql;
-        $sql=preg_replace('/^\s*--.*$/m','',$sql)??$sql;
-        $statements=preg_split('/;\s*(?=INSERT\s+INTO|UPDATE\s+|DELETE\s+|ALTER\s+|CREATE\s+)/i',$sql,-1,PREG_SPLIT_NO_EMPTY);
-        $statements=array_values(array_filter(array_map('trim',$statements)));
+        $sql = preg_replace('/^\s*(SET\s+NAMES[^;]+;|SET\s+FOREIGN_KEY_CHECKS[^;]+;|START\s+TRANSACTION\s*;|COMMIT\s*;|ROLLBACK\s*;)/im', '', $sql) ?? $sql;
+        $sql = preg_replace('/^\s*--.*$/m', '', $sql) ?? $sql;
+        $statements = array_values(array_filter(array_map('trim', preg_split('/;\s*/', $sql) ?: [])));
 
-        DB::transaction(function() use ($statements) {
+        DB::transaction(function () use ($statements) {
             foreach ($statements as $statement) {
-                DB::unprepared($statement);
+                if ($statement !== '') {
+                    DB::unprepared($statement);
+                }
             }
         });
 
-        $count=DB::table('categories')->count();
+        $count = DB::table('categories')->count();
         $this->command?->info('دسته‌بندی‌ها با موفقیت بررسی/وارد شدند. تعداد فعلی: '.$count);
     }
 }
