@@ -1,33 +1,8 @@
 @php
-$cart=session('cart',[]);
-$cart=is_array($cart)?$cart:[];
-$unreadCount=0;
-$recentNotifications=collect();
-$cartIds=[];
-$cartProducts=collect();
-$cartCount=0;
-$recentSearches=session('recent_searches',[]);
-$recentSearches=is_array($recentSearches)?array_values(array_filter($recentSearches,'is_string')):[];
-$trendingSearches=['هوش مصنوعی','پایتون','وردپرس','اکسل','PHP','طراحی سایت','SQL','جاوااسکریپت'];
-$navCategories=collect();
-$hierarchyReady=false;
-try {
-    $hierarchyReady=\Illuminate\Support\Facades\Schema::hasTable('categories') && \Illuminate\Support\Facades\Schema::hasColumn('categories','parent_id') && \Illuminate\Support\Facades\Schema::hasColumn('categories','status');
-    $navCategories=\Illuminate\Support\Facades\Cache::remember($hierarchyReady?'nav_active_categories':'nav_active_categories_legacy',300,function() use ($hierarchyReady){
-        $query=\App\Models\Category::query()->where('is_active',true);
-        if($hierarchyReady){$query->where('status',true)->whereNull('parent_id');}
-        return $query->orderBy('sort_order')->orderBy('name')->take(28)->get();
-    });
-} catch (\Throwable $e) {
-    try {$navCategories=\App\Models\Category::query()->where('is_active',true)->orderBy('sort_order')->orderBy('name')->take(28)->get();} catch (\Throwable $ignored) {$navCategories=collect();}
-}
-if(auth()->check()){
-    try {$unreadCount=(int)auth()->user()->unreadNotifications()->count();} catch (\Throwable $e) {$unreadCount=0;}
-    try {$recentNotifications=auth()->user()->notifications()->latest()->limit(5)->get();} catch (\Throwable $e) {$recentNotifications=collect();}
-}
-$cartIds=array_values(array_filter(array_map('intval',array_keys($cart)),fn($id)=>$id>0));
-try {$cartProducts=$cartIds?\App\Models\Product::whereIn('id',$cartIds)->get()->keyBy('id'):collect();} catch (\Throwable $e) {$cartProducts=collect();}
-$cartCount=array_sum(array_map('intval',$cart));
+$cart=session('cart',[]);$cart=is_array($cart)?$cart:[];$unreadCount=0;$recentNotifications=collect();$cartIds=[];$cartProducts=collect();$cartCount=0;$recentSearches=session('recent_searches',[]);$recentSearches=is_array($recentSearches)?array_values(array_filter($recentSearches,'is_string')):[];$trendingSearches=['هوش مصنوعی','پایتون','وردپرس','اکسل','PHP','طراحی سایت','SQL','جاوااسکریپت'];$navCategories=collect();$hierarchyReady=false;
+try{$hierarchyReady=\Illuminate\Support\Facades\Schema::hasTable('categories')&&\Illuminate\Support\Facades\Schema::hasColumn('categories','parent_id')&&\Illuminate\Support\Facades\Schema::hasColumn('categories','status');$navCategories=\Illuminate\Support\Facades\Cache::remember($hierarchyReady?'nav_active_categories':'nav_active_categories_legacy',300,function()use($hierarchyReady){$query=\App\Models\Category::query()->where('is_active',true);if($hierarchyReady)$query->where('status',true)->whereNull('parent_id');return $query->orderBy('sort_order')->orderBy('name')->take(28)->get();});}catch(\Throwable $e){try{$navCategories=\App\Models\Category::query()->where('is_active',true)->orderBy('sort_order')->orderBy('name')->take(28)->get();}catch(\Throwable $ignored){$navCategories=collect();}}
+if(auth()->check()){try{$unreadCount=(int)auth()->user()->unreadNotifications()->count();}catch(\Throwable $e){$unreadCount=0;}try{$recentNotifications=auth()->user()->notifications()->latest()->limit(5)->get();}catch(\Throwable $e){$recentNotifications=collect();}}
+$cartIds=array_values(array_filter(array_map('intval',array_keys($cart)),fn($id)=>$id>0));try{$cartProducts=$cartIds?\App\Models\Product::whereIn('id',$cartIds)->get()->keyBy('id'):collect();}catch(\Throwable $e){$cartProducts=collect();}$cartCount=array_sum(array_map('intval',$cart));
 @endphp
 <header class="site-header dj-site-header">
 <div class="dj-header-main"><div class="container dj-header-grid">
@@ -38,3 +13,19 @@ $cartCount=array_sum(array_map('intval',$cart));
 <div class="dj-action-wrap dj-cart-wrap"><a class="dj-icon-action dj-cart" href="{{ route('cart') }}" aria-label="سبد خرید" title="سبد خرید"><x-icon name="cart" size="22"/>@if($cartCount>0)<span class="count">{{ $cartCount>99?'۹۹+':$cartCount }}</span>@endif</a><div class="dj-cart-preview">@if($cartProducts->isNotEmpty())<div class="cart-preview-head"><strong>سبد خرید</strong><span>{{ $cartCount }} کالا</span></div><div class="cart-preview-list">@foreach($cartIds as $productId)@if(isset($cartProducts[$productId])&&($cart[$productId]??0)>0)<a class="cart-preview-item" href="{{ route('product.show',$cartProducts[$productId]) }}"><span class="cart-preview-image"><img src="{{ $cartProducts[$productId]->thumbnail_url }}" alt="" loading="lazy"></span><span class="cart-preview-copy"><b>{{ \Illuminate\Support\Str::limit($cartProducts[$productId]->title,42) }}</b><small>{{ number_format($cartProducts[$productId]->price) }} تومان × {{ $cart[$productId] }}</small></span></a>@endif @endforeach</div><a class="cart-preview-foot" href="{{ route('cart') }}">مشاهده سبد خرید</a>@else<div class="cart-preview-empty"><x-icon name="cart" size="28"/><strong>سبد خرید خالی است</strong><small>محصولات موردنظرت را انتخاب کن.</small></div>@endif</div></div></div></div></div>
 <div class="dj-header-nav"><div class="container dj-nav-inner"><div class="dj-category"><a href="#"><x-icon name="category" size="19"/> دسته‌بندی‌ها <x-icon name="arrow-down" size="14"/></a><div class="dj-mega">@foreach($navCategories as $category)<a class="dj-mega-col dj-mega-top-category" href="{{ route('search',['category'=>$category->id]) }}"><strong><x-icon name="category" size="16"/> {{ $category->name }}</strong><span>مشاهده فایل‌ها <x-icon name="arrow-left" size="12"/></span></a>@endforeach</div></div><a class="dj-menu-link" href="{{ route('products.index') }}">فروشگاه</a><a class="dj-menu-link" href="{{ route('blog.index') }}">وبلاگ</a><a class="dj-menu-link" href="{{ route('page.faq') }}">سؤالات متداول</a><a class="dj-menu-link" href="{{ route('page.contact') }}">پشتیبانی</a><span class="dj-nav-spacer"></span></div></div></div>
 </header>
+@push('styles')
+<style>
+.dj-search-panel,.dj-notification-preview,.dj-cart-preview{z-index:1200}.dj-action-wrap.is-open .dj-notification-preview,.dj-action-wrap.is-open .dj-cart-preview{display:block!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}.dj-action-wrap.is-open{z-index:1300}.dj-action-wrap.is-open~.dj-action-wrap{z-index:1}
+@media(max-width:900px){.dj-search-panel{max-width:calc(100vw - 24px);right:auto;left:50%;transform:translateX(-50%)}.dj-notification-preview,.dj-cart-preview{position:fixed!important;top:78px!important;right:12px!important;left:12px!important;width:auto!important;max-width:none!important}.dj-notification-wrap.is-open .dj-notification-preview,.dj-cart-wrap.is-open .dj-cart-preview{transform:none!important}}
+</style>
+@endpush
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+ const wraps=[...document.querySelectorAll('.dj-action-wrap')];
+ const closeAll=()=>wraps.forEach(w=>w.classList.remove('is-open'));
+ wraps.forEach(w=>{const trigger=w.querySelector(':scope>.dj-icon-action');if(!trigger)return;trigger.addEventListener('click',function(e){if(window.matchMedia('(max-width:900px)').matches){e.preventDefault();const was=w.classList.contains('is-open');closeAll();if(!was)w.classList.add('is-open');}});w.addEventListener('mouseenter',()=>{if(!window.matchMedia('(max-width:900px)').matches){closeAll();w.classList.add('is-open');}});w.addEventListener('mouseleave',()=>{if(!window.matchMedia('(max-width:900px)').matches)w.classList.remove('is-open');});});
+ document.addEventListener('click',e=>{if(!e.target.closest('.dj-action-wrap'))closeAll();});
+});
+</script>
+@endpush
