@@ -45,7 +45,18 @@ $groups=[
 'sms'=>['پیامک و رمز یکبارمصرف','sms.manage',['مرکز پیامک','گزارش رمز یکبارمصرف','گزارش ارسال‌ها','تنظیمات پیامک']],
 ];
 $icons=['users'=>'users','products'=>'bag','orders'=>'document','finance'=>'wallet','subscriptions'=>'clock','assets'=>'folder','reader'=>'eye','loyalty'=>'gift','content'=>'document','marketing'=>'discount','ai'=>'ai','support'=>'support','notifications'=>'notification','reports'=>'chart','search'=>'search','sellers'=>'users','workflow'=>'check','tasks'=>'calendar','security'=>'lock','integrations'=>'code','settings'=>'settings','system'=>'dashboard','developer'=>'code','newsletter'=>'send','sms'=>'message'];
-$special=['users'=>['نقش‌ها و دسترسی‌ها'=>url('/admin/roles')],'products'=>['افزودن محصول'=>route('admin.products.create'),'در انتظار تأیید'=>route('admin.products.approvals'),'دسته‌بندی‌ها'=>route('admin.categories.index')],'content'=>['صفحات'=>route('admin.content.index'),'وبلاگ'=>route('admin.blog.index')],'marketing'=>['تخفیف‌ها'=>route('admin.discounts.index')],'ai'=>['مرکز هوش مصنوعی'=>route('admin.ai.dashboard'),'ارزیابی مدل‌ها'=>route('admin.ai.evaluation'),'تنظیمات AI'=>route('admin.ai.settings')],'support'=>['مرکز پشتیبانی'=>route('admin.support.index')],'integrations'=>['سرویس‌ها'=>route('admin.integrations.settings'),'کلیدهای API'=>route('admin.ai.settings').'#api-keys'],'settings'=>['عمومی'=>route('admin.settings.general'),'ایمیل'=>route('admin.integrations.settings')]];
+$special=[
+'users'=>['همه کاربران'=>route('admin.users.index'),'کاربران فعال'=>route('admin.users.index',['status'=>'active']),'در انتظار تأیید'=>route('admin.users.index',['status'=>'inactive']),'نقش‌ها و دسترسی‌ها'=>url('/admin/roles')],
+'products'=>['همه محصولات'=>route('admin.products.index'),'افزودن محصول'=>route('admin.products.create'),'پیش‌نویس‌ها'=>route('admin.products.draft.show'),'در انتظار تأیید'=>route('admin.products.approvals'),'تأییدشده'=>route('admin.products.index',['approval_status'=>'approved']),'ردشده'=>route('admin.products.index',['approval_status'=>'rejected']),'دسته‌بندی‌ها'=>route('admin.categories.index')],
+'orders'=>['همه سفارش‌ها'=>route('admin.orders.index'),'در انتظار پرداخت'=>route('admin.orders.index',['status'=>'pending']),'موفق'=>route('admin.orders.index',['status'=>'paid']),'ناموفق'=>route('admin.orders.index',['status'=>'failed']),'لغوشده'=>route('admin.orders.index',['status'=>'cancelled']),'تکمیل‌شده'=>route('admin.orders.index',['status'=>'completed']),'استرداد وجه'=>route('admin.orders.index',['status'=>'refunded'])],
+'finance'=>['کیف پول'=>route('admin.wallets.index')],
+'content'=>['صفحات'=>route('admin.content.index'),'وبلاگ'=>route('admin.blog.index')],
+'marketing'=>['تخفیف‌ها'=>route('admin.discounts.index')],
+'ai'=>['مرکز هوش مصنوعی'=>route('admin.ai.dashboard'),'ارزیابی مدل‌ها'=>route('admin.ai.evaluation'),'تنظیمات AI'=>route('admin.ai.settings')],
+'support'=>['مرکز پشتیبانی'=>route('admin.support.index')],
+'integrations'=>['سرویس‌ها'=>route('admin.integrations.settings'),'کلیدهای API'=>route('admin.integrations.keys')],
+'settings'=>['عمومی'=>route('admin.settings.general'),'ایمیل'=>route('admin.integrations.settings')],
+];
 @endphp
 @foreach($groups as $key=>$group)
 @if($user->hasPermission($group[1]))
