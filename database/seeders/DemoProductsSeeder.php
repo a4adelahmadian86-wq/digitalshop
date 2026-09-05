@@ -55,10 +55,8 @@ class DemoProductsSeeder extends Seeder
             );
         }
 
-        StorageProvider::query()->whereKeyNot($provider->id)->update(['is_default' => false]);
-        if (!$provider->is_active || !$provider->is_default) {
-            $provider->update(['is_active' => true, 'is_default' => true]);
-        }
+        StorageProvider::query()->where('id', '!=', $provider->id)->update(['is_default' => false]);
+        $provider->update(['is_active' => true, 'is_default' => true]);
 
         $items = [
             ['slug' => 'demo-word-project', 'title' => 'فایل آزمایشی ورد — پروژه نمونه', 'file' => 'demo-word-project.pdf', 'price' => 35000],
