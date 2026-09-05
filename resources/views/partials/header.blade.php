@@ -1,37 +1,40 @@
 @php
 $cart=session('cart',[]);
 $cart=is_array($cart)?$cart:[];
-@endphp
-@php($navCategories=collect())
-@php($hierarchyReady=false)
-@php
+$unreadCount=0;
+$recentNotifications=collect();
+$cartIds=[];
+$cartProducts=collect();
+$cartCount=0;
+$recentSearches=session('recent_searches',[]);
+$recentSearches=is_array($recentSearches)?array_values(array_filter($recentSearches,'is_string')):[];
+$trendingSearches=['هوش مصنوعی','پایتون','وردپرس','اکسل','PHP','طراحی سایت','SQL','جاوااسکریپت'];
+$navCategories=collect();
+$hierarchyReady=false;
 try {
     $hierarchyReady=\Illuminate\Support\Facades\Schema::hasTable('categories') && \Illuminate\Support\Facades\Schema::hasColumn('categories','parent_id') && \Illuminate\Support\Facades\Schema::hasColumn('categories','status');
-    if ($hierarchyReady) {
-        $navCategories=\Illuminate\Support\Facades\Cache::remember('nav_active_categories',300,fn()=>\App\Models\Category::whereNull('parent_id')->where('is_active',true)->where('status',true)->orderBy('sort_order')->orderBy('name')->take(28)->get());
-    } else {
-        $navCategories=\Illuminate\Support\Facades\Cache::remember('nav_active_categories_legacy',300,fn()=>\App\Models\Category::where('is_active',true)->orderBy('sort_order')->orderBy('name')->take(28)->get());
-    }
+    $navCategories=\Illuminate\Support\Facades\Cache::remember($hierarchyReady?'nav_active_categories':'nav_active_categories_legacy',300,function() use ($hierarchyReady){
+        $query=\App\Models\Category::query()->where('is_active',true);
+        if($hierarchyReady){$query->where('status',true)->whereNull('parent_id');}
+        return $query->orderBy('sort_order')->orderBy('name')->take(28)->get();
+    });
 } catch (\Throwable $e) {
-    $hierarchyReady=false;
-    try {$navCategories=\App\Models\Category::where('is_active',true)->orderBy('sort_order')->orderBy('name')->take(28)->get();} catch (\Throwable $ignored) {$navCategories=collect();}
+    try {$navCategories=\App\Models\Category::query()->where('is_active',true)->orderBy('sort_order')->orderBy('name')->take(28)->get();} catch (\Throwable $ignored) {$navCategories=collect();}
 }
-@endphp
-@php($unreadCount=auth()->check()?auth()->user()->unreadNotifications()->count():0)
-@php($recentNotifications=auth()->check()?auth()->user()->notifications()->latest()->limit(5)->get():collect())
-@php($cartIds=array_values(array_filter(array_map('intval',array_keys($cart)),fn($id)=>$id>0)))
-@php($cartProducts=$cartIds?\App\Models\Product::whereIn('id',$cartIds)->get()->keyBy('id'):collect())
-@php($cartCount=array_sum($cart))
-@php($recentSearches=session('recent_searches',[]))
-@php($trendingSearches=['هوش مصنوعی','پایتون','وردپرس','اکسل','PHP','طراحی سایت','SQL','جاوااسکریپت'])
+if(auth()->check()){
+    try {$unreadCount=(int)auth()->user()->unreadNotifications()->count();} catch (\Throwable $e) {$unreadCount=0;}
+    try {$recentNotifications=auth()->user()->notifications()->latest()->limit(5)->get();} catch (\Throwable $e) {$recentNotifications=collect();}
+}
+$cartIds=array_values(array_filter(array_map('intval',array_keys($cart)),fn($id)=>$id>0));
+try {$cartProducts=$cartIds?\App\Models\Product::whereIn('id',$cartIds)->get()->keyBy('id'):collect();} catch (\Throwable $e) {$cartProducts=collect();}
+$cartCount=array_sum(array_map('intval',$cart));
 @endphp
 <header class="site-header dj-site-header">
 <div class="dj-header-main"><div class="container dj-header-grid">
 <a class="dj-logo" href="{{ route('home') }}" aria-label="صفحه اصلی"><span class="dj-logo-mark"><x-icon name="file" size="22"/></span><span class="dj-logo-text"><b>فایل‌مارکت</b><small>فروشگاه فایل دیجیتال</small></span></a>
-<div class="dj-search" id="headerSearch"><form action="{{ route('search') }}" role="search" id="headerSearchForm"><div class="dj-search-box"><button class="dj-search-submit" type="submit" aria-label="جستجو"><x-icon name="search" size="20"/></button><input id="headerSearchInput" type="search" name="q" autocomplete="off" placeholder="هر فایلی می‌خوای جستجو کن" aria-label="جستجوی فایل"><button class="dj-search-ai" type="button" data-ai-open aria-label="گفتگو با دستیار"><x-icon name="mic" size="18"/><span>گفتگو با هوش</span></button></div>
-<div class="dj-search-panel" id="headerSearchPanel"><div class="search-panel-section"><div class="search-panel-head"><strong>جستجوهای اخیر</strong><button type="button" id="clearRecentSearches">پاک کردن</button></div><div class="search-chips" id="recentSearchChips">@forelse($recentSearches as $term)<a href="{{ route('search',['q'=>$term]) }}"><x-icon name="clock" size="13"/> {{ $term }}</a>@empty<span class="search-empty">هنوز جستجویی ثبت نشده است.</span>@endforelse</div></div><div class="search-panel-section"><div class="search-panel-head"><strong>جستجوهای پرطرفدار</strong><span class="search-trend-mark">داغ</span></div><div class="search-chips">@foreach($trendingSearches as $term)<a href="{{ route('search',['q'=>$term]) }}"><x-icon name="chart" size="13"/> {{ $term }}</a>@endforeach</div></div><a class="search-promo" href="{{ route('products.index') }}"><span>انتخاب هوشمند فایل</span><strong>فایل مناسب را قبل از خرید پیدا کن</strong><small>پیش‌نمایش، محتوای واقعی و پیشنهادهای مرتبط</small></a></div></form></div>
+<div class="dj-search" id="headerSearch"><form action="{{ route('search') }}" role="search" id="headerSearchForm"><div class="dj-search-box"><button class="dj-search-submit" type="submit" aria-label="جستجو"><x-icon name="search" size="20"/></button><input id="headerSearchInput" type="search" name="q" autocomplete="off" placeholder="هر فایلی می‌خوای جستجو کن" aria-label="جستجوی فایل"><button class="dj-search-ai" type="button" data-ai-open aria-label="گفتگو با دستیار"><x-icon name="mic" size="18"/><span>گفتگو با هوش</span></button></div><div class="dj-search-panel" id="headerSearchPanel"><div class="search-panel-section"><div class="search-panel-head"><strong>جستجوهای اخیر</strong><button type="button" id="clearRecentSearches">پاک کردن</button></div><div class="search-chips" id="recentSearchChips">@forelse($recentSearches as $term)<a href="{{ route('search',['q'=>$term]) }}"><x-icon name="clock" size="13"/> {{ $term }}</a>@empty<span class="search-empty">هنوز جستجویی ثبت نشده است.</span>@endforelse</div></div><div class="search-panel-section"><div class="search-panel-head"><strong>جستجوهای پرطرفدار</strong><span class="search-trend-mark">داغ</span></div><div class="search-chips">@foreach($trendingSearches as $term)<a href="{{ route('search',['q'=>$term]) }}"><x-icon name="chart" size="13"/> {{ $term }}</a>@endforeach</div></div><a class="search-promo" href="{{ route('products.index') }}"><span>انتخاب هوشمند فایل</span><strong>فایل مناسب را قبل از خرید پیدا کن</strong><small>پیش‌نمایش، محتوای واقعی و پیشنهادهای مرتبط</small></a></div></form></div>
 <div class="dj-header-actions"><a class="dj-user" href="{{ auth()->check()?route('account.dashboard'):route('login') }}"><span class="dj-user-avatar">@auth @if(auth()->user()->avatar_url)<img src="{{ auth()->user()->avatar_url }}" alt="">@else<x-icon name="user" size="21"/>@endif @else<x-icon name="user" size="21"/>@endauth</span><span class="dj-user-copy">@auth<small>حساب کاربری</small><strong>{{ trim(auth()->user()->first_name.' '.auth()->user()->last_name)?:'کاربر' }}</strong>@else<small>حساب کاربری</small><strong>ورود یا ثبت نام</strong>@endauth</span></a>
 @auth<div class="dj-action-wrap dj-notification-wrap"><a class="dj-icon-action" href="{{ route('account.notifications') }}" aria-label="اعلان‌ها" title="اعلان‌ها"><x-icon name="notification" size="21"/>@if($unreadCount>0)<span class="count">{{ $unreadCount>99?'۹۹+':$unreadCount }}</span>@endif</a><div class="dj-notification-preview"><div class="notification-preview-head"><strong>اعلان‌های اخیر</strong>@if($unreadCount>0)<span>{{ $unreadCount }} خوانده‌نشده</span>@endif</div>@forelse($recentNotifications as $notification)<a href="{{ route('account.notifications') }}" class="notification-preview-item {{ $notification->read_at?'':'unread' }}"><span><x-icon name="notification" size="14"/></span><div><b>{{ data_get($notification->data,'title','اعلان جدید') }}</b><small>{{ \Illuminate\Support\Str::limit(data_get($notification->data,'message','برای مشاهده جزئیات وارد بخش اعلان‌ها شوید.'),70) }}</small></div></a>@empty<div class="notification-empty">اعلان جدیدی ندارید.</div>@endforelse<a class="notification-preview-foot" href="{{ route('account.notifications') }}">مشاهده همه اعلان‌ها</a></div></div>@endauth
 <div class="dj-action-wrap dj-cart-wrap"><a class="dj-icon-action dj-cart" href="{{ route('cart') }}" aria-label="سبد خرید" title="سبد خرید"><x-icon name="cart" size="22"/>@if($cartCount>0)<span class="count">{{ $cartCount>99?'۹۹+':$cartCount }}</span>@endif</a><div class="dj-cart-preview">@if($cartProducts->isNotEmpty())<div class="cart-preview-head"><strong>سبد خرید</strong><span>{{ $cartCount }} کالا</span></div><div class="cart-preview-list">@foreach($cartIds as $productId)@if(isset($cartProducts[$productId])&&($cart[$productId]??0)>0)<a class="cart-preview-item" href="{{ route('product.show',$cartProducts[$productId]) }}"><span class="cart-preview-image"><img src="{{ $cartProducts[$productId]->thumbnail_url }}" alt="" loading="lazy"></span><span class="cart-preview-copy"><b>{{ \Illuminate\Support\Str::limit($cartProducts[$productId]->title,42) }}</b><small>{{ number_format($cartProducts[$productId]->price) }} تومان × {{ $cart[$productId] }}</small></span></a>@endif @endforeach</div><a class="cart-preview-foot" href="{{ route('cart') }}">مشاهده سبد خرید</a>@else<div class="cart-preview-empty"><x-icon name="cart" size="28"/><strong>سبد خرید خالی است</strong><small>محصولات موردنظرت را انتخاب کن.</small></div>@endif</div></div></div></div></div>
-<div class="dj-header-nav"><div class="container dj-nav-inner"><div class="dj-category"><a href="#"><x-icon name="category" size="19"/> دسته‌بندی‌ها <x-icon name="arrow-down" size="14"/></a><div class="dj-mega">@foreach($navCategories as $category)<a class="dj-mega-col dj-mega-top-category" href="{{ route('search',['category'=>$category->id]) }}"><strong><x-icon name="category" size="16"/> {{ $category->name }}</strong><span>مشاهده فایل‌ها <x-icon name="arrow-left" size="12"/></span></a>@endforeach</div></div><a class="dj-menu-link" href="{{ route('products.index') }}">فروشگاه</a><a class="dj-menu-link" href="{{ route('blog.index') }}">وبلاگ</a><a class="dj-menu-link" href="{{ route('page.faq') }}">سؤالات متداول</a><a class="dj-menu-link" href="{{ route('page.contact') }}">پشتیبانی</a><span class="dj-nav-spacer"></span><a class="dj-support-link" href="{{ auth()->check()?route('support.create'):route('login') }}"><x-icon name="support" size="18"/> پشتیبانی</a></div></div></div>
+<div class="dj-header-nav"><div class="container dj-nav-inner"><div class="dj-category"><a href="#"><x-icon name="category" size="19"/> دسته‌بندی‌ها <x-icon name="arrow-down" size="14"/></a><div class="dj-mega">@foreach($navCategories as $category)<a class="dj-mega-col dj-mega-top-category" href="{{ route('search',['category'=>$category->id]) }}"><strong><x-icon name="category" size="16"/> {{ $category->name }}</strong><span>مشاهده فایل‌ها <x-icon name="arrow-left" size="12"/></span></a>@endforeach</div></div><a class="dj-menu-link" href="{{ route('products.index') }}">فروشگاه</a><a class="dj-menu-link" href="{{ route('blog.index') }}">وبلاگ</a><a class="dj-menu-link" href="{{ route('page.faq') }}">سؤالات متداول</a><a class="dj-menu-link" href="{{ route('page.contact') }}">پشتیبانی</a><span class="dj-nav-spacer"></span></div></div></div>
 </header>
