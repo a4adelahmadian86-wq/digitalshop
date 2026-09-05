@@ -7,7 +7,6 @@ use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\AdminAiSettingsController;
 use App\Http\Controllers\AdminSiteSettingsController;
 use App\Http\Controllers\AdminIntegrationSettingsController;
-use App\Http\Controllers\AdminApiKeysController;
 use App\Http\Controllers\EmailOnboardingController;
 use App\Http\Controllers\EmailPhoneController;
 
@@ -65,12 +64,6 @@ Route::middleware(['auth', 'role:admin', 'admin.permission'])
 
         Route::post('/integrations/test-mail', [AdminIntegrationSettingsController::class, 'testMail'])
             ->name('admin.integrations.test-mail');
-
-        Route::get('/integrations/keys', [AdminApiKeysController::class, 'edit'])
-            ->name('admin.integrations.keys');
-
-        Route::put('/integrations/keys', [AdminApiKeysController::class, 'update'])
-            ->name('admin.integrations.keys.update');
 
         foreach (
             [
