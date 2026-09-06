@@ -11,9 +11,12 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    private const CART_COOKIE = 'digitalshop_cart';
+    private const CART_COOKIE_MINUTES = 1051200;
+
     public function index(ProductSearchService $searchService)
     {
-        $cart = session('cart', []);
+        $cart = $this->loadCart(request());
         $later = array_map('intval', session('later', []));
         $ids = array_values(array_unique(array_map('intval', array_keys($cart))));
         $products = Product::with('files')->whereIn('id', $ids ?: [0])->where('is_published', true)->get()->sortBy(fn ($p) => array_search($p->id, $ids, true))->values();
@@ -31,35 +34,38 @@ class CartController extends Controller
     {
         abort_unless($product->is_published, 404);
         if (auth()->check() && $this->bought($product)) return back()->with('cart_error', 'این فایل را قبلاً خریداری کرده‌اید.');
-        $cart = session('cart', []);
+        $cart = $this->loadCart(request());
         $cart[$product->id] = 1;
-        session(['cart' => $cart]);
+        $this->saveCart($cart);
         $intent->record('cart_add', null, $product->id);
         return back()->with('cart_added', true);
     }
 
     public function remove(Product $product, CustomerIntentService $intent)
     {
-        $cart = session('cart', []); unset($cart[$product->id]); session(['cart' => $cart]);
+        $cart = $this->loadCart(request());
+        unset($cart[$product->id]);
+        $this->saveCart($cart);
         $intent->record('cart_remove', null, $product->id);
         return back();
     }
 
     public function later(Product $product, CustomerIntentService $intent)
     {
-        $cart = session('cart', []); $later = array_map('intval', session('later', [])); unset($cart[$product->id]);
+        $cart = $this->loadCart(request()); $later = array_map('intval', session('later', []));
+        unset($cart[$product->id]);
         if (!in_array($product->id, $later, true)) $later[] = $product->id;
-        session(['cart' => $cart, 'later' => $later]);
+        $this->saveCart($cart); session(['later' => $later]);
         $intent->record('cart_later', null, $product->id);
         return back();
     }
 
     public function moveToCart(Product $product, CustomerIntentService $intent)
     {
-        $later = array_map('intval', session('later', [])); $cart = session('cart', []);
+        $later = array_map('intval', session('later', [])); $cart = $this->loadCart(request());
         if (auth()->check() && $this->bought($product)) return back()->with('cart_error', 'این فایل را قبلاً خریداری کرده‌اید.');
         $cart[$product->id] = 1; $later = array_values(array_diff($later, [$product->id]));
-        session(['cart' => $cart, 'later' => $later]);
+        $this->saveCart($cart); session(['later' => $later]);
         $intent->record('cart_move_to_cart', null, $product->id);
         return back();
     }
@@ -77,6 +83,28 @@ class CartController extends Controller
     {
         session()->forget('discount_code');
         return back()->with('discount_success', 'کد تخفیف حذف شد.');
+    }
+
+    private function loadCart(Request $request): array
+    {
+        $cart = session('cart');
+        if (is_array($cart) && $cart !== []) return $cart;
+        $raw = $request->cookie(self::CART_COOKIE);
+        if (!$raw) return [];
+        $decoded = json_decode($raw, true);
+        if (!is_array($decoded)) return [];
+        $cart = [];
+        foreach ($decoded as $id => $quantity) {
+            if (ctype_digit((string) $id) && (int) $id > 0) $cart[(int) $id] = max(1, (int) $quantity);
+        }
+        session(['cart' => $cart]);
+        return $cart;
+    }
+
+    private function saveCart(array $cart): void
+    {
+        session(['cart' => $cart]);
+        cookie()->queue(self::CART_COOKIE, json_encode($cart, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), self::CART_COOKIE_MINUTES, '/', null, false, true, false, 'lax');
     }
 
     private function discount(float $subtotal): float
