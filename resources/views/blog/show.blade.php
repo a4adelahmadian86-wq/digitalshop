@@ -1,5 +1,53 @@
 @extends('layouts.app')
-@section('title',$post->title.' | وبلاگ')
+@section('title',$post->title.' | وبلاگ فایل‌مارکت')
 @section('description',$post->excerpt)
-@section('content')<main class="container article-page"><article class="article-card"><span>وبلاگ فایل‌مارکت</span><h1>{{ $post->title }}</h1><small>{{ $post->published_at?->format('Y/m/d') }}</small><p class="lead">{{ $post->excerpt }}</p><div class="article-content">{!! $post->content !!}</div></article></main>@endsection
-@push('styles')<style>.article-page{max-width:850px;padding:35px 0 70px}.article-card{background:#fff;border:1px solid #eaecf0;border-radius:20px;padding:30px}.article-card>span{color:#6941c6;font-size:11px;font-weight:900}.article-card h1{font-size:30px;margin:8px 0}.article-card small{color:#98a2b3}.lead{font-size:15px;line-height:2;color:#667085;padding:18px 0;border-bottom:1px solid #eaecf0}.article-content{line-height:2.25;color:#344054}.article-content h2{font-size:19px;color:#101828;margin-top:28px}@media(max-width:600px){.article-card{padding:18px}.article-card h1{font-size:24px}}</style>@endpush
+@section('content')
+<main class="blog-shell">
+    <div class="article-layout">
+        <article class="article-main article-card">
+            <span class="article-kicker">وبلاگ فایل‌مارکت</span>
+            <h1>{{ $post->title }}</h1>
+            <div class="article-meta">
+                <span>نویسنده: {{ $post->author?->name ?: 'تحریریه فایل‌مارکت' }}</span>
+                @if($post->published_at)<span>{{ $post->published_at->format('Y/m/d') }}</span>@endif
+                <span>{{ $readingMinutes }} دقیقه مطالعه</span>
+            </div>
+            @if($post->excerpt)<p class="article-lead">{{ $post->excerpt }}</p>@endif
+            <div class="article-content">{!! $contentWithAnchors !!}</div>
+            <div class="article-tools">
+                <span style="font-size:11px;color:#8a93a3">اگر این مطلب برایتان مفید بود، آن را با دیگران به اشتراک بگذارید.</span>
+                <button type="button" data-blog-copy>کپی لینک مقاله</button>
+            </div>
+        </article>
+
+        <aside class="article-side">
+            @if(count($toc))
+                <nav class="toc" aria-label="فهرست مقاله">
+                    <h2>در این مقاله می‌خوانید</h2>
+                    @foreach($toc as $item)
+                        <a class="{{ $item['level'] === 3 ? 'sub' : '' }}" href="#{{ $item['id'] }}">{{ $item['text'] }}</a>
+                    @endforeach
+                </nav>
+            @endif
+
+            @if($related->count())
+                <section class="related-box">
+                    <h2>مطالب مرتبط</h2>
+                    @foreach($related as $item)
+                        <a class="related-item" href="{{ route('blog.show',$item->slug) }}">
+                            @if($item->published_at)<small>{{ $item->published_at->format('Y/m/d') }}</small>@endif
+                            <strong>{{ $item->title }}</strong>
+                        </a>
+                    @endforeach
+                </section>
+            @endif
+        </aside>
+    </div>
+</main>
+@endsection
+@push('styles')<link rel="stylesheet" href="{{ asset('css/blog-premium.css') }}">@endpush
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded',function(){const b=document.querySelector('[data-blog-copy]');if(!b)return;b.addEventListener('click',async function(){try{await navigator.clipboard.writeText(window.location.href);const t=b.textContent;b.textContent='لینک کپی شد';setTimeout(()=>b.textContent=t,1800)}catch(e){window.prompt('لینک مقاله را کپی کنید:',window.location.href)}})});
+</script>
+@endpush
