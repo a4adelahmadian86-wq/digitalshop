@@ -1,4 +1,52 @@
 @extends('layouts.app')
-@section('title','وبلاگ فایل‌مارکت')
-@section('content')<main class="container blog-page"><header class="blog-hero"><span>دانش و راهنمای انتخاب فایل</span><h1>وبلاگ</h1><p>راهنماهای کاربردی، آموزش استفاده از فایل‌ها، نکات خرید و ایده‌های کاربردی.</p></header><div class="blog-grid">@forelse($posts as $post)<article class="blog-card"><div class="blog-cover"><x-icon name="note" size="38" /></div><div class="blog-body"><small>{{ $post->published_at?->format('Y/m/d') }}</small><h2>{{ $post->title }}</h2><p>{{ $post->excerpt }}</p><a href="{{ route('blog.show',$post->slug) }}">مطالعه مقاله <x-icon name="arrow-left" size="15" /></a></div></article>@empty<div class="empty">به‌زودی مقالات کاربردی منتشر می‌شود.</div>@endforelse</div>{{ $posts->links() }}</main>@endsection
-@push('styles')<style>.blog-page{padding:28px 0 70px}.blog-hero{padding:28px;border-radius:22px;background:linear-gradient(135deg,#f7f5ff,#f8fbff);margin-bottom:22px}.blog-hero span{font-size:11px;font-weight:900;color:#6941c6}.blog-hero h1{font-size:32px;margin:7px 0}.blog-hero p{color:#667085}.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.blog-card{overflow:hidden;border:1px solid #eaecf0;border-radius:17px;background:#fff}.blog-cover{height:150px;background:#f6f7fb;display:grid;place-items:center;color:#6941c6}.blog-body{padding:16px}.blog-body small{color:#98a2b3;font-size:10px}.blog-body h2{font-size:15px;margin:7px 0}.blog-body p{font-size:11px;color:#667085;line-height:1.9}.blog-body a{display:inline-flex;gap:5px;align-items:center;color:#6941c6;font-size:11px;font-weight:800;text-decoration:none}@media(max-width:800px){.blog-grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.blog-grid{grid-template-columns:1fr}}</style>@endpush
+@section('title','وبلاگ فایل‌مارکت | آموزش و راهنما')
+@section('description','راهنماهای کاربردی، آموزش‌ها و نکات انتخاب و استفاده از فایل‌های دیجیتال.')
+@section('content')
+<main class="blog-shell">
+    <header class="blog-hero">
+        <span class="blog-kicker">دانش و راهنمای انتخاب فایل</span>
+        <h1>وبلاگ فایل‌مارکت</h1>
+        <p>آموزش‌ها و راهنماهای کاربردی برای یادگیری، انتخاب بهتر فایل‌ها و استفاده حرفه‌ای‌تر از منابع دیجیتال.</p>
+    </header>
+
+    @if($featured)
+        <article class="blog-feature">
+            <div class="blog-feature-visual"><span>مقاله منتخب</span></div>
+            <div class="blog-feature-body">
+                <div class="blog-meta">
+                    @if($featured->published_at)<span>{{ $featured->published_at->format('Y/m/d') }}</span>@endif
+                    <span>راهنما و آموزش</span>
+                </div>
+                <h2>{{ $featured->title }}</h2>
+                <p>{{ $featured->excerpt }}</p>
+                <a class="blog-read" href="{{ route('blog.show',$featured->slug) }}">مطالعه مقاله</a>
+            </div>
+        </article>
+    @endif
+
+    <div class="blog-section-title">
+        <h2>آخرین مطالب</h2>
+        <span>{{ $posts->total() }} مقاله</span>
+    </div>
+
+    @if($posts->count())
+        <section class="blog-grid">
+            @foreach($posts as $post)
+                <article class="blog-card">
+                    <div class="blog-card-visual"><span>راهنما و آموزش</span></div>
+                    <div class="blog-card-body">
+                        <div class="blog-meta">@if($post->published_at)<span>{{ $post->published_at->format('Y/m/d') }}</span>@endif</div>
+                        <h3>{{ $post->title }}</h3>
+                        <p>{{ $post->excerpt }}</p>
+                        <a href="{{ route('blog.show',$post->slug) }}">مطالعه مقاله ←</a>
+                    </div>
+                </article>
+            @endforeach
+        </section>
+        {{ $posts->links() }}
+    @else
+        <div class="blog-empty">به‌زودی مقالات کاربردی جدید منتشر می‌شود.</div>
+    @endif
+</main>
+@endsection
+@push('styles')<link rel="stylesheet" href="{{ asset('css/blog-premium.css') }}">@endpush
