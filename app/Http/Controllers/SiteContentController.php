@@ -5,49 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\AiUserEvent;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
-use App\Models\BlogTag;
 use App\Models\Product;
 use App\Models\SitePage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class SiteContentController extends Controller
 {
     public function page(string $slug){$page=SitePage::where('slug',$slug)->where('is_published',true)->firstOrFail();return view('pages.content',compact('page'));}
-
-    public function blog(Request $request)
-    {
-        $q=trim((string)$request->input('q',''));$categorySlug=trim((string)$request->input('category',''));
-        $categories=BlogCategory::where('is_active',true)->orderBy('name')->get();
-        $query=BlogPost::with(['author','category','tags'])->where('is_published',true)->whereNotNull('published_at');
-        if($q!=='')$query->where(fn($x)=>$x->where('title','like','%'.$q.'%')->orWhere('excerpt','like','%'.$q.'%')->orWhere('content','like','%'.$q.'%')->orWhereHas('tags',fn($t)=>$t->where('name','like','%'.$q.'%')));
-        if($categorySlug!=='')$query->whereHas('category',fn($c)=>$c->where('slug',$categorySlug));
-        $posts=$query->orderByDesc('published_at')->orderByDesc('id')->paginate(9)->withQueryString();
-        $featured=BlogPost::with(['category','tags'])->where('is_published',true)->whereNotNull('published_at')->when($categorySlug,fn($x)=>$x->whereHas('category',fn($c)=>$c->where('slug',$categorySlug)))->orderByDesc('views_count')->orderByDesc('published_at')->first();
-        $popular=BlogPost::where('is_published',true)->whereNotNull('published_at')->orderByDesc('views_count')->orderByDesc('published_at')->limit(5)->get();
-        return view('blog.index',compact('posts','featured','categories','popular','q','categorySlug'));
-    }
-
-    public function post(string $slug)
-    {
-        $post=BlogPost::with(['author','category','tags'])->where('slug',$slug)->where('is_published',true)->firstOrFail();
-        $post->increment('views_count');
-        $content=(string)$post->content;$toc=[];$headingIndex=0;
-        $contentWithAnchors=preg_replace_callback('/<h([23])([^>]*)>(.*?)<\/h\1>/isu',function($m)use(&$toc,&$headingIndex){$headingIndex++;$level=(int)$m[1];$text=trim(strip_tags($m[3]));$id='section-'.$headingIndex;$toc[]=['id'=>$id,'text'=>$text,'level'=>$level];$attr=$m[2];if(!preg_match('/\bid\s*=\s*["\'][^"\']+["\']/i',$attr))$attr.=' id="'.$id.'"';return '<h'.$level.$attr.'>'.$m[3].'</h'.$level.'>';},$content);
-        $wordCount=count(array_filter(preg_split('/\s+/u',trim(strip_tags($content)))));$readingMinutes=max(1,(int)ceil($wordCount/220));if((int)$post->reading_time!==$readingMinutes)$post->update(['reading_time'=>$readingMinutes]);
-        $related=$this->relatedPosts($post);$popular=BlogPost::where('is_published',true)->where('id','<>',$post->id)->orderByDesc('views_count')->limit(5)->get();$aiRelated=$this->aiRelated($post);
-        return view('blog.show',['post'=>$post,'toc'=>$toc,'contentWithAnchors'=>$contentWithAnchors?:$content,'readingMinutes'=>$readingMinutes,'related'=>$related,'popular'=>$popular,'aiRelated'=>$aiRelated]);
-    }
-
+    public function blog(Request $request){$q=trim((string)$request->input('q',''));$categorySlug=trim((string)$request->input('category',''));$categories=BlogCategory::where('is_active',true)->orderBy('name')->get();$query=BlogPost::with(['author','category','tags'])->where('is_published',true)->whereNotNull('published_at');if($q!=='')$query->where(fn($x)=>$x->where('title','like','%'.$q.'%')->orWhere('excerpt','like','%'.$q.'%')->orWhere('content','like','%'.$q.'%')->orWhereHas('tags',fn($t)=>$t->where('name','like','%'.$q.'%')));if($categorySlug!=='')$query->whereHas('category',fn($c)=>$c->where('slug',$categorySlug));$posts=$query->orderByDesc('published_at')->orderByDesc('id')->paginate(9)->withQueryString();$featured=BlogPost::with(['category','tags'])->where('is_published',true)->whereNotNull('published_at')->when($categorySlug,fn($x)=>$x->whereHas('category',fn($c)=>$c->where('slug',$categorySlug)))->orderByDesc('views_count')->orderByDesc('published_at')->first();$popular=BlogPost::where('is_published',true)->whereNotNull('published_at')->orderByDesc('views_count')->orderByDesc('published_at')->limit(5)->get();return view('blog.index',compact('posts','featured','categories','popular','q','categorySlug'));}
+    public function post(string $slug){$post=BlogPost::with(['author','category','tags'])->where('slug',$slug)->where('is_published',true)->firstOrFail();$post->increment('views_count');$content=(string)$post->content;$toc=[];$headingIndex=0;$contentWithAnchors=preg_replace_callback('/<h([23])([^>]*)>(.*?)<\/h\1>/isu',function($m)use(&$toc,&$headingIndex){$headingIndex++;$level=(int)$m[1];$text=trim(strip_tags($m[3]));$id='section-'.$headingIndex;$toc[]=['id'=>$id,'text'=>$text,'level'=>$level];$attr=$m[2];if(!preg_match('/\bid\s*=\s*["\'][^"\']+["\']/i',$attr))$attr.=' id="'.$id.'"';return '<h'.$level.$attr.'>'.$m[3].'</h'.$level.'>';},$content);$wordCount=count(array_filter(preg_split('/\s+/u',trim(strip_tags($content)))));$readingMinutes=max(1,(int)ceil($wordCount/220));if((int)$post->reading_time!==$readingMinutes)$post->update(['reading_time'=>$readingMinutes]);$related=$this->relatedPosts($post);$popular=BlogPost::where('is_published',true)->where('id','<>',$post->id)->orderByDesc('views_count')->limit(5)->get();$aiRelated=$this->aiRelated($post);return view('blog.show-v2',compact('post','toc','contentWithAnchors','readingMinutes','related','popular','aiRelated'));}
     public function search(Request $request){return redirect()->route('blog.index',['q'=>$request->input('q')]);}
-
-    private function relatedPosts(BlogPost $post){
-        $tagIds=$post->tags->pluck('id')->all();$rows=BlogPost::with(['category','tags'])->where('is_published',true)->where('id','<>',$post->id)->whereNotNull('published_at')->limit(80)->get();
-        $rows->each(function($item)use($post,$tagIds){$score=0;if($post->category_id&&$item->category_id===$post->category_id)$score+=60;$score+=count(array_intersect($tagIds,$item->tags->pluck('id')->all()))*25;$a=preg_split('/\s+/u',mb_strtolower($post->title),-1,PREG_SPLIT_NO_EMPTY)?:[];$b=mb_strtolower($item->title);foreach($a as $word)if(mb_strlen($word)>3&&str_contains($b,$word))$score+=8;$item->related_score=$score;});
-        return $rows->sortByDesc('related_score')->take(4)->values();
-    }
-
-    private function aiRelated(BlogPost $post){
-        $signals=AiUserEvent::whereIn('event',['product_view','search'])->latest('id')->limit(40)->get();$productIds=$signals->pluck('product_id')->filter()->unique()->take(10);$products=Product::whereIn('id',$productIds)->with('category')->get();$terms=[];foreach($products as $p){$terms=array_merge($terms,preg_split('/\s+/u',mb_strtolower((string)$p->title),-1,PREG_SPLIT_NO_EMPTY)?:[]);if($p->category)$terms[]=$p->category->name;}$terms=array_values(array_unique(array_filter($terms,fn($x)=>mb_strlen($x)>3)));if(!$terms)return collect();$rows=BlogPost::where('is_published',true)->where('id','<>',$post->id)->limit(80)->get();$rows->each(function($item)use($terms){$text=mb_strtolower($item->title.' '.strip_tags((string)$item->excerpt).' '.strip_tags((string)$item->content));$score=0;foreach($terms as $term)if(str_contains($text,$term))$score+=10;$item->ai_score=$score;});return $rows->filter(fn($x)=>($x->ai_score??0)>0)->sortByDesc('ai_score')->take(4)->values();
-    }
+    private function relatedPosts(BlogPost $post){$tagIds=$post->tags->pluck('id')->all();$rows=BlogPost::with(['category','tags'])->where('is_published',true)->where('id','<>',$post->id)->whereNotNull('published_at')->limit(80)->get();$rows->each(function($item)use($post,$tagIds){$score=0;if($post->category_id&&$item->category_id===$post->category_id)$score+=60;$score+=count(array_intersect($tagIds,$item->tags->pluck('id')->all()))*25;$a=preg_split('/\s+/u',mb_strtolower($post->title),-1,PREG_SPLIT_NO_EMPTY)?:[];$b=mb_strtolower($item->title);foreach($a as $word)if(mb_strlen($word)>3&&str_contains($b,$word))$score+=8;$item->related_score=$score;});return $rows->sortByDesc('related_score')->take(4)->values();}
+    private function aiRelated(BlogPost $post){$signals=AiUserEvent::whereIn('event',['product_view','search'])->latest('id')->limit(40)->get();$productIds=$signals->pluck('product_id')->filter()->unique()->take(10);$products=Product::whereIn('id',$productIds)->with('category')->get();$terms=[];foreach($products as $p){$terms=array_merge($terms,preg_split('/\s+/u',mb_strtolower((string)$p->title),-1,PREG_SPLIT_NO_EMPTY)?:[]);if($p->category)$terms[]=$p->category->name;}$terms=array_values(array_unique(array_filter($terms,fn($x)=>mb_strlen($x)>3)));if(!$terms)return collect();$rows=BlogPost::where('is_published',true)->where('id','<>',$post->id)->limit(80)->get();$rows->each(function($item)use($terms){$text=mb_strtolower($item->title.' '.strip_tags((string)$item->excerpt).' '.strip_tags((string)$item->content));$score=0;foreach($terms as $term)if(str_contains($text,$term))$score+=10;$item->ai_score=$score;});return $rows->filter(fn($x)=>($x->ai_score??0)>0)->sortByDesc('ai_score')->take(4)->values();}
 }
