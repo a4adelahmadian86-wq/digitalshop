@@ -1,52 +1,14 @@
 @extends('layouts.app')
 @section('title','وبلاگ فایل‌مارکت | آموزش و راهنما')
 @section('description','راهنماهای کاربردی، آموزش‌ها و نکات انتخاب و استفاده از فایل‌های دیجیتال.')
+@section('canonical',route('blog.index'))
+@section('og_type','website')
 @section('content')
-<main class="blog-shell">
-    <header class="blog-hero">
-        <span class="blog-kicker">دانش و راهنمای انتخاب فایل</span>
-        <h1>وبلاگ فایل‌مارکت</h1>
-        <p>آموزش‌ها و راهنماهای کاربردی برای یادگیری، انتخاب بهتر فایل‌ها و استفاده حرفه‌ای‌تر از منابع دیجیتال.</p>
-    </header>
-
-    @if($featured)
-        <article class="blog-feature">
-            <div class="blog-feature-visual"><span>مقاله منتخب</span></div>
-            <div class="blog-feature-body">
-                <div class="blog-meta">
-                    @if($featured->published_at)<span>{{ $featured->published_at->format('Y/m/d') }}</span>@endif
-                    <span>راهنما و آموزش</span>
-                </div>
-                <h2>{{ $featured->title }}</h2>
-                <p>{{ $featured->excerpt }}</p>
-                <a class="blog-read" href="{{ route('blog.show',$featured->slug) }}">مطالعه مقاله</a>
-            </div>
-        </article>
-    @endif
-
-    <div class="blog-section-title">
-        <h2>آخرین مطالب</h2>
-        <span>{{ $posts->total() }} مقاله</span>
-    </div>
-
-    @if($posts->count())
-        <section class="blog-grid">
-            @foreach($posts as $post)
-                <article class="blog-card">
-                    <div class="blog-card-visual"><span>راهنما و آموزش</span></div>
-                    <div class="blog-card-body">
-                        <div class="blog-meta">@if($post->published_at)<span>{{ $post->published_at->format('Y/m/d') }}</span>@endif</div>
-                        <h3>{{ $post->title }}</h3>
-                        <p>{{ $post->excerpt }}</p>
-                        <a href="{{ route('blog.show',$post->slug) }}">مطالعه مقاله ←</a>
-                    </div>
-                </article>
-            @endforeach
-        </section>
-        {{ $posts->links() }}
-    @else
-        <div class="blog-empty">به‌زودی مقالات کاربردی جدید منتشر می‌شود.</div>
-    @endif
+<main class="blog-shell blog-hub"><header class="blog-hero"><span class="blog-kicker">دانش و راهنمای انتخاب فایل</span><h1>وبلاگ فایل‌مارکت</h1><p>آموزش‌ها، راهنماها و مطالب کاربردی برای انتخاب بهتر فایل و استفاده حرفه‌ای‌تر از منابع دیجیتال.</p><form class="blog-search" method="GET" action="{{ route('blog.index') }}"><input type="search" name="q" value="{{ $q }}" placeholder="جستجوی مقاله، موضوع یا برچسب..." aria-label="جستجوی مقالات"><button type="submit"><x-icon name="search" size="18"/> جستجو</button></form></header>
+@if($categories->count())<nav class="blog-categories" aria-label="دسته‌بندی مقالات"><a class="{{ $categorySlug===''?'active':'' }}" href="{{ route('blog.index') }}">همه</a>@foreach($categories as $category)<a class="{{ $categorySlug===$category->slug?'active':'' }}" href="{{ route('blog.index',['category'=>$category->slug]) }}">{{ $category->name }}</a>@endforeach</nav>@endif
+@if($featured)<article class="blog-feature"><a class="blog-feature-image" href="{{ route('blog.show',$featured->slug) }}">@if($featured->featured_image)<img src="{{ asset(ltrim($featured->featured_image,'/')) }}" alt="{{ $featured->title }}" loading="eager">@else<div class="blog-no-image">تصویر شاخص مقاله</div>@endif</a><div class="blog-feature-body"><div class="blog-meta">@if($featured->category)<span>{{ $featured->category->name }}</span>@endif@if($featured->published_at)<span>{{ $featured->published_at->format('Y/m/d') }}</span>@endif<span>{{ number_format($featured->views_count) }} بازدید</span></div><h2>{{ $featured->title }}</h2><p>{{ $featured->excerpt }}</p><div class="blog-tags">@foreach($featured->tags->take(4) as $tag)<span>#{{ $tag->name }}</span>@endforeach</div><a class="blog-read" href="{{ route('blog.show',$featured->slug) }}">مطالعه مقاله ←</a></div></article>@endif
+<div class="blog-columns"><section><div class="blog-section-title"><div><span>مرور مقالات</span><h2>{{ $q!==''?'نتایج جستجو':'آخرین مقالات' }}</h2></div><strong>{{ number_format($posts->total()) }} مقاله</strong></div>@if($posts->count())<section class="blog-grid">@foreach($posts as $post)<article class="blog-card"><a class="blog-card-visual" href="{{ route('blog.show',$post->slug) }}">@if($post->featured_image)<img src="{{ asset(ltrim($post->featured_image,'/')) }}" alt="{{ $post->title }}" loading="lazy">@else<div class="blog-no-image">تصویر شاخص</div>@endif</a><div class="blog-card-body"><div class="blog-meta">@if($post->category)<span>{{ $post->category->name }}</span>@endif@if($post->published_at)<span>{{ $post->published_at->format('Y/m/d') }}</span>@endif<span>{{ number_format($post->views_count) }} بازدید</span></div><h3>{{ $post->title }}</h3><p>{{ $post->excerpt }}</p><a href="{{ route('blog.show',$post->slug) }}">مطالعه مقاله ←</a></div></article>@endforeach</section>{{ $posts->links() }}@else<div class="blog-empty">مقاله‌ای با این جستجو یا دسته‌بندی پیدا نشد.</div>@endif</section>
+<aside class="blog-sidebar"><section><h2>پربازدیدترین مقالات</h2>@foreach($popular as $item)<a class="popular-item" href="{{ route('blog.show',$item->slug) }}">@if($item->featured_image)<img src="{{ asset(ltrim($item->featured_image,'/')) }}" alt="{{ $item->title }}" loading="lazy">@endif<div><small>{{ number_format($item->views_count) }} بازدید</small><strong>{{ $item->title }}</strong></div></a>@endforeach</section><section class="blog-side-help"><x-icon name="ai" size="20"/><b>پیشنهادهای هوشمند</b><p>مقالات مرتبط با محصولات و رفتار مطالعه شما به‌صورت هوشمند پیشنهاد می‌شوند.</p></section></aside></div>
 </main>
 @endsection
 @push('styles')<link rel="stylesheet" href="{{ asset('css/blog-premium.css') }}">@endpush
