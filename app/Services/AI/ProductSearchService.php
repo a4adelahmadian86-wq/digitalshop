@@ -10,182 +10,73 @@ class ProductSearchService
 {
     public function search(string $query, int $limit = 12): Collection
     {
-        $query = trim($query);
-        $terms = $this->terms($query);
-        $products = Product::query()
-            ->where('is_published', true)
-            ->with('category')
-            ->when($query !== '', function ($q) use ($query) {
-                $like = '%' . $query . '%';
-                $q->where(function ($inner) use ($like) {
-                    $inner->where('title', 'like', $like)
-                        ->orWhere('short_description', 'like', $like)
-                        ->orWhere('description', 'like', $like)
-                        ->orWhereHas('knowledgeDocuments', fn ($doc) => $doc->whereHas('chunks', fn ($chunk) => $chunk->where('content', 'like', $like)));
-                });
-            })
-            ->latest('id')
-            ->limit(max($limit * 4, 30))
-            ->get();
-
-        $products->each(function (Product $product) use ($terms) {
-            $product->smart_score = $this->scoreProduct($product, $terms);
-            $product->evidence = $this->evidence($product, implode(' ', $terms), 2);
-        });
-
+        $query = trim($query); $terms = $this->terms($query);
+        $products = Product::query()->where('is_published', true)->with('category')->when($query !== '', function ($q) use ($query) { $like = '%' . $query . '%'; $q->where(function ($inner) use ($like) { $inner->where('title', 'like', $like)->orWhere('short_description', 'like', $like)->orWhere('description', 'like', $like)->orWhereHas('knowledgeDocuments', fn ($doc) => $doc->whereHas('chunks', fn ($chunk) => $chunk->where('content', 'like', $like))); }); })->latest('id')->limit(max($limit * 4, 30))->get();
+        $products->each(function (Product $product) use ($terms) { $product->smart_score = $this->scoreProduct($product, $terms); $product->evidence = $this->evidence($product, implode(' ', $terms), 2); });
         return $products->sortByDesc('smart_score')->take($limit)->values();
     }
 
     public function recommend(?int $userId, int $excludeProductId = 0, int $limit = 6): Collection
     {
-        $signals = $this->signals($userId);
-        $terms = [];
-        $productIds = [];
-
-        foreach ($signals as $event) {
-            if ($event->query) {
-                $terms = array_merge($terms, $this->terms($event->query));
-            }
-            if ($event->product_id) {
-                $productIds[] = (int) $event->product_id;
-            }
-        }
-
-        $products = Product::where('is_published', true)
-            ->when($excludeProductId > 0, fn ($q) => $q->where('id', '<>', $excludeProductId))
-            ->with('category')
-            ->latest('id')
-            ->limit(100)
-            ->get();
-
-        $products->each(function (Product $product) use ($terms, $productIds) {
-            $score = $this->scoreProduct($product, $terms);
-            if (in_array($product->id, $productIds, true)) {
-                $score += 8;
-            }
-            $product->recommendation_score = $score;
-            $product->evidence = $terms ? $this->evidence($product, implode(' ', $terms), 1) : [];
-        });
-
+        $signals = $this->signals($userId); $terms = []; $productIds = [];
+        foreach ($signals as $event) { if ($event->query) $terms = array_merge($terms, $this->terms($event->query)); if ($event->product_id) $productIds[] = (int) $event->product_id; }
+        $products = Product::where('is_published', true)->when($excludeProductId > 0, fn ($q) => $q->where('id', '<>', $excludeProductId))->with('category')->latest('id')->limit(100)->get();
+        $products->each(function (Product $product) use ($terms, $productIds) { $score = $this->scoreProduct($product, $terms); if (in_array($product->id, $productIds, true)) $score += 8; $product->recommendation_score = $score; $product->evidence = $terms ? $this->evidence($product, implode(' ', $terms), 1) : []; });
         return $products->sortByDesc('recommendation_score')->take($limit)->values();
     }
 
-    /**
-     * Recommendations for the cart use the user's/session behavior plus
-     * category and price proximity of the current cart. This stays cheap
-     * enough for every cart request while still being behavior-aware.
-     */
     public function recommendForCart(?int $userId, string $sessionId, array $cartProductIds, int $limit = 4): Collection
     {
         $cartProductIds = array_values(array_unique(array_map('intval', $cartProductIds)));
         $cartProducts = Product::whereIn('id', $cartProductIds)->get(['id', 'category_id', 'price']);
         $categoryIds = $cartProducts->pluck('category_id')->filter()->map(fn ($id) => (int) $id)->unique()->values()->all();
         $averagePrice = (float) $cartProducts->avg('price');
-
-        $signals = $this->signals($userId, $sessionId);
+        $signals = $this->signals($userId, $sessionId); $terms = [];
         $behaviorProductIds = $signals->pluck('product_id')->filter()->map(fn ($id) => (int) $id)->unique()->values()->all();
-        $terms = [];
-        foreach ($signals as $event) {
-            if ($event->query) {
-                $terms = array_merge($terms, $this->terms($event->query));
-            }
-        }
-
-        $products = Product::where('is_published', true)
-            ->whereNotIn('id', $cartProductIds ?: [0])
-            ->with('category')
-            ->latest('id')
-            ->limit(120)
-            ->get();
-
+        foreach ($signals as $event) if ($event->query) $terms = array_merge($terms, $this->terms($event->query));
+        $products = Product::where('is_published', true)->whereNotIn('id', $cartProductIds ?: [0])->with('category')->latest('id')->limit(120)->get();
         $products->each(function (Product $product) use ($categoryIds, $averagePrice, $behaviorProductIds, $terms) {
             $score = $this->scoreProduct($product, $terms);
-            if ($product->category_id && in_array((int) $product->category_id, $categoryIds, true)) {
-                $score += 45;
-            }
-            if (in_array((int) $product->id, $behaviorProductIds, true)) {
-                $score += 18;
-            }
-            if ($averagePrice > 0) {
-                $distance = abs((float) $product->price - $averagePrice) / $averagePrice;
-                $score += max(0, 16 - (int) min(16, round($distance * 16)));
-            }
-            $score += max(0, 8 - min(8, (int) $product->id % 9));
+            if ($product->category_id && in_array((int) $product->category_id, $categoryIds, true)) $score += 45;
+            if (in_array((int) $product->id, $behaviorProductIds, true)) $score += 18;
+            if ($averagePrice > 0) { $distance = abs((float) $product->price - $averagePrice) / $averagePrice; $score += max(0, 16 - (int) min(16, round($distance * 16))); }
             $product->recommendation_score = $score;
-            $product->recommendation_reason = $product->category_id && in_array((int) $product->category_id, $categoryIds, true)
-                ? 'هم‌دسته با انتخاب‌های سبد شما'
-                : ($behaviorProductIds ? 'بر اساس فعالیت اخیر شما' : 'پیشنهاد هوشمند فروشگاه');
+            $product->recommendation_reason = $product->category_id && in_array((int) $product->category_id, $categoryIds, true) ? 'هم‌دسته با انتخاب‌های سبد شما' : ($behaviorProductIds ? 'بر اساس فعالیت اخیر شما' : 'پیشنهاد هوشمند فروشگاه');
         });
-
         return $products->sortByDesc('recommendation_score')->take($limit)->values();
     }
 
     public function evidence(Product $product, string $query, int $limit = 5): array
     {
-        $terms = $this->terms($query);
-        if (!$terms) return [];
-        $rows = [];
-        foreach ($product->knowledgeDocuments()->with(['chunks', 'file'])->get() as $document) {
-            foreach ($document->chunks as $chunk) {
-                $text = mb_strtolower($chunk->content);
-                $score = 0;
-                $first = null;
-                foreach ($terms as $term) {
-                    $count = substr_count($text, $term);
-                    if ($count > 0 && $first === null) $first = mb_strpos($text, $term);
-                    $score += min($count, 8);
-                }
-                if ($score <= 0) continue;
-                $original = $chunk->content;
-                $start = max(0, (int) ($first ?? 0) - 220);
-                $rows[] = [
-                    'document_id' => $document->id,
-                    'chunk_id' => $chunk->id,
-                    'file' => $document->file?->original_name ?? 'فایل محصول',
-                    'score' => $score,
-                    'snippet' => trim(mb_substr($original, $start, 650)),
-                    'source_hash' => $document->source_hash,
-                ];
-            }
+        $terms = $this->terms($query); if (!$terms) return []; $rows = [];
+        foreach ($product->knowledgeDocuments()->with(['chunks', 'file'])->get() as $document) foreach ($document->chunks as $chunk) {
+            $text = mb_strtolower($chunk->content); $score = 0; $first = null;
+            foreach ($terms as $term) { $count = substr_count($text, $term); if ($count > 0 && $first === null) $first = mb_strpos($text, $term); $score += min($count, 8); }
+            if ($score <= 0) continue; $original = $chunk->content; $start = max(0, (int) ($first ?? 0) - 220);
+            $rows[] = ['document_id' => $document->id, 'chunk_id' => $chunk->id, 'file' => $document->file?->original_name ?? 'فایل محصول', 'score' => $score, 'snippet' => trim(mb_substr($original, $start, 650)), 'source_hash' => $document->source_hash];
         }
-        usort($rows, fn ($a, $b) => $b['score'] <=> $a['score']);
-        return array_slice($rows, 0, max(1, $limit));
+        usort($rows, fn ($a, $b) => $b['score'] <=> $a['score']); return array_slice($rows, 0, max(1, $limit));
     }
 
     private function signals(?int $userId, ?string $sessionId = null): Collection
     {
-        return AiUserEvent::query()
-            ->when($userId || $sessionId, function ($q) use ($userId, $sessionId) {
-                $q->where(function ($inner) use ($userId, $sessionId) {
-                    if ($userId) $inner->where('user_id', $userId);
-                    if ($sessionId) $inner->orWhere('session_id', $sessionId);
-                });
-            }, fn ($q) => $q->whereRaw('1 = 0'))
-            ->latest('id')
-            ->limit(80)
-            ->get();
+        return AiUserEvent::query()->when($userId || $sessionId, function ($q) use ($userId, $sessionId) {
+            if ($userId && $sessionId) $q->where(function ($inner) use ($userId, $sessionId) { $inner->where('user_id', $userId)->orWhere('session_id', $sessionId); });
+            elseif ($userId) $q->where('user_id', $userId);
+            else $q->where('session_id', $sessionId);
+        }, fn ($q) => $q->whereRaw('1 = 0'))->latest('id')->limit(80)->get();
     }
 
     private function scoreProduct(Product $product, array $terms): int
     {
-        if (!$terms) return 0;
-        $score = 0;
-        $title = mb_strtolower((string) $product->title);
-        $short = mb_strtolower((string) $product->short_description);
-        $description = mb_strtolower((string) $product->description);
-        foreach ($terms as $term) {
-            if (str_contains($title, $term)) $score += 20;
-            if (str_contains($short, $term)) $score += 8;
-            if (str_contains($description, $term)) $score += 4;
-        }
-        $score += count($this->evidence($product, implode(' ', $terms), 3)) * 12;
-        return $score;
+        if (!$terms) return 0; $score = 0; $title = mb_strtolower((string) $product->title); $short = mb_strtolower((string) $product->short_description); $description = mb_strtolower((string) $product->description);
+        foreach ($terms as $term) { if (str_contains($title, $term)) $score += 20; if (str_contains($short, $term)) $score += 8; if (str_contains($description, $term)) $score += 4; }
+        return $score + count($this->evidence($product, implode(' ', $terms), 3)) * 12;
     }
 
     private function terms(string $text): array
     {
-        $text = mb_strtolower(trim($text));
-        $text = preg_replace('/[^\p{L}\p{N}\s-]+/u', ' ', $text) ?? '';
+        $text = mb_strtolower(trim($text)); $text = preg_replace('/[^\p{L}\p{N}\s-]+/u', ' ', $text) ?? '';
         $stop = ['و','در','از','به','برای','با','را','که','این','آن','یک','من','می','میشه','می‌خواهم','دنبال','نیاز','است','هست','the','and','for','with'];
         $terms = preg_split('/\s+/u', $text, -1, PREG_SPLIT_NO_EMPTY) ?: [];
         return array_values(array_unique(array_filter($terms, fn ($term) => mb_strlen($term) >= 2 && !in_array($term, $stop, true))));
