@@ -1,272 +1,95 @@
 @extends('admin.layout')
 
-@section('title', 'محصولات')
+@section('title', 'افزودن محصول')
 
 @section('content')
-
 <div class="admin-page">
-
     <div class="admin-page-head">
-
         <div>
+            <div class="admin-eyebrow">مدیریت فروشگاه</div>
+            <h1>افزودن محصول</h1>
+            <p>ثبت محصول جدید و توضیحات حرفه‌ای آن</p>
+        </div>
+        <a href="{{ route('admin.products.index') }}" class="admin-secondary-btn">بازگشت به محصولات</a>
+    </div>
 
-            <div class="admin-eyebrow">
-                مدیریت فروشگاه
+    @if($errors->any())
+        <div class="admin-alert error"><ul style="margin:0;padding-right:20px">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
+    @endif
+
+    <section class="admin-form-card">
+        <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" class="admin-form">
+            @csrf
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="title">عنوان محصول</label>
+                    <input id="title" type="text" name="title" value="{{ old('title') }}" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="slug">Slug</label>
+                    <input id="slug" type="text" name="slug" value="{{ old('slug') }}" required dir="ltr" autocomplete="off">
+                </div>
             </div>
 
-            <h1>
-                محصولات
-            </h1>
-
-            <p>
-                مدیریت محصولات، فایل‌ها و Storage
-            </p>
-
-        </div>
-
-        <a
-            href="{{ route('admin.products.create') }}"
-            class="admin-primary-btn"
-        >
-            + افزودن محصول
-        </a>
-
-    </div>
-
-
-    @if(session('success'))
-
-        <div class="admin-alert success">
-            {{ session('success') }}
-        </div>
-
-    @endif
-
-
-    @if(session('error'))
-
-        <div class="admin-alert error">
-            {{ session('error') }}
-        </div>
-
-    @endif
-
-
-    <section class="admin-table-card">
-
-        <div class="admin-table-wrap">
-
-            <table class="admin-table">
-
-                <thead>
-
-                    <tr>
-                        <th>محصول</th>
-                        <th>دسته‌بندی</th>
-                        <th>قیمت</th>
-                        <th>Storage</th>
-                        <th>فایل</th>
-                        <th>وضعیت</th>
-                        <th>فروش</th>
-                        <th>عملیات</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                @forelse($products as $product)
-
-                    <tr>
-
-                        {{-- Product --}}
-                        <td>
-
-                            <strong>
-                                {{ $product->title }}
-                            </strong>
-
-                            <div
-                                class="muted"
-                                style="margin-top:5px;"
-                            >
-                                {{ $product->slug }}
-                            </div>
-
-                        </td>
-
-
-                        {{-- Category --}}
-                        <td>
-                            {{ $product->category?->name ?? 'بدون دسته‌بندی' }}
-                        </td>
-
-
-                        {{-- Price --}}
-                        <td>
-                            {{ number_format($product->price) }}
-                            تومان
-                        </td>
-
-
-                        {{-- Storage --}}
-                        <td>
-                            {{ $product->storageProvider?->name ?? '—' }}
-                        </td>
-
-
-                        {{-- File --}}
-                        <td>
-
-                            @if($product->storage_path)
-
-                                <span class="status-badge active">
-                                    موجود
-                                </span>
-
-                            @else
-
-                                <span class="status-badge danger">
-                                    بدون فایل
-                                </span>
-
-                            @endif
-
-                        </td>
-
-
-                        {{-- Publish Status --}}
-                        <td>
-
-                            @if($product->is_published)
-
-                                <span class="status-badge active">
-                                    منتشر شده
-                                </span>
-
-                            @else
-
-                                <span class="status-badge inactive">
-                                    پیش‌نویس
-                                </span>
-
-                            @endif
-
-                        </td>
-
-
-                        {{-- Sales --}}
-                        <td>
-                            {{ number_format($product->sales_count) }}
-                        </td>
-
-
-                        {{-- Actions --}}
-                        <td>
-
-                            <div class="admin-actions">
-
-                                {{-- Edit --}}
-                                <a
-                                    href="{{ route('admin.products.edit', $product) }}"
-                                    class="action-btn edit"
-                                >
-                                    ویرایش
-                                </a>
-
-
-                                {{-- Toggle Publish --}}
-                                <form
-                                    method="POST"
-                                    action="{{ route('admin.products.toggle', $product) }}"
-                                >
-
-                                    @csrf
-                                    @method('PATCH')
-
-                                    <button
-                                        type="submit"
-                                        class="action-btn toggle"
-                                    >
-                                        {{ $product->is_published
-                                            ? 'پیش‌نویس'
-                                            : 'انتشار'
-                                        }}
-                                    </button>
-
-                                </form>
-
-
-                                {{-- Delete --}}
-                                @if(!$product->orderItems()->exists())
-
-                                    <form
-                                        method="POST"
-                                        action="{{ route('admin.products.destroy', $product) }}"
-                                        onsubmit="return confirm('آیا از حذف این محصول مطمئن هستید؟');"
-                                    >
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="action-btn delete"
-                                        >
-                                            حذف
-                                        </button>
-
-                                    </form>
-
-                                @endif
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                @empty
-
-                    <tr>
-
-                        <td
-                            colspan="8"
-                            style="text-align:center;padding:60px;"
-                        >
-
-                            هنوز محصولی ایجاد نشده است.
-
-                            <br><br>
-
-                            <a
-                                href="{{ route('admin.products.create') }}"
-                                class="admin-primary-btn"
-                            >
-                                افزودن اولین محصول
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
-
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="category_id">دسته‌بندی</label>
+                    <select id="category_id" name="category_id" required>
+                        <option value="">انتخاب دسته‌بندی</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="storage_provider_id">Storage Provider</label>
+                    <select id="storage_provider_id" name="storage_provider_id" required>
+                        <option value="">انتخاب محل ذخیره</option>
+                        @foreach($storageProviders as $provider)
+                            <option value="{{ $provider->id }}" @selected(old('storage_provider_id') == $provider->id)>{{ $provider->name }} — {{ strtoupper($provider->type) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="price">قیمت اصلی <span class="muted">(تومان)</span></label>
+                <input id="price" type="number" name="price" value="{{ old('price') }}" min="0" required inputmode="numeric">
+            </div>
+
+            <div class="form-group">
+                <label for="short_description">توضیح کوتاه</label>
+                <textarea id="short_description" name="short_description" rows="3" maxlength="1000">{{ old('short_description') }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>توضیحات کامل</label>
+                <x-admin.rich-editor name="description" :value="old('description')" mode="product" height="460" placeholder="توضیحات محصول را بنویسید…" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="thumbnail">تصویر محصول</label>
+                    <input id="thumbnail" type="file" name="thumbnail" accept="image/jpeg,image/png,image/webp">
+                    <small>JPG، PNG یا WebP — حداکثر ۵ مگابایت</small>
+                </div>
+                <div class="form-group">
+                    <label for="product_file">فایل اصلی محصول</label>
+                    <input id="product_file" type="file" name="product_file" required>
+                    <small>فایل قابل فروش محصول را انتخاب کنید.</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-label"><input type="checkbox" name="is_published" value="1" @checked(old('is_published'))> محصول منتشر شود</label>
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ route('admin.products.index') }}" class="admin-secondary-btn">انصراف</a>
+                <button type="submit" class="admin-primary-btn">ذخیره و ایجاد محصول</button>
+            </div>
+        </form>
     </section>
-
-
-    <div style="margin-top:20px;">
-
-        {{ $products->links() }}
-
-    </div>
-
 </div>
-
 @endsection
