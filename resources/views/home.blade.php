@@ -1,122 +1,13 @@
 @extends('layouts.app')
-
 @section('title','فروشگاه فایل | فایل‌های دیجیتال')
-
-@section('description',
-'خرید و دانلود فایل‌های دیجیتال، آموزشی، گرافیکی و کاربردی'
-)
-
+@section('description','خرید و دانلود فایل‌های دیجیتال، آموزشی، گرافیکی و کاربردی')
 @section('content')
-
-<div class="container">
-
-<section class="hero">
-
-<h1>فایل مورد نیازت را پیدا کن</h1>
-
-<p>
-محصولات دیجیتال کاربردی را پیدا کن، خریداری کن و بلافاصله دریافت کن.
-</p>
-
-<form class="search"
-action="{{ route('search') }}">
-
-<input name="q"
-placeholder="جستجوی فایل..."
-aria-label="جستجوی فایل">
-
-<button class="btn">جستجو</button>
-
-</form>
-
-</section>
-
-<section class="section">
-
-<div class="section-head">
-<h2>دسته‌بندی‌ها</h2>
-</div>
-
-<div class="categories">
-
-@foreach($categories as $category)
-
-<a class="category" href="#">
-<span>◈</span>
-<strong>{{ $category->name }}</strong>
-</a>
-
-@endforeach
-
-</div>
-
-</section>
-
-<section class="section">
-
-<div class="section-head">
-<h2>جدیدترین فایل‌ها</h2>
-
-<a href="{{ route('search') }}"
-class="muted">مشاهده همه ←</a>
-</div>
-
-<div class="products">
-
-@foreach($products as $product)
-
-<article class="card">
-
-<a class="card-link"
-href="{{ route('product.show',$product) }}">
-
-<div class="card-img">📁</div>
-
-<div class="card-body">
-
-<h2>{{ $product->title }}</h2>
-
-<p class="muted">
-{{ $product->short_description }}
-</p>
-
-<div class="card-bottom">
-
-<span class="price">
-{{ number_format($product->price) }} تومان
-</span>
-
-</div>
-
-</div>
-
-</a>
-
-<form class="card-cart"
-method="POST"
-action="{{ route('cart.add',$product) }}">
-
-@csrf
-
-<button
-title="افزودن به سبد"
-aria-label="افزودن به سبد">🛒</button>
-
-</form>
-
-<a class="card-view"
-href="{{ route('product.show', $product) }}"
-title="مشاهده محصول"
-aria-label="مشاهده محصول">↗</a>
-
-</article>
-
-@endforeach
-
-</div>
-
-</section>
-
-</div>
-
+@php
+$icon=function($path){return '<svg class="ds-site-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'.$path.'</svg>';};
+$folder=$icon('<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v7A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5v-9Z"/>');
+$cart=$icon('<path d="M4 5h2l1.4 9.2a2 2 0 0 0 2 1.7h7.9a2 2 0 0 0 1.9-1.4L21 8H7"/><circle cx="10" cy="19" r="1.2"/><circle cx="18" cy="19" r="1.2"/>');
+$arrow=$icon('<path d="M5 12h13M13 6l6 6-6 6"/>');
+@endphp
+<div class="container"><section class="hero"><h1>فایل مورد نیازت را پیدا کن</h1><p>محصولات دیجیتال کاربردی را پیدا کن، خریداری کن و بلافاصله دریافت کن.</p><form class="search" action="{{ route('search') }}"><input name="q" placeholder="جستجوی فایل..." aria-label="جستجوی فایل"><button class="btn">جستجو</button></form></section><section class="section"><div class="section-head"><h2>دسته‌بندی‌ها</h2></div><div class="categories">@foreach($categories as $category)<a class="category" href="#"><span>{!! $folder !!}</span><strong>{{ $category->name }}</strong></a>@endforeach</div></section><section class="section"><div class="section-head"><h2>جدیدترین فایل‌ها</h2><a href="{{ route('search') }}" class="muted">مشاهده همه {!! $arrow !!}</a></div><div class="products">@foreach($products as $product)<article class="card"><a class="card-link" href="{{ route('product.show',$product) }}"><div class="card-img">{!! $folder !!}</div><div class="card-body"><h2>{{ $product->title }}</h2><p class="muted">{{ $product->short_description }}</p><div class="card-bottom"><span class="price">{{ number_format($product->price) }} تومان</span></div></div></a><form class="card-cart" method="POST" action="{{ route('cart.add',$product) }}">@csrf<button title="افزودن به سبد" aria-label="افزودن به سبد">{!! $cart !!}</button></form><a class="card-view" href="{{ route('product.show',$product) }}" title="مشاهده محصول" aria-label="مشاهده محصول">{!! $arrow !!}</a></article>@endforeach</div></section></div>
 @endsection
+@push('styles')<style>.ds-site-icon{width:1.15em;height:1.15em;display:inline-block;vertical-align:-.18em}.category span,.card-img{display:grid;place-items:center}.category .ds-site-icon{width:28px;height:28px}.card-img .ds-site-icon{width:48px;height:48px}.card-cart .ds-site-icon,.card-view .ds-site-icon{width:19px;height:19px}</style>@endpush
