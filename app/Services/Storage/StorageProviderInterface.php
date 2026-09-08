@@ -12,4 +12,5 @@ interface StorageProviderInterface
     public function download(string $path, ?string $name = null);
     public function testConnection(): bool;
     public function usage(): array;
+    public function cleanupOlderThan(int $seconds): int;
 }
