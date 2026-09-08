@@ -1,13 +1,15 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
-title DigitalShop - DEV Updater
+title DigitalShop - FINAL SAFE DEV UPDATER
 
 REM ============================================================
-REM DIGITALSHOP DEV UPDATER
-REM SOURCE OF TRUTH: GitHub branch "dev"
-REM MAIN PROJECT / MAIN DATABASE ARE NEVER MODIFIED.
-REM DEV DATABASE IS PRESERVED.
-REM LOCAL .env AND storage ARE PRESERVED.
+REM DIGITALSHOP - FINAL SAFE DEV UPDATER
+REM SOURCE OF TRUTH : GitHub branch "dev"
+REM MAIN PROJECT     : NEVER MODIFIED
+REM MAIN DATABASE    : NEVER MODIFIED
+REM DEV DATABASE     : digitalshop_dev ONLY
+REM LOCAL .env       : PRESERVED
+REM LOCAL storage    : PRESERVED
 REM ============================================================
 
 set "OWNER=a4adelahmadian86-wq"
@@ -17,41 +19,45 @@ set "DEV=%USERPROFILE%\Desktop\digitalshop-ai-dev"
 set "TOKEN_FILE=%USERPROFILE%\Desktop\github_token.txt"
 set "PORT=8001"
 set "MYSQL=C:\xampp\mysql\bin\mysql.exe"
+set "PHP=C:\xampp\php\php.exe"
 set "GITHUB_API=https://api.github.com/repos/%OWNER%/%REPO%"
 set "ZIP_URL=https://github.com/%OWNER%/%REPO%/archive/refs/heads/%BRANCH%.zip"
-set "TEMP_ROOT=%TEMP%\digitalshop-dev-update"
+set "TEMP_ROOT=%TEMP%\digitalshop-dev-final-update"
 set "ZIP=%TEMP_ROOT%\digitalshop-dev.zip"
 set "EXTRACT=%TEMP_ROOT%\extract"
-set "BACKUP=%TEMP_ROOT%\current-backup"
-set "OLDDEV=%USERPROFILE%\Desktop\digitalshop-ai-dev.previous"
+set "SOURCE="
 
 cls
 echo ============================================================
-echo        DIGITALSHOP - SAFE DEV UPDATER
- echo ============================================================
+echo        DIGITALSHOP - FINAL SAFE DEV UPDATER
+echo ============================================================
 echo.
 echo SOURCE BRANCH : %BRANCH%
 echo DEV PROJECT   : %DEV%
 echo DEV DATABASE  : digitalshop_dev
 echo URL           : http://127.0.0.1:%PORT%
 echo.
-echo MAIN PROJECT  : NOT MODIFIED
-echo MAIN DATABASE : NOT MODIFIED
+echo MAIN PROJECT  : NEVER MODIFIED
+echo MAIN DATABASE : NEVER MODIFIED
 echo DEV DATABASE  : PRESERVED
 echo .env          : PRESERVED
 echo storage       : PRESERVED
 echo ============================================================
 echo.
 
+REM ---------- Required local files ----------
 if not exist "%TOKEN_FILE%" (
     echo ERROR: GitHub token not found:
     echo %TOKEN_FILE%
+    echo.
+    echo Create github_token.txt on the Desktop and put the GitHub token on its first line.
     pause
     exit /b 1
 )
 
-if not exist "C:\xampp\php\php.exe" (
-    echo ERROR: C:\xampp\php\php.exe not found.
+if not exist "%PHP%" (
+    echo ERROR: PHP not found:
+    echo %PHP%
     pause
     exit /b 1
 )
@@ -64,17 +70,21 @@ if not defined GITHUB_TOKEN (
     exit /b 1
 )
 
-REM Stop only the Laravel DEV server on port 8001.
+REM ---------- Stop only the DEV Laravel server ----------
+echo Stopping Laravel DEV server on port %PORT%...
 for /f "tokens=5" %%P in ('netstat -ano ^| findstr ":%PORT%" ^| findstr "LISTENING"') do (
-    echo Stopping process on port %PORT%: %%P
+    echo Stopping PID %%P
     taskkill /PID %%P /F >nul 2>&1
 )
+timeout /t 2 /nobreak >nul
 
+REM ---------- Clean temporary workspace only ----------
 if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1
-if exist "%OLDDEV%" rmdir /s /q "%OLDDEV%" >nul 2>&1
 mkdir "%EXTRACT%" >nul 2>&1
-mkdir "%BACKUP%" >nul 2>&1
 
+REM ---------- Download exact current DEV branch ----------
+echo.
+echo Downloading GitHub DEV...
 set "PS1=%TEMP_ROOT%\download.ps1"
 >"%PS1%" echo $ErrorActionPreference='Stop'
 >>"%PS1%" echo $h=@{Authorization='Bearer %GITHUB_TOKEN%';Accept='application/vnd.github+json';'X-GitHub-Api-Version'='2022-11-28';'User-Agent'='DigitalShop-DEV-Updater'}
@@ -91,54 +101,89 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PS1%"
 if errorlevel 1 (
     echo.
     echo ERROR: GitHub DEV download failed.
-    pause
-    exit /b 1
+    goto FAIL
 )
 
 set /p SOURCE=<"%TEMP_ROOT%\source.txt"
+if not defined SOURCE (
+    echo ERROR: Downloaded source path is empty.
+    goto FAIL
+)
 
-REM Preserve local environment and runtime/uploaded files.
-if exist "%DEV%\.env" copy /y "%DEV%\.env" "%BACKUP%\.env" >nul
-if exist "%DEV%\storage" xcopy "%DEV%\storage" "%BACKUP%\storage\" /E /I /H /Y >nul
-if exist "%DEV%\.main_database_imported" copy /y "%DEV%\.main_database_imported" "%BACKUP%\.main_database_imported" >nul
+echo.
+echo GitHub source verified:
+echo %SOURCE%
 
-REM Replace source code. The old DEV folder is kept as a rollback copy.
-if exist "%DEV%" (
-    ren "%DEV%" "digitalshop-ai-dev.previous" >nul 2>&1
+REM ============================================================
+REM IMPORTANT:
+REM We DO NOT rename/delete the DEV project directory.
+REM This avoids the previous failure caused by Windows file locks
+REM from PhpStorm, VS Code, Explorer, antivirus, etc.
+REM
+REM We synchronize GitHub DEV IN PLACE and explicitly exclude:
+REM   .env          - local configuration
+REM   storage       - uploaded/runtime files
+REM   public\storage - local storage link/runtime path
+REM ============================================================
+
+if not exist "%DEV%\artisan" (
+    echo.
+    echo DEV project does not exist yet. Creating it...
+    mkdir "%DEV%" >nul 2>&1
     if errorlevel 1 (
-        echo.
-        echo ERROR: Could not move the existing DEV folder.
-        echo Close any program using the DEV project and run again.
-        pause
-        exit /b 1
+        echo ERROR: Cannot create DEV project directory.
+        goto FAIL
     )
 )
 
-move "%SOURCE%" "%DEV%" >nul
-if errorlevel 1 (
-    echo ERROR: Could not install downloaded DEV source.
-    echo Your previous DEV copy remains at:
-    echo %OLDDEV%
-    pause
-    exit /b 1
+REM ---------- Safety check: never point at the MAIN project ----------
+if /I "%DEV%"=="C:\xampp\htdocs\digitalshop" (
+    echo.
+    echo FATAL SAFETY ERROR: DEV path equals MAIN project path.
+    echo Update cancelled.
+    goto FAIL
 )
 
-if exist "%BACKUP%\.env" copy /y "%BACKUP%\.env" "%DEV%\.env" >nul
-if exist "%BACKUP%\storage" xcopy "%BACKUP%\storage" "%DEV%\storage\" /E /I /H /Y >nul
+REM ---------- Sync source in place ----------
+echo.
+echo Synchronizing source code into DEV...
+echo Local .env and storage are excluded and will NOT be overwritten.
+
+robocopy "%SOURCE%" "%DEV%" /MIR /R:3 /W:2 /COPY:DAT /DCOPY:DAT /XJ /XD "%SOURCE%\storage" "%SOURCE%\public\storage" "%DEV%\storage" "%DEV%\public\storage" /XF "%SOURCE%\.env" "%DEV%\.env"
+set "ROBO=%ERRORLEVEL%"
+if %ROBO% GEQ 8 (
+    echo.
+    echo ERROR: Source synchronization failed. Robocopy code: %ROBO%
+    goto FAIL
+)
+
+REM Robocopy /MIR must never be allowed to remove local runtime directories.
+if not exist "%DEV%\storage" mkdir "%DEV%\storage" >nul 2>&1
+if not exist "%DEV%\storage\app" mkdir "%DEV%\storage\app" >nul 2>&1
+if not exist "%DEV%\storage\framework" mkdir "%DEV%\storage\framework" >nul 2>&1
+if not exist "%DEV%\storage\logs" mkdir "%DEV%\storage\logs" >nul 2>&1
+
+REM ---------- Restore local .env if it was present before sync ----------
+REM Because .env was excluded, the existing file remains untouched.
+if not exist "%DEV%\.env" (
+    echo.
+    echo WARNING: DEV .env does not exist.
+    echo Create it before continuing.
+    goto FAIL
+)
 
 cd /d "%DEV%"
 set "PATH=C:\xampp\php;%PATH%"
 
-if exist "%DEV%\composer.json" (
-    echo.
-    echo Installing PHP dependencies...
-    call composer install --no-interaction --prefer-dist
-    if errorlevel 1 goto UPDATE_FAILED
-)
+REM ---------- Dependencies ----------
+echo.
+echo Installing/checking PHP dependencies...
+call composer install --no-interaction --prefer-dist
+if errorlevel 1 goto FAIL
 
 if exist "%DEV%\package.json" (
     echo.
-    echo Installing frontend dependencies...
+    echo Installing/checking frontend dependencies...
     if exist "%DEV%\package-lock.json" (
         call npm ci
         if errorlevel 1 call npm install
@@ -147,83 +192,100 @@ if exist "%DEV%\package.json" (
     )
 )
 
+REM ---------- Laravel health ----------
 echo.
 echo Clearing Laravel caches...
 php artisan optimize:clear
-if errorlevel 1 goto UPDATE_FAILED
+if errorlevel 1 goto FAIL
 
+REM ---------- DEV database only ----------
 if exist "%MYSQL%" (
     echo.
-    echo Checking DEV database only...
+    echo Ensuring DEV database exists...
     "%MYSQL%" -u root -e "CREATE DATABASE IF NOT EXISTS digitalshop_dev CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-    if errorlevel 1 goto UPDATE_FAILED
+    if errorlevel 1 goto FAIL
 )
 
 echo.
 echo Running DEV migrations only...
 php artisan migrate --force
-if errorlevel 1 goto UPDATE_FAILED
+if errorlevel 1 goto FAIL
 
-if exist "%DEV%\public\storage" rmdir /s /q "%DEV%\public\storage" >nul 2>&1
-php artisan storage:link >nul 2>&1
-
-REM Critical route checks: these must exist before the new DEV is accepted.
+REM ---------- Storage link ----------
 echo.
-echo Verifying critical admin routes...
+echo Checking Laravel storage link...
+if exist "%DEV%\public\storage" (
+    rmdir "%DEV%\public\storage" >nul 2>&1
+)
+php artisan storage:link
+if errorlevel 1 (
+    echo WARNING: storage:link could not be recreated.
+    echo Continuing because image delivery also supports the controller route.
+)
+
+REM ---------- Critical route verification ----------
+echo.
+echo Verifying critical routes...
 php artisan route:list --name=admin.integrations.index >nul 2>&1
 if errorlevel 1 (
-    echo ERROR: admin.integrations.index is missing from DEV.
-    goto UPDATE_FAILED
+    echo ERROR: admin.integrations.index is missing.
+    goto FAIL
 )
+
 php artisan route:list --name=admin.dashboard >nul 2>&1
 if errorlevel 1 (
-    echo ERROR: admin.dashboard is missing from DEV.
-    goto UPDATE_FAILED
+    echo ERROR: admin.dashboard is missing.
+    goto FAIL
 )
 
-if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1
+php artisan route:list --name=product.image >nul 2>&1
+if errorlevel 1 (
+    echo WARNING: product.image route was not found.
+    echo The updater will continue, but image routing must be checked.
+)
 
+REM ---------- Show exact installed commit ----------
 echo.
 echo ============================================================
 echo              DEV UPDATE COMPLETE
  echo ============================================================
 echo.
-echo BRANCH  : %BRANCH%
-echo PROJECT : %DEV%
-echo DATABASE: digitalshop_dev
-echo URL     : http://127.0.0.1:%PORT%
+echo SOURCE BRANCH : %BRANCH%
+echo DEV PROJECT   : %DEV%
+echo DEV DATABASE  : digitalshop_dev
+echo URL           : http://127.0.0.1:%PORT%
 echo.
-echo MAIN PROJECT  : NOT MODIFIED
-echo MAIN DATABASE : NOT MODIFIED
+echo MAIN PROJECT  : NEVER MODIFIED
+echo MAIN DATABASE : NEVER MODIFIED
 echo.
-echo Previous DEV copy is kept at:
-echo %OLDDEV%
-echo.
-echo Starting Laravel DEV server...
-echo Press Ctrl+C to stop it.
+echo GitHub DEV source was synchronized IN PLACE.
+echo Local .env and storage were preserved.
 echo ============================================================
 echo.
 
+if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1
+
+echo Starting Laravel DEV server...
+echo Press Ctrl+C to stop it.
+echo.
 php artisan serve --host=127.0.0.1 --port=%PORT%
 endlocal
 exit /b 0
 
-:UPDATE_FAILED
+:FAIL
 echo.
 echo ============================================================
-echo DEV UPDATE FAILED - ROLLBACK COPY WAS KEPT
+echo              DEV UPDATE FAILED
  echo ============================================================
 echo.
-echo Current attempted DEV: %DEV%
-echo Previous DEV copy     : %OLDDEV%
-echo.
-echo MAIN PROJECT  : NOT MODIFIED
-echo MAIN DATABASE : NOT MODIFIED
+echo MAIN PROJECT  : NEVER MODIFIED
+echo MAIN DATABASE : NEVER MODIFIED
 echo DEV DATABASE  : NOT RESET
+ echo.
+echo No automatic deletion of the DEV project was performed.
+echo The error shown above must be fixed before continuing.
 echo.
-echo The previous DEV source was intentionally NOT deleted.
-echo Fix the reported issue before trying again.
-echo ============================================================
+if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1
 pause
 endlocal
 exit /b 1
