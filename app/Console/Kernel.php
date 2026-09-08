@@ -11,6 +11,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('digitalshop:recommendations')->dailyAt('10:00');
         $schedule->command('digitalshop:storage-cleanup')->dailyAt('03:30');
+        $schedule->command('digitalshop:backup')->weeklyOn(0,'02:30');
     }
 
     protected function commands(): void
