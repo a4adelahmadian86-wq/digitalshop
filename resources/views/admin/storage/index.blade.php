@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @section('title','Storage')
 @section('content')
-<div class="admin-page"><div class="admin-page-head"><div><div class="admin-eyebrow">Storage Management</div><h1>فضای ذخیره‌سازی</h1><p>مدیریت چند Storage، ظرفیت و محل ذخیره فایل‌های محصولات</p></div><a href="{{ route('admin.storage.create') }}" class="admin-primary-btn">+ افزودن Provider</a></div>
+<div class="admin-page"><div class="admin-page-head"><div><div class="admin-eyebrow">Storage Management</div><h1>فضای ذخیره‌سازی</h1><p>مدیریت چند Storage، ظرفیت و محل ذخیره فایل‌های محصولات</p></div><div class="admin-actions"><a href="{{ route('admin.files.index') }}" class="admin-secondary-btn">کتابخانه فایل‌ها</a><a href="{{ route('admin.storage.create') }}" class="admin-primary-btn">+ افزودن Provider</a></div></div>
 @if(session('success'))<div class="admin-alert success">{{ session('success') }}</div>@endif @if(session('error'))<div class="admin-alert error">{{ session('error') }}</div>@endif
 <div class="storage-provider-grid">
 @forelse($providers as $provider)
