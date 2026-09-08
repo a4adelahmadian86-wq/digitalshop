@@ -1,0 +1,7 @@
+@extends('admin.layout')
+@section('title','فایل‌ها و دارایی‌ها')
+@section('content')
+<div class="admin-page"><div class="admin-page-head"><div><div class="admin-eyebrow">Files & Assets</div><h1>فایل‌ها و دارایی‌ها</h1><p>کتابخانه متمرکز فایل‌های محصولات و منابع ذخیره‌شده</p></div><a href="{{ route('admin.storage.index') }}" class="admin-secondary-btn">مدیریت Storage</a></div>
+<form class="admin-filter-bar" method="GET"><input name="q" value="{{ request('q') }}" placeholder="جستجوی نام محصول یا فایل…"><button class="admin-primary-btn">جستجو</button></form>
+<div class="admin-table-card"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>محصول</th><th>فایل</th><th>Storage</th><th>تصویر</th><th>عملیات</th></tr></thead><tbody>@forelse($products as $product)<tr><td><strong>{{ $product->title }}</strong><br><small>{{ $product->category?->name }}</small></td><td>{{ $product->file_name ?: 'بدون فایل' }}</td><td>{{ $product->storageProvider?->name ?: '—' }}</td><td>@if($product->thumbnail) موجود @else — @endif</td><td>@if($product->storage_path)<a class="action-btn edit" href="{{ route('admin.files.download',$product) }}">دانلود امن</a>@endif <a class="action-btn edit" href="{{ route('admin.products.edit',$product) }}">محصول</a></td></tr>@empty<tr><td colspan="5" class="admin-empty">دارایی‌ای پیدا نشد.</td></tr>@endforelse</tbody></table></div></div>{{ $products->links() }}</div>
+@endsection
