@@ -1,0 +1,9 @@
+@extends('admin.layout')
+@section('title','API افزودن محصول')
+@section('content')
+<div class="admin-page narrow"><div class="admin-page-head"><div><div class="admin-eyebrow">Product Automation API</div><h1>کلید API افزودن محصول</h1><p>این کلید فقط دسترسی ساخت محصول دارد و برای ربات‌ها طراحی شده است.</p></div></div>
+@if(session('success'))<div class="admin-alert success">{{ session('success') }}</div>@endif
+@if(session('new_api_token'))<div class="admin-alert info"><strong>کلید جدید:</strong><div dir="ltr" style="margin-top:8px;word-break:break-all;font-family:monospace">{{ session('new_api_token') }}</div><small>اکنون آن را کپی و در ربات امن نگهداری کنید؛ بعداً دوباره قابل نمایش نیست.</small></div>@endif
+<div class="admin-form-card"><form method="POST" action="{{ route('admin.products.api-tokens.store') }}" class="admin-form">@csrf<div class="form-group"><label>نام ربات</label><input name="name" placeholder="robot-1" required></div><div class="form-actions"><button class="admin-primary-btn">ساخت کلید</button></div></form></div>
+<div class="admin-box" style="margin-top:16px"><div class="admin-box-head"><h2>کلیدهای فعال</h2></div>@forelse($tokens as $token)<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #edf0f4"><div><strong>{{ str_replace('product-bot:','',$token->name) }}</strong><small style="display:block;color:#98a2b3">{{ $token->created_at->format('Y/m/d H:i') }} · فقط products:create</small></div><form method="POST" action="{{ route('admin.products.api-tokens.destroy',$token) }}">@csrf @method('DELETE')<button class="action-btn delete">لغو</button></form></div>@empty<div class="admin-empty">کلیدی ساخته نشده است.</div>@endforelse</div></div>
+@endsection
