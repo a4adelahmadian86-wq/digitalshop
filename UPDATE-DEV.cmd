@@ -23,6 +23,7 @@ set "TEMP_ROOT=%TEMP%\digitalshop-dev-update"
 set "ZIP=%TEMP_ROOT%\digitalshop-dev.zip"
 set "EXTRACT=%TEMP_ROOT%\extract"
 set "BACKUP=%TEMP_ROOT%\current-backup"
+set "OLDDEV=%USERPROFILE%\Desktop\digitalshop-ai-dev.previous"
 
 cls
 echo ============================================================
@@ -70,6 +71,7 @@ for /f "tokens=5" %%P in ('netstat -ano ^| findstr ":%PORT%" ^| findstr "LISTENI
 )
 
 if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1
+if exist "%OLDDEV%" rmdir /s /q "%OLDDEV%" >nul 2>&1
 mkdir "%EXTRACT%" >nul 2>&1
 mkdir "%BACKUP%" >nul 2>&1
 
@@ -95,13 +97,12 @@ if errorlevel 1 (
 
 set /p SOURCE=<"%TEMP_ROOT%\source.txt"
 
-REM Preserve local environment and uploaded/runtime files.
+REM Preserve local environment and runtime/uploaded files.
 if exist "%DEV%\.env" copy /y "%DEV%\.env" "%BACKUP%\.env" >nul
 if exist "%DEV%\storage" xcopy "%DEV%\storage" "%BACKUP%\storage\" /E /I /H /Y >nul
-if exist "%DEV%\public\storage" xcopy "%DEV%\public\storage" "%BACKUP%\public-storage\" /E /I /H /Y >nul
 if exist "%DEV%\.main_database_imported" copy /y "%DEV%\.main_database_imported" "%BACKUP%\.main_database_imported" >nul
 
-REM Replace source code while preserving the DEV database.
+REM Replace source code. The old DEV folder is kept as a rollback copy.
 if exist "%DEV%" (
     ren "%DEV%" "digitalshop-ai-dev.previous" >nul 2>&1
     if errorlevel 1 (
@@ -116,14 +117,14 @@ if exist "%DEV%" (
 move "%SOURCE%" "%DEV%" >nul
 if errorlevel 1 (
     echo ERROR: Could not install downloaded DEV source.
+    echo Your previous DEV copy remains at:
+    echo %OLDDEV%
     pause
     exit /b 1
 )
 
 if exist "%BACKUP%\.env" copy /y "%BACKUP%\.env" "%DEV%\.env" >nul
 if exist "%BACKUP%\storage" xcopy "%BACKUP%\storage" "%DEV%\storage\" /E /I /H /Y >nul
-if exist "%BACKUP%\public-storage" xcopy "%BACKUP%\public-storage" "%DEV%\public\storage\" /E /I /H /Y >nul
-if exist "%BACKUP%\.main_database_imported" copy /y "%BACKUP%\.main_database_imported" "%DEV%\.main_database_imported" >nul
 
 cd /d "%DEV%"
 set "PATH=C:\xampp\php;%PATH%"
@@ -132,6 +133,7 @@ if exist "%DEV%\composer.json" (
     echo.
     echo Installing PHP dependencies...
     call composer install --no-interaction --prefer-dist
+    if errorlevel 1 goto UPDATE_FAILED
 )
 
 if exist "%DEV%\package.json" (
@@ -148,21 +150,36 @@ if exist "%DEV%\package.json" (
 echo.
 echo Clearing Laravel caches...
 php artisan optimize:clear
+if errorlevel 1 goto UPDATE_FAILED
 
 if exist "%MYSQL%" (
     echo.
     echo Checking DEV database only...
     "%MYSQL%" -u root -e "CREATE DATABASE IF NOT EXISTS digitalshop_dev CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+    if errorlevel 1 goto UPDATE_FAILED
 )
 
 echo.
 echo Running DEV migrations only...
 php artisan migrate --force
+if errorlevel 1 goto UPDATE_FAILED
 
-if exist "%DEV%\public" php artisan storage:link >nul 2>&1
+if exist "%DEV%\public\storage" rmdir /s /q "%DEV%\public\storage" >nul 2>&1
+php artisan storage:link >nul 2>&1
 
-REM Remove the previous code copy only after the new project is healthy enough to boot.
-if exist "%USERPROFILE%\Desktop\digitalshop-ai-dev.previous" rmdir /s /q "%USERPROFILE%\Desktop\digitalshop-ai-dev.previous" >nul 2>&1
+REM Critical route checks: these must exist before the new DEV is accepted.
+echo.
+echo Verifying critical admin routes...
+php artisan route:list --name=admin.integrations.index >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: admin.integrations.index is missing from DEV.
+    goto UPDATE_FAILED
+)
+php artisan route:list --name=admin.dashboard >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: admin.dashboard is missing from DEV.
+    goto UPDATE_FAILED
+)
 
 if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1
 
@@ -179,11 +196,34 @@ echo.
 echo MAIN PROJECT  : NOT MODIFIED
 echo MAIN DATABASE : NOT MODIFIED
 echo.
+echo Previous DEV copy is kept at:
+echo %OLDDEV%
+echo.
 echo Starting Laravel DEV server...
 echo Press Ctrl+C to stop it.
 echo ============================================================
 echo.
 
 php artisan serve --host=127.0.0.1 --port=%PORT%
-
 endlocal
+exit /b 0
+
+:UPDATE_FAILED
+echo.
+echo ============================================================
+echo DEV UPDATE FAILED - ROLLBACK COPY WAS KEPT
+ echo ============================================================
+echo.
+echo Current attempted DEV: %DEV%
+echo Previous DEV copy     : %OLDDEV%
+echo.
+echo MAIN PROJECT  : NOT MODIFIED
+echo MAIN DATABASE : NOT MODIFIED
+echo DEV DATABASE  : NOT RESET
+echo.
+echo The previous DEV source was intentionally NOT deleted.
+echo Fix the reported issue before trying again.
+echo ============================================================
+pause
+endlocal
+exit /b 1
