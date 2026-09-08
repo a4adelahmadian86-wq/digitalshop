@@ -95,7 +95,10 @@ set "PS1=%TEMP_ROOT%\download.ps1"
 >>"%PS1%" echo $d=Get-ChildItem -LiteralPath '%EXTRACT%' -Directory ^| Select-Object -First 1
 >>"%PS1%" echo if(-not $d){throw 'GitHub archive extraction failed.'}
 >>"%PS1%" echo if(-not (Test-Path (Join-Path $d.FullName 'artisan'))){throw 'Downloaded branch is not a Laravel project.'}
->>"%PS1%" echo $d.FullName ^| Set-Content -LiteralPath '%TEMP_ROOT%\source.txt' -Encoding UTF8
+REM IMPORTANT: Windows PowerShell 5.1 Set-Content -Encoding UTF8 writes a BOM.
+REM That BOM was being read by CMD as "ï»¿" and corrupted SOURCE.
+REM ASCII is sufficient here because the generated Windows path is ASCII on this machine.
+>>"%PS1%" echo $d.FullName ^| Set-Content -LiteralPath '%TEMP_ROOT%\source.txt' -Encoding ASCII
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PS1%"
 if errorlevel 1 (
@@ -117,9 +120,7 @@ echo %SOURCE%
 REM ============================================================
 REM IMPORTANT:
 REM We DO NOT rename/delete the DEV project directory.
-REM This avoids the previous failure caused by Windows file locks
-REM from PhpStorm, VS Code, Explorer, antivirus, etc.
-REM
+REM This avoids Windows file-lock failures.
 REM We synchronize GitHub DEV IN PLACE and explicitly exclude:
 REM   .env          - local configuration
 REM   storage       - uploaded/runtime files
@@ -163,8 +164,7 @@ if not exist "%DEV%\storage\app" mkdir "%DEV%\storage\app" >nul 2>&1
 if not exist "%DEV%\storage\framework" mkdir "%DEV%\storage\framework" >nul 2>&1
 if not exist "%DEV%\storage\logs" mkdir "%DEV%\storage\logs" >nul 2>&1
 
-REM ---------- Restore local .env if it was present before sync ----------
-REM Because .env was excluded, the existing file remains untouched.
+REM ---------- Preserve local .env ----------
 if not exist "%DEV%\.env" (
     echo.
     echo WARNING: DEV .env does not exist.
@@ -248,7 +248,7 @@ REM ---------- Show exact installed commit ----------
 echo.
 echo ============================================================
 echo              DEV UPDATE COMPLETE
- echo ============================================================
+echo ============================================================
 echo.
 echo SOURCE BRANCH : %BRANCH%
 echo DEV PROJECT   : %DEV%
@@ -276,12 +276,12 @@ exit /b 0
 echo.
 echo ============================================================
 echo              DEV UPDATE FAILED
- echo ============================================================
+echo ============================================================
 echo.
 echo MAIN PROJECT  : NEVER MODIFIED
-echo MAIN DATABASE : NEVER MODIFIED
-echo DEV DATABASE  : NOT RESET
- echo.
+echo MAIN DATABASE  : NEVER MODIFIED
+echo DEV DATABASE   : NOT RESET
+echo.
 echo No automatic deletion of the DEV project was performed.
 echo The error shown above must be fixed before continuing.
 echo.
