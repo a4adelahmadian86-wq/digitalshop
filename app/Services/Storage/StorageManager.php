@@ -10,49 +10,121 @@ class StorageManager
 {
     public function provider(StorageProvider $provider): StorageProviderInterface
     {
-        $config=$provider->config??[];
-        return match($provider->type){
-            'local'=>new LocalStorageProvider($config['disk']??'local'),
-            'api'=>new ApiStorageProvider($config['endpoint']??throw new \RuntimeException('API Storage endpoint تنظیم نشده است.'),$this->apiKey($config),(int)($config['timeout']??120),$config),
-            default=>throw new \RuntimeException("Storage provider type [{$provider->type}] پشتیبانی نمی‌شود."),
+        $config = $provider->config ?? [];
+        return match ($provider->type) {
+            'local' => new LocalStorageProvider($config['disk'] ?? 'local'),
+            'api' => new ApiStorageProvider(
+                $config['endpoint'] ?? throw new \RuntimeException('API Storage endpoint تنظیم نشده است.'),
+                $this->apiKey($config),
+                (int) ($config['timeout'] ?? 120),
+                $config
+            ),
+            default => throw new \RuntimeException("Storage provider type [{$provider->type}] پشتیبانی نمی‌شود."),
         };
     }
 
     protected function apiKey(array $config): string
     {
-        if(!empty($config['api_key_encrypted'])){try{return Crypt::decryptString($config['api_key_encrypted']);}catch(\Throwable $e){throw new \RuntimeException('API Key ذخیره‌شده قابل رمزگشایی نیست.');}}
-        return (string)($config['api_key']??'');
+        if (!empty($config['api_key_encrypted'])) {
+            try { return Crypt::decryptString($config['api_key_encrypted']); }
+            catch (\Throwable $e) { throw new \RuntimeException('API Key ذخیره‌شده قابل رمزگشایی نیست.'); }
+        }
+        return (string) ($config['api_key'] ?? '');
     }
 
-    public function for(string $scope,string $location='external'): StorageProvider
+    public function providersFor(string $scope, string $location = 'external')
     {
-        $provider=StorageProvider::query()->where('scope',$scope)->where('location',$location)->where('is_active',true)->orderBy('priority')->first();
-        if(!$provider) throw new \RuntimeException("برای مسیر {$scope}/{$location} Storage فعال وجود ندارد.");
-        return $provider;
+        return StorageProvider::query()
+            ->where('scope', $scope)->where('location', $location)->where('is_active', true)
+            ->orderBy('priority')->orderBy('id')->get();
+    }
+
+    public function select(string $scope, string $location = 'external', ?int $preferredId = null, int $requiredBytes = 0): ?StorageProvider
+    {
+        $providers = $this->providersFor($scope, $location);
+        if ($preferredId) {
+            $preferred = $providers->firstWhere('id', $preferredId);
+            if ($preferred && $this->hasCapacity($preferred, $requiredBytes)) return $preferred;
+        }
+        foreach ($providers as $provider) {
+            if ($this->hasCapacity($provider, $requiredBytes)) return $provider;
+        }
+        return null;
+    }
+
+    public function for(string $scope, string $location = 'external'): StorageProvider
+    {
+        return $this->select($scope, $location)
+            ?? throw new \RuntimeException("برای مسیر {$scope}/{$location} Storage فعال و دارای فضای کافی وجود ندارد.");
     }
 
     public function defaultProvider(): StorageProvider
     {
-        return StorageProvider::query()->where('is_active',true)->where('is_default',true)->orderBy('priority')->firstOrFail();
+        return StorageProvider::query()->where('is_active', true)->where('is_default', true)->orderBy('priority')->firstOrFail();
     }
 
-    public function upload(StorageProvider $provider,UploadedFile $file,string $path): string
+    public function upload(StorageProvider $provider, UploadedFile $file, string $path): string
     {
-        $this->assertLimits($provider,$file);
-        return $this->provider($provider)->put($file,$path);
+        $size = (int) $file->getSize();
+        $this->assertLimits($provider, $size);
+        $stored = $this->provider($provider)->put($file, $path);
+        $this->refreshUsage($provider);
+        return $stored;
     }
 
-    public function uploadTo(string $scope,UploadedFile $file,string $path,string $location='external'): string
+    public function uploadTo(string $scope, UploadedFile $file, string $path, string $location = 'external', ?int $preferredId = null): array
     {
-        return $this->upload($this->for($scope,$location),$file,$path);
+        $size = (int) $file->getSize();
+        $providers = $this->providersFor($scope, $location);
+        $ordered = $providers->sortBy(function ($provider) use ($preferredId) {
+            return [$preferredId && $provider->id === $preferredId ? 0 : 1, $provider->priority, $provider->id];
+        });
+        $errors = [];
+        foreach ($ordered as $provider) {
+            if (!$this->hasCapacity($provider, $size)) continue;
+            try {
+                return ['provider' => $provider, 'path' => $this->upload($provider, $file, $path)];
+            } catch (\Throwable $e) {
+                $errors[] = $provider->name . ': ' . $e->getMessage();
+            }
+        }
+        throw new \RuntimeException('هیچ Storage Provider قابل استفاده‌ای برای آپلود پیدا نشد.' . ($errors ? ' ' . implode(' | ', $errors) : ''));
     }
 
-    protected function assertLimits(StorageProvider $provider,UploadedFile $file): void
+    public function delete(StorageProvider $provider, string $path): bool
     {
-        $c=$provider->config??[]; $size=(int)$file->getSize();
-        $maxFile=(int)($c['max_file_bytes']??0); $limit=(int)($c['limit_bytes']??0); $used=(int)($c['used_bytes']??0); $maxFiles=(int)($c['max_files']??0);
-        if($maxFile>0 && $size>$maxFile) throw new \RuntimeException('حجم فایل از سقف Provider بیشتر است.');
-        if($limit>0 && $used+$size>$limit) throw new \RuntimeException('فضای آزاد Provider برای این فایل کافی نیست.');
-        if($maxFiles>0 && isset($c['used_files']) && (int)$c['used_files']>=$maxFiles) throw new \RuntimeException('تعداد فایل‌های مجاز Provider تکمیل شده است.');
+        $result = $this->provider($provider)->delete($path);
+        $this->refreshUsage($provider);
+        return $result;
+    }
+
+    public function refreshUsage(StorageProvider $provider): array
+    {
+        $usage = $this->provider($provider)->usage();
+        $config = $provider->config ?? [];
+        $config['used_bytes'] = (int) ($usage['bytes'] ?? 0);
+        $config['used_files'] = (int) ($usage['files'] ?? 0);
+        $config['usage_checked_at'] = now()->toIso8601String();
+        $provider->forceFill(['config' => $config])->saveQuietly();
+        return $usage;
+    }
+
+    public function hasCapacity(StorageProvider $provider, int $requiredBytes = 0): bool
+    {
+        $config = $provider->config ?? [];
+        $maxFile = (int) ($config['max_file_bytes'] ?? 0);
+        $limit = (int) ($config['limit_bytes'] ?? 0);
+        $used = (int) ($config['used_bytes'] ?? 0);
+        $maxFiles = (int) ($config['max_files'] ?? 0);
+        $usedFiles = (int) ($config['used_files'] ?? 0);
+        if ($requiredBytes > 0 && $maxFile > 0 && $requiredBytes > $maxFile) return false;
+        if ($limit > 0 && $used + $requiredBytes > $limit) return false;
+        if ($maxFiles > 0 && $usedFiles >= $maxFiles) return false;
+        return true;
+    }
+
+    protected function assertLimits(StorageProvider $provider, int $size): void
+    {
+        if (!$this->hasCapacity($provider, $size)) throw new \RuntimeException('فضای آزاد یا محدودیت فایل‌های Provider برای این فایل کافی نیست.');
     }
 }
