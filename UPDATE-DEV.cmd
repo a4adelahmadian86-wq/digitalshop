@@ -92,13 +92,6 @@ set "PS1=%TEMP_ROOT%\download.ps1"
 >>"%PS1%" echo Write-Host ('DEV commit: '+$b.commit.sha)
 >>"%PS1%" echo Invoke-WebRequest -Uri '%ZIP_URL%' -Headers $h -OutFile '%ZIP%'
 >>"%PS1%" echo Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%EXTRACT%' -Force
->>"%PS1%" echo $d=Get-ChildItem -LiteralPath '%EXTRACT%' -Directory ^| Select-Object -First 1
->>"%PS1%" echo if(-not $d){throw 'GitHub archive extraction failed.'}
->>"%PS1%" echo if(-not (Test-Path (Join-Path $d.FullName 'artisan'))){throw 'Downloaded branch is not a Laravel project.'}
-REM IMPORTANT: Windows PowerShell 5.1 Set-Content -Encoding UTF8 writes a BOM.
-REM That BOM was being read by CMD as "ï»¿" and corrupted SOURCE.
-REM ASCII is sufficient here because the generated Windows path is ASCII on this machine.
->>"%PS1%" echo $d.FullName ^| Set-Content -LiteralPath '%TEMP_ROOT%\source.txt' -Encoding ASCII
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PS1%"
 if errorlevel 1 (
@@ -107,9 +100,17 @@ if errorlevel 1 (
     goto FAIL
 )
 
-set /p SOURCE=<"%TEMP_ROOT%\source.txt"
+REM ---------- Find extracted Laravel root using CMD only ----------
+REM IMPORTANT: Do NOT read the path through a UTF-8 text file.
+REM Windows PowerShell UTF-8 output may add a BOM and corrupt CMD paths.
+set "SOURCE="
+for /d %%D in ("%EXTRACT%\*") do (
+    if exist "%%~fD\artisan" set "SOURCE=%%~fD"
+)
+
 if not defined SOURCE (
-    echo ERROR: Downloaded source path is empty.
+    echo.
+    echo ERROR: GitHub archive was extracted, but the Laravel project folder was not found.
     goto FAIL
 )
 
@@ -120,7 +121,9 @@ echo %SOURCE%
 REM ============================================================
 REM IMPORTANT:
 REM We DO NOT rename/delete the DEV project directory.
-REM This avoids Windows file-lock failures.
+REM This avoids file-lock failures from PhpStorm, VS Code, Explorer,
+REM antivirus, and other processes.
+REM
 REM We synchronize GitHub DEV IN PLACE and explicitly exclude:
 REM   .env          - local configuration
 REM   storage       - uploaded/runtime files
@@ -244,7 +247,7 @@ if errorlevel 1 (
     echo The updater will continue, but image routing must be checked.
 )
 
-REM ---------- Show exact installed commit ----------
+REM ---------- Complete ----------
 echo.
 echo ============================================================
 echo              DEV UPDATE COMPLETE
@@ -279,8 +282,8 @@ echo              DEV UPDATE FAILED
 echo ============================================================
 echo.
 echo MAIN PROJECT  : NEVER MODIFIED
-echo MAIN DATABASE  : NEVER MODIFIED
-echo DEV DATABASE   : NOT RESET
+echo MAIN DATABASE : NOT RESET
+echo DEV DATABASE  : NOT RESET
 echo.
 echo No automatic deletion of the DEV project was performed.
 echo The error shown above must be fixed before continuing.
