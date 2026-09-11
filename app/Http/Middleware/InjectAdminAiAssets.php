@@ -27,19 +27,9 @@ class InjectAdminAiAssets
             return $response;
         }
 
-        $headAssets = <<<'HTML'
-<link rel="stylesheet" href="{{ADMIN_AI_CSS}}">
-HTML;
-
-        $script = <<<'HTML'
-<script src="{{ADMIN_AI_JS}}"></script>
-HTML;
-
-        $assetCss = asset('css/ai-assistant.css');
-        $assetJs = asset('js/ai-assistant.js');
-
-        $headAssets = str_replace('{{ADMIN_AI_CSS}}', e($assetCss), $headAssets);
-        $script = str_replace('{{ADMIN_AI_JS}}', e($assetJs), $script);
+        $headAssets = '<meta name="csrf-token" content="' . e(csrf_token()) . '">' . "\n";
+        $headAssets .= '<link rel="stylesheet" href="' . e(asset('css/ai-assistant.css')) . '">';
+        $script = '<script src="' . e(asset('js/ai-assistant.js')) . '"></script>';
 
         if (stripos($content, '</head>') !== false) {
             $content = preg_replace('/<\/head>/i', $headAssets . "\n</head>", $content, 1);
