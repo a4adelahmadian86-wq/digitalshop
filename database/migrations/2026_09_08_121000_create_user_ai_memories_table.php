@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('user_ai_memories')) {
+            return;
+        }
+
         Schema::create('user_ai_memories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
@@ -24,5 +28,8 @@ return new class extends Migration {
         });
     }
 
-    public function down(): void { Schema::dropIfExists('user_ai_memories'); }
+    public function down(): void
+    {
+        Schema::dropIfExists('user_ai_memories');
+    }
 };
