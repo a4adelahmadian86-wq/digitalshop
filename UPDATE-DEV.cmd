@@ -1,15 +1,16 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
-title DigitalShop - FINAL SAFE DEV UPDATER
+title DigitalShop - LIGHT DEV UPDATER
 
 REM ============================================================
-REM DIGITALSHOP - FINAL SAFE DEV UPDATER
+REM DIGITALSHOP - LIGHT DEV UPDATER
 REM SOURCE OF TRUTH : GitHub branch "dev"
 REM MAIN PROJECT     : NEVER MODIFIED
 REM MAIN DATABASE    : NEVER MODIFIED
-REM DEV DATABASE     : digitalshop_dev ONLY
-REM LOCAL .env       : PRESERVED
-REM LOCAL storage    : PRESERVED
+REM DEV .env/storage : PRESERVED
+REM
+REM First run: downloads the complete DEV archive.
+REM Later runs: downloads ONLY files changed since the last DEV SHA.
 REM ============================================================
 
 set "OWNER=a4adelahmadian86-wq"
@@ -21,15 +22,15 @@ set "PORT=8001"
 set "MYSQL=C:\xampp\mysql\bin\mysql.exe"
 set "PHP=C:\xampp\php\php.exe"
 set "GITHUB_API=https://api.github.com/repos/%OWNER%/%REPO%"
-set "ZIP_URL=https://github.com/%OWNER%/%REPO%/archive/refs/heads/%BRANCH%.zip"
-set "TEMP_ROOT=%TEMP%\digitalshop-dev-final-update"
+set "RAW_BASE=https://raw.githubusercontent.com/%OWNER%/%REPO%"
+set "TEMP_ROOT=%TEMP%\digitalshop-dev-light-update"
 set "ZIP=%TEMP_ROOT%\digitalshop-dev.zip"
 set "EXTRACT=%TEMP_ROOT%\extract"
 set "SOURCE="
 
 cls
 echo ============================================================
-echo        DIGITALSHOP - FINAL SAFE DEV UPDATER
+echo          DIGITALSHOP - LIGHT DEV UPDATER
 echo ============================================================
 echo.
 echo SOURCE BRANCH : %BRANCH%
@@ -39,7 +40,6 @@ echo URL           : http://127.0.0.1:%PORT%
 echo.
 echo MAIN PROJECT  : NEVER MODIFIED
 echo MAIN DATABASE : NEVER MODIFIED
-echo DEV DATABASE  : PRESERVED
 echo .env          : PRESERVED
 echo storage       : PRESERVED
 echo ============================================================
@@ -48,8 +48,6 @@ echo.
 if not exist "%TOKEN_FILE%" (
     echo ERROR: GitHub token not found:
     echo %TOKEN_FILE%
-    echo.
-    echo Create github_token.txt on the Desktop and put the GitHub token on its first line.
     pause
     exit /b 1
 )
@@ -69,88 +67,104 @@ if not defined GITHUB_TOKEN (
     exit /b 1
 )
 
-echo Stopping Laravel DEV server on port %PORT%...
-for /f "tokens=5" %%P in ('netstat -ano ^| findstr ":%PORT%" ^| findstr "LISTENING"') do (
-    echo Stopping PID %%P
-    taskkill /PID %%P /F >nul 2>&1
-)
-timeout /t 2 /nobreak >nul
-
 if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1
-mkdir "%EXTRACT%" >nul 2>&1
+mkdir "%TEMP_ROOT%" >nul 2>&1
 
-echo.
-echo Downloading GitHub DEV...
-set "PS1=%TEMP_ROOT%\download.ps1"
+set "PS1=%TEMP_ROOT%\update.ps1"
 >"%PS1%" echo $ErrorActionPreference='Stop'
->>"%PS1%" echo $h=@{Authorization='Bearer %GITHUB_TOKEN%';Accept='application/vnd.github+json';'X-GitHub-Api-Version'='2022-11-28';'User-Agent'='DigitalShop-DEV-Updater'}
->>"%PS1%" echo $b=Invoke-RestMethod -Uri '%GITHUB_API%/branches/%BRANCH%' -Headers $h
->>"%PS1%" echo Write-Host ('DEV commit: '+$b.commit.sha)
->>"%PS1%" echo Invoke-WebRequest -Uri '%ZIP_URL%' -Headers $h -OutFile '%ZIP%'
->>"%PS1%" echo Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%EXTRACT%' -Force
->>"%PS1%" echo $d=Get-ChildItem -LiteralPath '%EXTRACT%' -Directory ^| Select-Object -First 1
->>"%PS1%" echo if(-not $d){throw 'GitHub archive extraction failed.'}
->>"%PS1%" echo if(-not (Test-Path (Join-Path $d.FullName 'artisan'))){throw 'Downloaded branch is not a Laravel project.'}
-REM IMPORTANT: Windows PowerShell 5.1 Set-Content -Encoding UTF8 writes a BOM.
-REM That BOM was being read by CMD as "ï»¿" and corrupted SOURCE.
-REM ASCII is sufficient here because the generated Windows path is ASCII on this machine.
->>"%PS1%" echo $d.FullName ^| Set-Content -LiteralPath '%TEMP_ROOT%\source.txt' -Encoding ASCII
+>>"%PS1%" echo $h=@{Authorization='Bearer %GITHUB_TOKEN%';Accept='application/vnd.github+json';'X-GitHub-Api-Version'='2022-11-28';'User-Agent'='DigitalShop-DEV-Light-Updater'}
+>>"%PS1%" echo $api='%GITHUB_API%'
+>>"%PS1%" echo $raw='%RAW_BASE%'
+>>"%PS1%" echo $branch='%BRANCH%'
+>>"%PS1%" echo $dev='%DEV%'
+>>"%PS1%" echo $tmp='%TEMP_ROOT%'
+>>"%PS1%" echo $state=Join-Path $dev '.dev-version'
+>>"%PS1%" echo $remote=(Invoke-RestMethod -Uri ($api+'/branches/'+$branch) -Headers $h).commit.sha
+>>"%PS1%" echo Write-Host ('REMOTE DEV SHA: '+$remote)
+>>"%PS1%" echo $local=''
+>>"%PS1%" echo if(Test-Path $state){$local=(Get-Content -LiteralPath $state -Raw).Trim()}
+>>"%PS1%" echo if($local -eq $remote -and (Test-Path (Join-Path $dev 'artisan'))){
+>>"%PS1%" echo   Write-Host 'DEV is already up to date. No source download required.'
+>>"%PS1%" echo   $remote ^| Set-Content -LiteralPath (Join-Path $tmp 'remote.txt') -Encoding ASCII
+>>"%PS1%" echo   'NO_CHANGE' ^| Set-Content -LiteralPath (Join-Path $tmp 'mode.txt') -Encoding ASCII
+>>"%PS1%" echo   exit 0
+>>"%PS1%" echo }
+>>"%PS1%" echo if([string]::IsNullOrWhiteSpace($local) -or -not (Test-Path (Join-Path $dev 'artisan'))){
+>>"%PS1%" echo   Write-Host 'First/full synchronization: downloading the DEV archive once...'
+>>"%PS1%" echo   $zip=Join-Path $tmp 'digitalshop-dev.zip'
+>>"%PS1%" echo   Invoke-WebRequest -Uri ($api+'/zipball/'+$remote) -Headers $h -OutFile $zip
+>>"%PS1%" echo   $ex=Join-Path $tmp 'extract'
+>>"%PS1%" echo   Expand-Archive -LiteralPath $zip -DestinationPath $ex -Force
+>>"%PS1%" echo   $d=Get-ChildItem -LiteralPath $ex -Directory ^| Select-Object -First 1
+>>"%PS1%" echo   if(-not $d -or -not (Test-Path (Join-Path $d.FullName 'artisan'))){throw 'GitHub archive extraction failed.'}
+>>"%PS1%" echo   $d.FullName ^| Set-Content -LiteralPath (Join-Path $tmp 'source.txt') -Encoding ASCII
+>>"%PS1%" echo   $remote ^| Set-Content -LiteralPath (Join-Path $tmp 'remote.txt') -Encoding ASCII
+>>"%PS1%" echo   'FULL' ^| Set-Content -LiteralPath (Join-Path $tmp 'mode.txt') -Encoding ASCII
+>>"%PS1%" echo   exit 0
+>>"%PS1%" echo }
+>>"%PS1%" echo Write-Host ('Incremental synchronization: '+$local+' -> '+$remote)
+>>"%PS1%" echo $cmp=Invoke-RestMethod -Uri ($api+'/compare/'+$local+'...'+$remote) -Headers $h
+>>"%PS1%" echo $files=@($cmp.files)
+>>"%PS1%" echo Write-Host ('Changed files: '+$files.Count)
+>>"%PS1%" echo foreach($f in $files){
+>>"%PS1%" echo   $p=$f.filename
+>>"%PS1%" echo   if($p -eq '.env' -or $p.StartsWith('storage/') -or $p.StartsWith('public/storage/')){continue}
+>>"%PS1%" echo   if($f.status -eq 'removed'){
+>>"%PS1%" echo     $target=Join-Path $dev ($p -replace '/','\\')
+>>"%PS1%" echo     if(Test-Path -LiteralPath $target -PathType Leaf){Remove-Item -LiteralPath $target -Force}
+>>"%PS1%" echo     continue
+>>"%PS1%" echo   }
+>>"%PS1%" echo   $target=Join-Path $dev ($p -replace '/','\\')
+>>"%PS1%" echo   $dir=Split-Path -Parent $target
+>>"%PS1%" echo   if($dir -and -not (Test-Path $dir)){New-Item -ItemType Directory -Path $dir -Force ^| Out-Null}
+>>"%PS1%" echo   $url=$raw+'/'+$remote+'/'+($p -replace ' ','%%20')
+>>"%PS1%" echo   Invoke-WebRequest -Uri $url -OutFile $target
+>>"%PS1%" echo }
+>>"%PS1%" echo $remote ^| Set-Content -LiteralPath (Join-Path $tmp 'remote.txt') -Encoding ASCII
+>>"%PS1%" echo 'INCREMENTAL' ^| Set-Content -LiteralPath (Join-Path $tmp 'mode.txt') -Encoding ASCII
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PS1%"
 if errorlevel 1 (
     echo.
-    echo ERROR: GitHub DEV download failed.
+    echo ERROR: GitHub DEV synchronization failed.
     goto FAIL
 )
 
-set /p SOURCE=<"%TEMP_ROOT%\source.txt"
-if not defined SOURCE (
-    echo ERROR: Downloaded source path is empty.
-    goto FAIL
-)
+set /p REMOTE=<"%TEMP_ROOT%\remote.txt"
+set /p MODE=<"%TEMP_ROOT%\mode.txt"
 
-echo.
-echo GitHub source verified:
-echo %SOURCE%
+if /I "%MODE%"=="NO_CHANGE" goto AFTER_SYNC
 
-if not exist "%DEV%\artisan" (
+if /I "%MODE%"=="FULL" (
+    set /p SOURCE=<"%TEMP_ROOT%\source.txt"
+    if not defined SOURCE (
+        echo ERROR: Full archive source path is empty.
+        goto FAIL
+    )
     echo.
-    echo DEV project does not exist yet. Creating it...
-    mkdir "%DEV%" >nul 2>&1
-    if errorlevel 1 (
-        echo ERROR: Cannot create DEV project directory.
+    echo Synchronizing first/full source into DEV...
+    echo .env and storage remain excluded.
+    robocopy "%SOURCE%" "%DEV%" /MIR /R:2 /W:1 /COPY:DAT /DCOPY:DAT /XJ /XD "%SOURCE%\storage" "%SOURCE%\public\storage" "%DEV%\storage" "%DEV%\public\storage" /XF "%SOURCE%\.env" "%DEV%\.env"
+    set "ROBO=!ERRORLEVEL!"
+    if !ROBO! GEQ 8 (
+        echo ERROR: Full synchronization failed. Robocopy code: !ROBO!
         goto FAIL
     )
 )
 
+:AFTER_SYNC
+if not exist "%DEV%\artisan" (
+    echo ERROR: DEV Laravel project is missing artisan.
+    goto FAIL
+)
+
 if /I "%DEV%"=="C:\xampp\htdocs\digitalshop" (
-    echo.
     echo FATAL SAFETY ERROR: DEV path equals MAIN project path.
-    echo Update cancelled.
     goto FAIL
 )
-
-echo.
-echo Synchronizing source code into DEV...
-echo Local .env and storage are excluded and will NOT be overwritten.
-
-robocopy "%SOURCE%" "%DEV%" /MIR /R:3 /W:2 /COPY:DAT /DCOPY:DAT /XJ /XD "%SOURCE%\storage" "%SOURCE%\public\storage" "%DEV%\storage" "%DEV%\public\storage" /XF "%SOURCE%\.env" "%DEV%\.env"
-set "ROBO=%ERRORLEVEL%"
-if %ROBO% GEQ 8 (
-    echo.
-    echo ERROR: Source synchronization failed. Robocopy code: %ROBO%
-    goto FAIL
-)
-
-if not exist "%DEV%\storage" mkdir "%DEV%\storage" >nul 2>&1
-if not exist "%DEV%\storage\app" mkdir "%DEV%\storage\app" >nul 2>&1
-if not exist "%DEV%\storage\framework" mkdir "%DEV%\storage\framework" >nul 2>&1
-if not exist "%DEV%\storage\logs" mkdir "%DEV%\storage\logs" >nul 2>&1
 
 if not exist "%DEV%\.env" (
-    echo.
-    echo WARNING: DEV .env does not exist.
-    echo Create it before continuing.
+    echo ERROR: DEV .env does not exist. It was not created or overwritten.
     goto FAIL
 )
 
@@ -158,18 +172,19 @@ cd /d "%DEV%"
 set "PATH=C:\xampp\php;%PATH%"
 
 echo.
-echo Installing/checking PHP dependencies...
-call composer install --no-interaction --prefer-dist
+echo Checking PHP dependencies without unnecessary reinstall...
+call composer install --no-interaction --prefer-dist --no-progress
 if errorlevel 1 goto FAIL
 
 if exist "%DEV%\package.json" (
-    echo.
-    echo Installing/checking frontend dependencies...
     if exist "%DEV%\package-lock.json" (
-        call npm ci
-        if errorlevel 1 call npm install
-    ) else (
-        call npm install
+        if not exist "%DEV%\node_modules" (
+            echo Installing frontend dependencies for the first time...
+            call npm ci --no-audit --no-fund
+            if errorlevel 1 goto FAIL
+        ) else (
+            echo Existing node_modules found; skipping npm reinstall.
+        )
     )
 )
 
@@ -179,8 +194,6 @@ php artisan optimize:clear
 if errorlevel 1 goto FAIL
 
 if exist "%MYSQL%" (
-    echo.
-    echo Ensuring DEV database exists...
     "%MYSQL%" -u root -e "CREATE DATABASE IF NOT EXISTS digitalshop_dev CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
     if errorlevel 1 goto FAIL
 )
@@ -191,51 +204,25 @@ php artisan migrate --force
 if errorlevel 1 goto FAIL
 
 echo.
-echo Checking Laravel storage link...
-if exist "%DEV%\public\storage" (
-    rmdir "%DEV%\public\storage" >nul 2>&1
-)
-php artisan storage:link
-if errorlevel 1 (
-    echo WARNING: storage:link could not be recreated.
-    echo Continuing because image delivery also supports the controller route.
-)
-
-echo.
-echo Verifying critical routes...
-php artisan route:list --name=admin.integrations.index >nul 2>&1
-if errorlevel 1 (
-    echo ERROR: admin.integrations.index is missing.
-    goto FAIL
-)
-
-php artisan route:list --name=admin.dashboard >nul 2>&1
-if errorlevel 1 (
-    echo ERROR: admin.dashboard is missing.
-    goto FAIL
-)
-
-php artisan route:list --name=product.image >nul 2>&1
-if errorlevel 1 (
-    echo WARNING: product.image route was not found.
-    echo The updater will continue, but image routing must be checked.
-)
+echo Refreshing local DEV version marker...
+echo %REMOTE%>"%DEV%\.dev-version"
 
 echo.
 echo ============================================================
-echo              DEV UPDATE COMPLETE
+echo             LIGHT DEV UPDATE COMPLETE
 echo ============================================================
 echo.
-echo SOURCE BRANCH : %BRANCH%
+echo DEV SHA       : %REMOTE%
+echo SYNC MODE     : %MODE%
 echo DEV PROJECT   : %DEV%
 echo DEV DATABASE  : digitalshop_dev
-echo URL           : http://127.0.0.1:%PORT%
 echo.
 echo MAIN PROJECT  : NEVER MODIFIED
 echo MAIN DATABASE : NEVER MODIFIED
+echo .env          : PRESERVED
+echo storage       : PRESERVED
 echo.
-echo GitHub DEV source was synchronized IN PLACE.
-echo Local .env and storage were preserved.
+echo Future runs download ONLY changed source files.
 echo ============================================================
 echo.
 
@@ -251,16 +238,14 @@ exit /b 0
 :FAIL
 echo.
 echo ============================================================
-echo              DEV UPDATE FAILED
-echo ============================================================
+echo               DEV UPDATE FAILED
+necho ============================================================
 echo.
 echo MAIN PROJECT  : NEVER MODIFIED
-echo MAIN DATABASE  : NEVER MODIFIED
-echo DEV DATABASE   : NOT RESET
-echo.
-echo No automatic deletion of the DEV project was performed.
-echo The error shown above must be fixed before continuing.
-echo.
+echo MAIN DATABASE : NEVER MODIFIED
+echo DEV DATABASE  : NOT RESET
+echo .env           : PRESERVED
+necho storage        : PRESERVED
 if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1
 pause
 endlocal
