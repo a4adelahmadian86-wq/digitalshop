@@ -2,7 +2,11 @@
 @section('title','داشبورد')
 @section('content')
 <div class="account-head">
-    <div><small>حساب کاربری</small><h1>سلام {{ $user->first_name ?: 'دوست عزیز' }} 👋</h1><p>خریدها، فایل‌ها، کیف پول و اعلان‌های شما در یک نگاه.</p></div>
+    <div>
+        <small>پیشخوان کاربری</small>
+        <h1>سلام {{ $user->first_name ?: 'دوست عزیز' }} 👋</h1>
+        <p>خریدها، فایل‌ها، کیف پول، اعلان‌ها و فعالیت‌های حساب شما در یک نگاه.</p>
+    </div>
     <a class="btn primary" href="{{ route('products.index') }}">ادامه خرید</a>
 </div>
 
