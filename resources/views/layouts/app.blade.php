@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'فروشگاه فایل')</title>
-    <meta name="description" content="@yield('description', 'فروشگاه فایل‌های دیجیتال و محصولات الکترونیکی')">
+    <meta name="description" content="@yield('description','فروشگاه فایل‌های دیجیتال و محصولات الکترونیکی')">
     <meta name="robots" content="index,follow">
     <link rel="canonical" href="{{ url()->current() }}">
     <meta property="og:title" content="@yield('title', 'فروشگاه فایل')">
-    <meta property="og:description" content="@yield('description', 'فروشگاه فایل‌های دیجیتال')">
+    <meta property="og:description" content="@yield('description','فروشگاه فایل‌های دیجیتال')">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/unified.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/ai-assistant.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/daneshjooyar-ui.css') }}">
     @stack('styles')
 </head>
 <body data-cart-added="{{ session('cart_added') ? '1' : '0' }}">
@@ -21,7 +21,18 @@
     <main>@yield('content')</main>
     @include('partials.footer')
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/ai-assistant.js') }}"></script>
+    <script>
+        document.addEventListener('click', function (e) {
+            var trigger = e.target.closest('.nav-dropdown-trigger');
+            if (trigger) {
+                var menu = trigger.parentElement.querySelector('.category-mega');
+                if (menu) {
+                    menu.style.visibility = menu.style.visibility === 'visible' ? '' : 'visible';
+                    menu.style.opacity = menu.style.opacity === '1' ? '' : '1';
+                }
+            }
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>
