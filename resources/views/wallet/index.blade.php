@@ -3,6 +3,10 @@
 @section('title', 'کیف پول | فایل‌مارکت')
 @section('description', 'مدیریت موجودی، شارژ و تاریخچه تراکنش‌های کیف پول')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/wallet.css') }}">
+@endpush
+
 @section('content')
 <div class="container wallet-page">
 
