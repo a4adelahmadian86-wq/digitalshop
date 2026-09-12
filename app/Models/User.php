@@ -6,27 +6,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     protected $fillable = [
-        'phone',
-        'first_name',
-        'last_name',
-        'national_code',
-        'phone_verified_at',
-        'national_code_verified_at',
-        'password',
-        'role',
-        'is_active',
+        'phone', 'first_name', 'last_name', 'national_code',
+        'phone_verified_at', 'national_code_verified_at',
+        'password', 'role', 'is_active',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
     {
@@ -40,22 +32,21 @@ class User extends Authenticatable
 
     public function orders(): HasMany
     {
-        return $this->hasMany(
-            Order::class
-        );
+        return $this->hasMany(Order::class);
     }
 
     public function wallet(): HasOne
     {
-        return $this->hasOne(
-            Wallet::class
-        );
+        return $this->hasOne(Wallet::class);
     }
 
     public function walletTopups(): HasMany
     {
-        return $this->hasMany(
-            WalletTopup::class
-        );
+        return $this->hasMany(WalletTopup::class);
+    }
+
+    public function aiMemories(): HasMany
+    {
+        return $this->hasMany(UserAiMemory::class);
     }
 }
