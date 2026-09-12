@@ -9,11 +9,11 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReaderController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminUserController;
@@ -29,9 +29,13 @@ use App\Http\Controllers\AiAssistantController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/Images/{path}', [MediaController::class, 'legacy'])
-    ->where('path', '.*')
-    ->name('images.legacy');
+Route::get('/Images/{path}', [MediaController::class, 'legacy'])->where('path', '.*')->name('images.legacy');
+
+Route::get('/blog', [PageController::class, 'blog'])->name('blog.index');
+Route::get('/pages/terms', [PageController::class, 'terms'])->name('pages.terms');
+Route::get('/pages/faq', [PageController::class, 'faq'])->name('pages.faq');
+Route::get('/pages/contact', [PageController::class, 'contact'])->name('pages.contact');
+Route::get('/support', [PageController::class, 'support'])->name('support');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginStore'])->name('login.store');
