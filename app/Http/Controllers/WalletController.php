@@ -4,62 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\WalletTopup;
+use App\Models\WalletTransaction;
 use App\Services\Wallet\WalletService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class WalletController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
 
-        $wallet = $user->wallet()
-            ->firstOrCreate(
-                [
-                    'user_id' => $user->id,
-                ],
-                [
-                    'balance' => 0,
-                    'currency' => 'IRT',
-                ]
-            );
+        $wallet = app(WalletService::class)->forUser($user);
 
-        $transactions = $wallet
-            ->transactions()
-            ->paginate(20);
+        $query = $wallet->transactions()->latest();
 
-        return view(
-            'wallet.index',
-            compact(
-                'wallet',
-                'transactions'
-            )
-        );
+        if ($request->filled('type') && in_array($request->type, ['credit', 'debit'], true)) {
+            $query->where('type', $request->type);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $transactions = $query->paginate(20)->withQueryString();
+
+        $stats = [
+            'balance' => (int) $wallet->balance,
+            'total_credit' => (int) $wallet->transactions()->where('type', 'credit')->where('status', 'completed')->sum('amount'),
+            'total_debit' => (int) $wallet->transactions()->where('type', 'debit')->where('status', 'completed')->sum('amount'),
+            'pending_topups' => (int) WalletTopup::where('user_id', $user->id)->where('status', 'pending')->sum('amount'),
+            'count' => (int) $wallet->transactions()->count(),
+        ];
+
+        $suggested = [50000, 100000, 250000, 500000, 1000000];
+
+        return view('wallet.index', compact('wallet', 'transactions', 'stats', 'suggested'));
     }
 
-    public function topup(
-        Request $request
-    ) {
+    public function topup(Request $request)
+    {
         $data = $request->validate([
-            'amount' => [
-                'required',
-                'integer',
-                'min:10000',
-                'max:50000000',
-            ],
+            'amount' => ['required', 'integer', 'min:10000', 'max:50000000'],
         ], [
-            'amount.required' =>
-                'مبلغ شارژ را وارد کنید.',
-
-            'amount.integer' =>
-                'مبلغ نامعتبر است.',
-
-            'amount.min' =>
-                'حداقل مبلغ شارژ ۱۰ هزار تومان است.',
-
-            'amount.max' =>
-                'حداکثر مبلغ شارژ ۵۰ میلیون تومان است.',
+            'amount.required' => 'مبلغ شارژ را وارد کنید.',
+            'amount.integer' => 'مبلغ نامعتبر است.',
+            'amount.min' => 'حداقل مبلغ شارژ ۱۰ هزار تومان است.',
+            'amount.max' => 'حداکثر مبلغ شارژ ۵۰ میلیون تومان است.',
         ]);
 
         $topup = WalletTopup::create([
@@ -69,136 +60,57 @@ class WalletController extends Controller
             'gateway' => 'zarinpal',
         ]);
 
-        /*
-         * این قسمت باید به Gateway abstraction موجود پروژه وصل شود.
-         *
-         * فعلاً همان ZarinPalGateway موجود پروژه را استفاده می‌کنیم.
-         */
-
-        $gateway =
-            app(\App\Services\Payment\ZarinPalGateway::class);
-
+        $gateway = app(\App\Services\Payment\ZarinPalGateway::class);
         $url = $gateway->payTopup($topup);
 
         if (!$url) {
-            $topup->update([
-                'status' => 'failed',
-            ]);
+            $topup->update(['status' => 'failed']);
 
-            return back()->with(
-                'error',
-                'اتصال به درگاه پرداخت انجام نشد.'
-            );
+            return back()->with('error', 'اتصال به درگاه پرداخت انجام نشد.');
         }
 
         return redirect($url);
     }
 
-    public function callback(
-        Request $request,
-        WalletTopup $topup,
-        WalletService $walletService
-    ) {
-        /*
-         * بدون Session
-         *
-         * مالکیت از خود Topup مشخص می‌شود.
-         */
-
-        $user = User::findOrFail(
-            $topup->user_id
-        );
-
-        /*
-         * Idempotency:
-         *
-         * اگر قبلاً موفق شده، دوباره موجودی اضافه نمی‌کنیم.
-         */
+    public function callback(Request $request, WalletTopup $topup, WalletService $walletService)
+    {
+        $user = User::findOrFail($topup->user_id);
 
         if ($topup->status === 'paid') {
             return redirect()
                 ->route('wallet.index')
-                ->with(
-                    'success',
-                    'این شارژ قبلاً ثبت شده است.'
-                );
+                ->with('success', 'این شارژ قبلاً ثبت شده است.');
         }
 
-        /*
-         * پرداخت لغوشده
-         */
-
-        if (
-            $request->query('Status') !== 'OK'
-        ) {
-            $topup->update([
-                'status' => 'failed',
-            ]);
+        if ($request->query('Status') !== 'OK') {
+            $topup->update(['status' => 'failed']);
 
             return redirect()
                 ->route('wallet.index')
-                ->with(
-                    'error',
-                    'پرداخت شارژ لغو شد.'
-                );
+                ->with('error', 'پرداخت شارژ لغو شد.');
         }
 
-        /*
-         * Verify
-         */
-
-        $gateway =
-            app(\App\Services\Payment\ZarinPalGateway::class);
-
-        $result = $gateway->verifyTopup(
-            $topup,
-            $request->query()
-        );
+        $gateway = app(\App\Services\Payment\ZarinPalGateway::class);
+        $result = $gateway->verifyTopup($topup, $request->query());
 
         if (!$result) {
-            $topup->update([
-                'status' => 'failed',
-            ]);
+            $topup->update(['status' => 'failed']);
 
             return redirect()
                 ->route('wallet.index')
-                ->with(
-                    'error',
-                    'پرداخت شارژ تأیید نشد.'
-                );
+                ->with('error', 'پرداخت شارژ تأیید نشد.');
         }
 
-        /*
-         * Critical section
-         *
-         * دوباره رکورد را lock می‌کنیم.
-         */
+        DB::transaction(function () use ($topup, $user, $walletService, $result) {
+            $lockedTopup = WalletTopup::where('id', $topup->id)->lockForUpdate()->firstOrFail();
 
-        DB::transaction(function () use (
-            $topup,
-            $user,
-            $walletService,
-            $result
-        ) {
-
-            $lockedTopup =
-                WalletTopup::where(
-                    'id',
-                    $topup->id
-                )
-                ->lockForUpdate()
-                ->firstOrFail();
-
-            if (
-                $lockedTopup->status === 'paid'
-            ) {
+            if ($lockedTopup->status === 'paid') {
                 return;
             }
 
             $lockedTopup->update([
                 'status' => 'paid',
-                'ref_id' =>
-                    $result['ref_id'] ?? null,
+                'ref_id' => $result['ref_id'] ?? null,
                 'paid_at' => now(),
             ]);
 
@@ -207,15 +119,20 @@ class WalletController extends Controller
                 (int) $lockedTopup->amount,
                 'شارژ کیف پول',
                 WalletTopup::class,
-                $lockedTopup->id
+                $lockedTopup->id,
+                ['ref_id' => $result['ref_id'] ?? null]
             );
         });
 
         return redirect()
             ->route('wallet.index')
-            ->with(
-                'success',
-                'کیف پول شما با موفقیت شارژ شد.'
-            );
+            ->with('success', 'کیف پول شما با موفقیت شارژ شد.');
+    }
+
+    public function showTransaction(WalletTransaction $transaction)
+    {
+        abort_unless($transaction->wallet->user_id === auth()->id(), 403);
+
+        return view('wallet.transaction', compact('transaction'));
     }
 }
