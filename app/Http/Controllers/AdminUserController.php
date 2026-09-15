@@ -40,7 +40,6 @@ class AdminUserController extends Controller
 
     public function store(Request $request, AuditLogger $auditLogger)
     {
-        abort_unless($request->user()->isAdmin(), 403, 'فقط مدیر ارشد می‌تواند نقش کاربران را تعیین کند.');
         $data = $request->validate([
             'first_name' => ['required', 'string', 'max:100'],
             'last_name' => ['nullable', 'string', 'max:100'],
@@ -48,6 +47,10 @@ class AdminUserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', Rule::in(['buyer', 'user', 'staff', 'admin'])],
         ]);
+
+        if (!$request->user()->isAdmin() && $data['role'] === 'admin') {
+            return back()->withErrors(['role' => 'ایجاد مدیر ارشد فقط توسط مدیر ارشد مجاز است.'])->withInput();
+        }
 
         $user = User::create([
             'first_name' => $data['first_name'],
