@@ -31,6 +31,8 @@ class DashboardPermissionSeeder extends Seeder
             ['wallets.view', 'مشاهده کیف پول کاربران', 'مالی'],
             ['wallets.adjust', 'تعدیل موجودی کیف پول', 'مالی'],
             ['reports.view', 'مشاهده گزارش‌ها', 'گزارش‌ها'],
+            ['automation.view', 'مشاهده مرکز اتوماسیون', 'اتوماسیون'],
+            ['automation.manage', 'مدیریت و اجرای اتوماسیون', 'اتوماسیون'],
         ];
 
         foreach ($permissions as [$name, $label, $group]) {
@@ -44,7 +46,7 @@ class DashboardPermissionSeeder extends Seeder
         $staffPermissions = [
             'dashboard.access', 'dashboard.view', 'users.view',
             'products.view', 'products.create', 'products.update',
-            'categories.manage', 'discounts.manage',
+            'categories.manage', 'discounts.manage', 'automation.view',
         ];
 
         foreach ($staffPermissions as $name) {
@@ -54,5 +56,18 @@ class DashboardPermissionSeeder extends Seeder
                 ['updated_at' => now(), 'created_at' => now()]
             );
         }
+
+        DB::table('automations')->updateOrInsert(
+            ['key' => 'daily-recommendations'],
+            [
+                'name' => 'پیشنهادهای روزانه محصولات',
+                'description' => 'ارسال حداکثر ۳ پیشنهاد محصول به هر خریدار فعال در روز.',
+                'command' => 'digitalshop:recommendations',
+                'schedule' => 'dailyAt:10:00',
+                'is_enabled' => true,
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );
     }
 }
