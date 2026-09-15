@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -40,22 +41,34 @@ class User extends Authenticatable
 
     public function orders(): HasMany
     {
-        return $this->hasMany(
-            Order::class
-        );
+        return $this->hasMany(Order::class);
     }
 
     public function wallet(): HasOne
     {
-        return $this->hasOne(
-            Wallet::class
-        );
+        return $this->hasOne(Wallet::class);
     }
 
     public function walletTopups(): HasMany
     {
-        return $this->hasMany(
-            WalletTopup::class
-        );
+        return $this->hasMany(WalletTopup::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return DB::table('role_permissions')
+            ->join('permissions', 'permissions.id', '=', 'role_permissions.permission_id')
+            ->where('role_permissions.role', $this->role)
+            ->where('permissions.name', $permission)
+            ->exists();
     }
 }
