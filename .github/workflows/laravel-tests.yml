@@ -36,17 +36,41 @@ jobs:
           coverage: none
 
       - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
       - name: Prepare application
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: root
         run: |
           cp .env.example .env
           php artisan key:generate
+          php artisan package:discover --ansi
           php artisan config:clear
-          php artisan migrate --seed --force
 
-      - name: Validate routes
-        run: php artisan route:list --except-vendor
+      - name: Validate routes and database
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: root
+        run: |
+          php artisan migrate:fresh --seed --force
+          php artisan route:list --except-vendor
+          php artisan schedule:list
 
       - name: Run PHPUnit
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: root
         run: php artisan test --colors=always
