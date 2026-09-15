@@ -25,9 +25,12 @@ class DashboardPermissionSeeder extends Seeder
             ['products.delete', 'حذف محصول', 'فروشگاه'],
             ['categories.manage', 'مدیریت دسته‌بندی‌ها', 'فروشگاه'],
             ['discounts.manage', 'مدیریت تخفیف‌ها', 'فروشگاه'],
+            ['orders.view', 'مشاهده سفارش‌ها', 'مالی'],
+            ['payments.view', 'مشاهده پرداخت‌ها', 'مالی'],
             ['storage.manage', 'مدیریت فضای ذخیره‌سازی', 'سیستم'],
             ['wallets.view', 'مشاهده کیف پول کاربران', 'مالی'],
             ['wallets.adjust', 'تعدیل موجودی کیف پول', 'مالی'],
+            ['reports.view', 'مشاهده گزارش‌ها', 'گزارش‌ها'],
         ];
 
         foreach ($permissions as [$name, $label, $group]) {
@@ -38,19 +41,14 @@ class DashboardPermissionSeeder extends Seeder
         }
 
         $permissionIds = DB::table('permissions')->pluck('id', 'name');
-
         $staffPermissions = [
-            'dashboard.access', 'dashboard.view',
-            'users.view',
+            'dashboard.access', 'dashboard.view', 'users.view',
             'products.view', 'products.create', 'products.update',
             'categories.manage', 'discounts.manage',
         ];
 
         foreach ($staffPermissions as $name) {
-            if (!isset($permissionIds[$name])) {
-                continue;
-            }
-
+            if (!isset($permissionIds[$name])) continue;
             DB::table('role_permissions')->updateOrInsert(
                 ['role' => 'staff', 'permission_id' => $permissionIds[$name]],
                 ['updated_at' => now(), 'created_at' => now()]
