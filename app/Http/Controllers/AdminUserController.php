@@ -74,10 +74,11 @@ class AdminUserController extends Controller
             $user->load(['wallet', 'wallet.transactions', 'wallet.topups']);
         }
 
-        $orders = $user->orders()->with(['items.product'])->latest()->paginate(10, ['*'], 'orders_page');
+        $orderQuery = $user->orders()->with(['items.product'])->latest();
         if ($canPayments) {
-            $orders->loadCollection(['payment']);
+            $orderQuery->with('payment');
         }
+        $orders = $orderQuery->paginate(10, ['*'], 'orders_page');
 
         $purchasedItems = $user->orderItems()->with(['order', 'product', 'downloads'])->latest()->get();
         $totalOrders = $user->orders()->count();
