@@ -11,21 +11,16 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         Automation::query()->where('is_enabled', true)->get()->each(function (Automation $automation) use ($schedule) {
-            $definition = $automation->schedule;
-            [$type, $time] = array_pad(explode(':', $definition, 2), 2, null);
-
-            $event = match ($type) {
-                'hourly' => $schedule->command($automation->command),
-                'everyFiveMinutes' => $schedule->command($automation->command)->everyFiveMinutes(),
-                'everyTenMinutes' => $schedule->command($automation->command)->everyTenMinutes(),
-                'everyThirtyMinutes' => $schedule->command($automation->command)->everyThirtyMinutes(),
-                'dailyAt' => $schedule->command($automation->command)->dailyAt($time ?: '10:00'),
+            $event = match (true) {
+                $automation->schedule === 'hourly' => $schedule->command('digitalshop:automation', [$automation->key])->hourly(),
+                $automation->schedule === 'everyFiveMinutes' => $schedule->command('digitalshop:automation', [$automation->key])->everyFiveMinutes(),
+                $automation->schedule === 'everyTenMinutes' => $schedule->command('digitalshop:automation', [$automation->key])->everyTenMinutes(),
+                $automation->schedule === 'everyThirtyMinutes' => $schedule->command('digitalshop:automation', [$automation->key])->everyThirtyMinutes(),
+                str_starts_with($automation->schedule, 'dailyAt:') => $schedule->command('digitalshop:automation', [$automation->key])->dailyAt(substr($automation->schedule, 9)),
                 default => null,
             };
 
-            if ($event && $type === 'hourly') {
-                $event->hourly();
-            }
+            if ($event) $event->withoutOverlapping();
         });
     }
 
