@@ -26,7 +26,7 @@ class AdminDashboardController extends Controller
 
         $recentOrders = Order::with('user')->latest()->limit(8)->get();
 
-        return view('admin.dashboard', [
+        return view('admin.dashboard-rbac', [
             'stats' => $stats,
             'recentOrders' => $recentOrders,
             'dashboardMode' => 'admin',
