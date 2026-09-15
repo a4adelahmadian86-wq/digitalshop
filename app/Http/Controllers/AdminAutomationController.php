@@ -28,10 +28,7 @@ class AdminAutomationController extends Controller
         ]);
 
         $automation->update($data);
-        $auditLogger->record($request, 'automation.updated', $automation, [
-            'is_enabled' => $automation->is_enabled,
-            'schedule' => $automation->schedule,
-        ]);
+        $auditLogger->record($request, 'automation.updated', $automation, $data);
 
         return back()->with('success', 'تنظیمات اتوماسیون ذخیره شد.');
     }
@@ -40,6 +37,7 @@ class AdminAutomationController extends Controller
     {
         abort_unless($automation->is_enabled, 422, 'این اتوماسیون غیرفعال است.');
         abort_unless(Str::startsWith($automation->command, 'digitalshop:'), 422, 'دستور اتوماسیون مجاز نیست.');
+        abort_if($automation->command === 'digitalshop:automation', 422, 'اجرای بازگشتی اتوماسیون مجاز نیست.');
 
         $run = AutomationRun::create([
             'automation_id' => $automation->id,
@@ -49,7 +47,7 @@ class AdminAutomationController extends Controller
         ]);
 
         try {
-            $exitCode = Artisan::call($automation->command, ['--dry-run' => true]);
+            $exitCode = Artisan::call($automation->command);
             $output = trim(Artisan::output());
             $status = $exitCode === 0 ? 'success' : 'failed';
         } catch (\Throwable $e) {
@@ -60,24 +58,19 @@ class AdminAutomationController extends Controller
 
         DB::transaction(function () use ($run, $automation, $exitCode, $output, $status) {
             $run->update([
-                'finished_at' => now(),
-                'exit_code' => $exitCode,
-                'status' => $status,
+                'finished_at' => now(), 'exit_code' => $exitCode, 'status' => $status,
                 'output' => mb_substr($output, 0, 10000),
             ]);
             $automation->update([
-                'last_run_at' => now(),
-                'last_exit_code' => $exitCode,
+                'last_run_at' => now(), 'last_exit_code' => $exitCode,
                 'last_output' => mb_substr($output, 0, 10000),
             ]);
         });
 
         $auditLogger->record($request, 'automation.run', $automation, [
-            'run_id' => $run->id,
-            'status' => $status,
-            'exit_code' => $exitCode,
-        ], $status === 'success' ? 'success' : 'failed');
+            'run_id' => $run->id, 'status' => $status, 'exit_code' => $exitCode,
+        ], $status);
 
-        return back()->with($status === 'success' ? 'success' : 'error', $status === 'success' ? 'اجرای آزمایشی اتوماسیون با موفقیت انجام شد.' : 'اجرای اتوماسیون با خطا پایان یافت.');
+        return back()->with($status === 'success' ? 'success' : 'error', $status === 'success' ? 'اتوماسیون با موفقیت اجرا شد.' : 'اجرای اتوماسیون با خطا پایان یافت.');
     }
 }
