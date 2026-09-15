@@ -7,24 +7,31 @@ use App\Models\AutomationRun;
 use App\Services\AuditLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AdminAutomationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $automations = Automation::query()->orderBy('name')->get();
-        $runs = AutomationRun::with(['automation', 'actor'])->latest('started_at')->limit(20)->get();
+        $status = $request->string('status')->toString();
+        $automationId = $request->integer('automation_id');
 
-        return view('admin.automation.index', compact('automations', 'runs'));
+        $runs = AutomationRun::with(['automation', 'actor'])
+            ->when($status !== '', fn ($query) => $query->where('status', $status))
+            ->when($automationId, fn ($query) => $query->where('automation_id', $automationId))
+            ->latest('started_at')
+            ->paginate(25)
+            ->withQueryString();
+
+        return view('admin.automation.index', compact('automations', 'runs', 'status', 'automationId'));
     }
 
     public function update(Request $request, Automation $automation, AuditLogger $auditLogger)
     {
         $data = $request->validate([
             'is_enabled' => ['required', 'boolean'],
-            'schedule' => ['required', 'string', 'max:100', 'regex:/^(dailyAt|hourly|everyFiveMinutes|everyTenMinutes|everyThirtyMinutes):?([0-2][0-9]:[0-5][0-9])?$/'],
+            'schedule' => ['required', 'string', 'max:100', 'regex:/^(dailyAt:[0-2][0-9]:[0-5][0-9]|hourly|everyFiveMinutes|everyTenMinutes|everyThirtyMinutes)$/'],
         ]);
 
         $automation->update($data);
@@ -39,15 +46,11 @@ class AdminAutomationController extends Controller
         abort_unless(Str::startsWith($automation->command, 'digitalshop:'), 422, 'دستور اتوماسیون مجاز نیست.');
         abort_if($automation->command === 'digitalshop:automation', 422, 'اجرای بازگشتی اتوماسیون مجاز نیست.');
 
-        $run = AutomationRun::create([
-            'automation_id' => $automation->id,
-            'triggered_by' => $request->user()->id,
-            'started_at' => now(),
-            'status' => 'running',
-        ]);
-
         try {
-            $exitCode = Artisan::call($automation->command);
+            $exitCode = Artisan::call('digitalshop:automation', [
+                'key' => $automation->key,
+                '--triggered-by' => (string) $request->user()->id,
+            ]);
             $output = trim(Artisan::output());
             $status = $exitCode === 0 ? 'success' : 'failed';
         } catch (\Throwable $e) {
@@ -56,21 +59,19 @@ class AdminAutomationController extends Controller
             $status = 'failed';
         }
 
-        DB::transaction(function () use ($run, $automation, $exitCode, $output, $status) {
-            $run->update([
-                'finished_at' => now(), 'exit_code' => $exitCode, 'status' => $status,
-                'output' => mb_substr($output, 0, 10000),
-            ]);
-            $automation->update([
-                'last_run_at' => now(), 'last_exit_code' => $exitCode,
-                'last_output' => mb_substr($output, 0, 10000),
-            ]);
-        });
+        $run = AutomationRun::where('automation_id', $automation->id)
+            ->where('triggered_by', $request->user()->id)
+            ->latest('started_at')
+            ->first();
 
         $auditLogger->record($request, 'automation.run', $automation, [
-            'run_id' => $run->id, 'status' => $status, 'exit_code' => $exitCode,
+            'run_id' => $run?->id,
+            'status' => $status,
+            'exit_code' => $exitCode,
         ], $status);
 
-        return back()->with($status === 'success' ? 'success' : 'error', $status === 'success' ? 'اتوماسیون با موفقیت اجرا شد.' : 'اجرای اتوماسیون با خطا پایان یافت.');
+        return back()->with($status === 'success' ? 'success' : 'error', $status === 'success'
+            ? 'اتوماسیون با موفقیت اجرا شد.'
+            : 'اجرای اتوماسیون با خطا پایان یافت: ' . Str::limit($output, 220));
     }
 }
