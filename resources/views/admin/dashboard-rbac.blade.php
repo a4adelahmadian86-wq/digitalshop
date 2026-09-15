@@ -5,7 +5,10 @@
 @section('content')
 <div class="fd-head">
     <div><div class="fd-eyebrow">مرکز کنترل FARAST</div><h1>داشبورد مدیریت</h1><p>وضعیت عملیاتی فروشگاه، کاربران و جریان سفارش‌ها در یک نگاه.</p></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="fd-btn primary" href="{{ route('admin.products.create') }}">افزودن محصول</a><a class="fd-btn" href="{{ route('admin.users.index') }}">مدیریت کاربران</a></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+        @if(auth()->user()->hasPermission('products.create'))<a class="fd-btn primary" href="{{ route('admin.products.create') }}">افزودن محصول</a>@endif
+        @if(auth()->user()->hasPermission('users.view'))<a class="fd-btn" href="{{ route('admin.users.index') }}">مدیریت کاربران</a>@endif
+    </div>
 </div>
 <div class="fd-grid">
     <div class="fd-stat"><small>فروش پرداخت‌شده</small><strong>{{ number_format($stats['sales']) }}</strong><span>تومان</span></div>
@@ -18,10 +21,11 @@
         <div class="fd-card-head"><div><small>عملیات اخیر</small><h2>آخرین سفارش‌ها</h2></div></div>
         <div class="fd-list">
             @forelse($recentOrders as $order)
-                <a class="fd-row" href="{{ route('admin.users.show', $order->user_id) }}">
-                    <span><b>{{ $order->order_number }}</b><small>{{ trim(($order->user?->first_name ?? '') . ' ' . ($order->user?->last_name ?? '')) ?: 'کاربر' }} · {{ optional($order->created_at)->format('Y/m/d H:i') }}</small></span>
-                    <span><b>{{ number_format($order->total) }} تومان</b><small>{{ $order->status }}</small></span>
-                </a>
+                @if(auth()->user()->hasPermission('users.view'))
+                    <a class="fd-row" href="{{ route('admin.users.show', $order->user_id) }}"><span><b>{{ $order->order_number }}</b><small>{{ trim(($order->user?->first_name ?? '') . ' ' . ($order->user?->last_name ?? '')) ?: 'کاربر' }} · {{ optional($order->created_at)->format('Y/m/d H:i') }}</small></span><span><b>{{ number_format($order->total) }} تومان</b><small>{{ $order->status }}</small></span></a>
+                @else
+                    <div class="fd-row"><span><b>{{ $order->order_number }}</b><small>{{ optional($order->created_at)->format('Y/m/d H:i') }}</small></span><span><b>{{ number_format($order->total) }} تومان</b><small>{{ $order->status }}</small></span></div>
+                @endif
             @empty<div class="fd-empty">سفارشی ثبت نشده است.</div>@endforelse
         </div>
     </section>
