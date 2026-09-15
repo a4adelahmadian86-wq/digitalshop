@@ -12,56 +12,24 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $sales = Order::query()
-            ->where('status', 'paid')
-            ->sum('total');
-
-        $orders = Order::count();
-
-        $products = Product::count();
-
-        $users = User::count();
-
-        $discounts = DiscountCode::count();
-
-        $storage = StorageProvider::query()
-            ->where('is_active', true)
-            ->withCount('products')
-            ->latest()
-            ->get();
-
-        $storageCapacity = 0;
-
-        $storageUsed = 0;
-
-        foreach ($storage as $provider) {
-
-            /*
-             * در معماری فعلی StorageProvider
-             * ظرفیت و مصرف در خود Provider ذخیره نمی‌شود.
-             *
-             * بنابراین فعلاً مقدار Storage را
-             * صفر نگه می‌داریم تا زمانی که
-             * Storage Account واقعی اضافه شود.
-             */
-        }
-
+        $paidSales = Order::query()->whereIn('status', ['paid', 'completed'])->sum('total');
         $stats = [
-            'sales' => $sales,
-            'orders' => $orders,
-            'products' => $products,
-            'users' => $users,
-            'discounts' => $discounts,
+            'sales' => $paidSales,
+            'orders' => Order::count(),
+            'pending_orders' => Order::where('status', 'pending')->count(),
+            'products' => Product::count(),
+            'users' => User::count(),
+            'active_users' => User::where('is_active', true)->count(),
+            'discounts' => DiscountCode::count(),
+            'storage' => StorageProvider::where('is_active', true)->count(),
         ];
 
-        return view(
-            'admin.dashboard',
-            compact(
-                'stats',
-                'storage',
-                'storageCapacity',
-                'storageUsed'
-            )
-        );
+        $recentOrders = Order::with('user')->latest()->limit(8)->get();
+
+        return view('admin.dashboard', [
+            'stats' => $stats,
+            'recentOrders' => $recentOrders,
+            'dashboardMode' => 'admin',
+        ]);
     }
 }
