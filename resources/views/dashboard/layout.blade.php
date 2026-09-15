@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'داشبورد') | FARAST</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
@@ -15,9 +14,7 @@
     <aside class="fd-sidebar" aria-label="ناوبری داشبورد">
         <div class="fd-brand"><div class="fd-brand-mark">F</div><div><b>FARAST</b><span>{{ ($dashboardMode ?? 'member') === 'admin' ? 'مرکز کنترل پلتفرم' : 'پنل کاربری' }}</span></div></div>
         <nav class="fd-nav">
-            <div class="fd-nav-group"><div class="fd-nav-title">اصلی</div>
-                <a class="{{ request()->routeIs(($dashboardMode ?? 'member') === 'admin' ? 'admin.dashboard' : 'account.dashboard') ? 'active' : '' }}" href="{{ ($dashboardMode ?? 'member') === 'admin' ? route('admin.dashboard') : route('account.dashboard') }}">نمای کلی</a>
-            </div>
+            <div class="fd-nav-group"><div class="fd-nav-title">اصلی</div><a class="{{ request()->routeIs(($dashboardMode ?? 'member') === 'admin' ? 'admin.dashboard' : 'account.dashboard') ? 'active' : '' }}" href="{{ ($dashboardMode ?? 'member') === 'admin' ? route('admin.dashboard') : route('account.dashboard') }}">نمای کلی</a></div>
             @if(($dashboardMode ?? 'member') === 'admin')
                 <div class="fd-nav-group"><div class="fd-nav-title">فروشگاه</div>
                     @if(auth()->user()->hasPermission('users.view'))<a class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">کاربران</a>@endif
@@ -28,26 +25,16 @@
                 <div class="fd-nav-group"><div class="fd-nav-title">مالی و سیستم</div>
                     @if(auth()->user()->hasPermission('wallets.view'))<a href="{{ route('admin.wallets.index') }}">کیف پول‌ها</a>@endif
                     @if(auth()->user()->hasPermission('storage.manage'))<a href="{{ route('admin.storage.index') }}">ذخیره‌سازی</a>@endif
+                    @if(auth()->user()->hasPermission('automation.view'))<a class="{{ request()->routeIs('admin.automation.*') ? 'active' : '' }}" href="{{ route('admin.automation.index') }}">اتوماسیون</a>@endif
                     @if(auth()->user()->hasPermission('roles.view'))<a class="{{ request()->routeIs('admin.access.*') ? 'active' : '' }}" href="{{ route('admin.access.index') }}">نقش‌ها و دسترسی‌ها</a>@endif
                 </div>
             @else
-                <div class="fd-nav-group"><div class="fd-nav-title">حساب من</div>
-                    <a class="{{ request()->routeIs('account.orders*') ? 'active' : '' }}" href="{{ route('account.orders') }}">سفارش‌ها</a>
-                    <a class="{{ request()->routeIs('account.files') ? 'active' : '' }}" href="{{ route('account.files') }}">فایل‌های من</a>
-                    <a class="{{ request()->routeIs('account.wallet') ? 'active' : '' }}" href="{{ route('account.wallet') }}">کیف پول</a>
-                    <a class="{{ request()->routeIs('account.notifications') ? 'active' : '' }}" href="{{ route('account.notifications') }}">اعلان‌ها</a>
-                    <a class="{{ request()->routeIs('account.profile','account.security') ? 'active' : '' }}" href="{{ route('account.profile') }}">پروفایل و امنیت</a>
-                </div>
+                <div class="fd-nav-group"><div class="fd-nav-title">حساب من</div><a class="{{ request()->routeIs('account.orders*') ? 'active' : '' }}" href="{{ route('account.orders') }}">سفارش‌ها</a><a class="{{ request()->routeIs('account.files') ? 'active' : '' }}" href="{{ route('account.files') }}">فایل‌های من</a><a class="{{ request()->routeIs('account.wallet') ? 'active' : '' }}" href="{{ route('account.wallet') }}">کیف پول</a><a class="{{ request()->routeIs('account.notifications') ? 'active' : '' }}" href="{{ route('account.notifications') }}">اعلان‌ها</a><a class="{{ request()->routeIs('account.profile','account.security') ? 'active' : '' }}" href="{{ route('account.profile') }}">پروفایل و امنیت</a></div>
             @endif
         </nav>
-        <div class="fd-sidebar-foot">
-            <form method="POST" action="{{ ($dashboardMode ?? 'member') === 'admin' ? route('admin.logout') : route('logout') }}">@csrf<button class="fd-btn" style="width:100%;cursor:pointer">خروج از حساب</button></form>
-        </div>
+        <div class="fd-sidebar-foot"><form method="POST" action="{{ ($dashboardMode ?? 'member') === 'admin' ? route('admin.logout') : route('logout') }}">@csrf<button class="fd-btn" style="width:100%;cursor:pointer">خروج از حساب</button></form></div>
     </aside>
-    <main class="fd-main">
-        <header class="fd-topbar"><div></div><div class="fd-user"><span>{{ trim((auth()->user()->first_name ?? '') . ' ' . (auth()->user()->last_name ?? '')) ?: 'کاربر' }}</span><span class="fd-avatar">{{ mb_substr(auth()->user()->first_name ?: 'ف',0,1) }}</span></div></header>
-        <div class="fd-content">@yield('content')</div>
-    </main>
+    <main class="fd-main"><header class="fd-topbar"><div></div><div class="fd-user"><span>{{ trim((auth()->user()->first_name ?? '') . ' ' . (auth()->user()->last_name ?? '')) ?: 'کاربر' }}</span><span class="fd-avatar">{{ mb_substr(auth()->user()->first_name ?: 'ف',0,1) }}</span></div></header><div class="fd-content">@yield('content')</div></main>
 </div>
 </body>
 </html>
