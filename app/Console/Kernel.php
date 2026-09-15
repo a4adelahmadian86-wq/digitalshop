@@ -2,28 +2,31 @@
 
 namespace App\Console;
 
+use App\Models\Automation;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('digitalshop:recommendations')->dailyAt('10:00');
+        Automation::query()->where('is_enabled', true)->get()->each(function (Automation $automation) use ($schedule) {
+            $event = match (true) {
+                $automation->schedule === 'hourly' => $schedule->command('digitalshop:automation', [$automation->key])->hourly(),
+                $automation->schedule === 'everyFiveMinutes' => $schedule->command('digitalshop:automation', [$automation->key])->everyFiveMinutes(),
+                $automation->schedule === 'everyTenMinutes' => $schedule->command('digitalshop:automation', [$automation->key])->everyTenMinutes(),
+                $automation->schedule === 'everyThirtyMinutes' => $schedule->command('digitalshop:automation', [$automation->key])->everyThirtyMinutes(),
+                str_starts_with($automation->schedule, 'dailyAt:') => $schedule->command('digitalshop:automation', [$automation->key])->dailyAt(substr($automation->schedule, 9)),
+                default => null,
+            };
 
-        // $schedule->command('inspire')->hourly();
+            if ($event) $event->withoutOverlapping();
+        });
     }
 
-    /**
-     * Register the commands for the application.
-     */
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }

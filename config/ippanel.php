@@ -9,15 +9,9 @@ $secretsFile = env(
     . 'amir.php'
 );
 
-$secrets = require $secretsFile;
+$secrets = is_file($secretsFile) ? require $secretsFile : [];
 
 return [
-
-    'api_key' => $secrets['ippanel_api_key'] ?? '',
-
-    'base_url' => env(
-        'IPPANEL_BASE_URL',
-        'https://edge.ippanel.com/v1/api'
-    ),
-
+    'api_key' => $secrets['ippanel_api_key'] ?? env('IPPANEL_API_KEY', ''),
+    'base_url' => env('IPPANEL_BASE_URL', 'https://edge.ippanel.com/v1/api'),
 ];

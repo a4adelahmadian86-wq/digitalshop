@@ -12,56 +12,27 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $sales = Order::query()
-            ->where('status', 'paid')
-            ->sum('total');
-
-        $orders = Order::count();
-
-        $products = Product::count();
-
-        $users = User::count();
-
-        $discounts = DiscountCode::count();
-
-        $storage = StorageProvider::query()
-            ->where('is_active', true)
-            ->withCount('products')
-            ->latest()
-            ->get();
-
-        $storageCapacity = 0;
-
-        $storageUsed = 0;
-
-        foreach ($storage as $provider) {
-
-            /*
-             * در معماری فعلی StorageProvider
-             * ظرفیت و مصرف در خود Provider ذخیره نمی‌شود.
-             *
-             * بنابراین فعلاً مقدار Storage را
-             * صفر نگه می‌داریم تا زمانی که
-             * Storage Account واقعی اضافه شود.
-             */
-        }
+        $viewer = request()->user();
+        $canUsers = $viewer->hasPermission('users.view');
+        $canProducts = $viewer->hasPermission('products.view');
+        $canOrders = $viewer->hasPermission('orders.view');
+        $canPayments = $viewer->hasPermission('payments.view');
+        $canStorage = $viewer->hasPermission('storage.manage');
+        $canDiscounts = $viewer->hasPermission('discounts.manage');
 
         $stats = [
-            'sales' => $sales,
-            'orders' => $orders,
-            'products' => $products,
-            'users' => $users,
-            'discounts' => $discounts,
+            'sales' => $canPayments ? Order::whereIn('status', ['paid', 'completed'])->sum('total') : null,
+            'orders' => $canOrders ? Order::count() : null,
+            'pending_orders' => $canOrders ? Order::where('status', 'pending')->count() : null,
+            'products' => $canProducts ? Product::count() : null,
+            'users' => $canUsers ? User::count() : null,
+            'active_users' => $canUsers ? User::where('is_active', true)->count() : null,
+            'discounts' => $canDiscounts ? DiscountCode::count() : null,
+            'storage' => $canStorage ? StorageProvider::where('is_active', true)->count() : null,
         ];
 
-        return view(
-            'admin.dashboard',
-            compact(
-                'stats',
-                'storage',
-                'storageCapacity',
-                'storageUsed'
-            )
-        );
+        $recentOrders = $canOrders ? Order::with($canUsers ? 'user' : [])->latest()->limit(8)->get() : collect();
+
+        return view('admin.dashboard-rbac', compact('stats', 'recentOrders') + ['dashboardMode' => 'admin']);
     }
 }
