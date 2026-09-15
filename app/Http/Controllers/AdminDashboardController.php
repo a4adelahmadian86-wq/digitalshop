@@ -12,24 +12,27 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $paidSales = Order::query()->whereIn('status', ['paid', 'completed'])->sum('total');
+        $viewer = request()->user();
+        $canUsers = $viewer->hasPermission('users.view');
+        $canProducts = $viewer->hasPermission('products.view');
+        $canOrders = $viewer->hasPermission('orders.view');
+        $canPayments = $viewer->hasPermission('payments.view');
+        $canStorage = $viewer->hasPermission('storage.manage');
+        $canDiscounts = $viewer->hasPermission('discounts.manage');
+
         $stats = [
-            'sales' => $paidSales,
-            'orders' => Order::count(),
-            'pending_orders' => Order::where('status', 'pending')->count(),
-            'products' => Product::count(),
-            'users' => User::count(),
-            'active_users' => User::where('is_active', true)->count(),
-            'discounts' => DiscountCode::count(),
-            'storage' => StorageProvider::where('is_active', true)->count(),
+            'sales' => $canPayments ? Order::whereIn('status', ['paid', 'completed'])->sum('total') : null,
+            'orders' => $canOrders ? Order::count() : null,
+            'pending_orders' => $canOrders ? Order::where('status', 'pending')->count() : null,
+            'products' => $canProducts ? Product::count() : null,
+            'users' => $canUsers ? User::count() : null,
+            'active_users' => $canUsers ? User::where('is_active', true)->count() : null,
+            'discounts' => $canDiscounts ? DiscountCode::count() : null,
+            'storage' => $canStorage ? StorageProvider::where('is_active', true)->count() : null,
         ];
 
-        $recentOrders = Order::with('user')->latest()->limit(8)->get();
+        $recentOrders = $canOrders ? Order::with($canUsers ? 'user' : [])->latest()->limit(8)->get() : collect();
 
-        return view('admin.dashboard-rbac', [
-            'stats' => $stats,
-            'recentOrders' => $recentOrders,
-            'dashboardMode' => 'admin',
-        ]);
+        return view('admin.dashboard-rbac', compact('stats', 'recentOrders') + ['dashboardMode' => 'admin']);
     }
 }
