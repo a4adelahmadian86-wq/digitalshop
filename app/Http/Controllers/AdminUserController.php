@@ -65,14 +65,32 @@ class AdminUserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت ایجاد شد.');
     }
 
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
-        $user->load(['wallet', 'wallet.transactions', 'wallet.topups']);
-        $orders = $user->orders()->with(['items.product', 'payment'])->latest()->paginate(10, ['*'], 'orders_page');
+        $canWallets = $request->user()->hasPermission('wallets.view');
+        $canPayments = $request->user()->hasPermission('payments.view');
+
+        if ($canWallets) {
+            $user->load(['wallet', 'wallet.transactions', 'wallet.topups']);
+        }
+
+        $orders = $user->orders()->with(['items.product'])->latest()->paginate(10, ['*'], 'orders_page');
+        if ($canPayments) {
+            $orders->loadCollection(['payment']);
+        }
+
         $purchasedItems = $user->orderItems()->with(['order', 'product', 'downloads'])->latest()->get();
         $totalOrders = $user->orders()->count();
-        $totalPurchased = $user->orders()->where('status', 'paid')->sum('total');
+        $totalPurchased = $canPayments ? $user->orders()->whereIn('status', ['paid', 'completed'])->sum('total') : null;
         $purchasedFilesCount = $purchasedItems->filter(fn ($item) => $item->product !== null)->count();
+
+        if (!$canWallets || !$canPayments) {
+            return view('admin.users.show-restricted', compact(
+                'user', 'orders', 'purchasedItems', 'totalOrders', 'totalPurchased',
+                'purchasedFilesCount', 'canWallets', 'canPayments'
+            ));
+        }
+
         return view('admin.users.show', compact('user', 'orders', 'purchasedItems', 'totalOrders', 'totalPurchased', 'purchasedFilesCount'));
     }
 
