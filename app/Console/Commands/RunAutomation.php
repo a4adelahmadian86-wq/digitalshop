@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class RunAutomation extends Command
 {
-    protected $signature = 'digitalshop:automation {key} {--dry-run}';
+    protected $signature = 'digitalshop:automation {key} {--triggered-by=}';
     protected $description = 'Run a configured FARAST automation and persist its execution result.';
 
     public function handle(): int
@@ -33,14 +33,13 @@ class RunAutomation extends Command
 
         $run = AutomationRun::create([
             'automation_id' => $automation->id,
+            'triggered_by' => $this->option('triggered-by') ?: null,
             'started_at' => now(),
             'status' => 'running',
         ]);
 
         try {
-            $args = [];
-            if ($this->option('dry-run')) $args['--dry-run'] = true;
-            $exitCode = Artisan::call($automation->command, $args);
+            $exitCode = Artisan::call($automation->command);
             $output = trim(Artisan::output());
             $status = $exitCode === 0 ? 'success' : 'failed';
         } catch (\Throwable $e) {
@@ -62,7 +61,10 @@ class RunAutomation extends Command
             'last_output' => mb_substr($output, 0, 10000),
         ]);
 
-        $status === 'success' ? $this->info($output ?: 'Automation completed.') : $this->error($output ?: 'Automation failed.');
+        $status === 'success'
+            ? $this->info($output ?: 'Automation completed.')
+            : $this->error($output ?: 'Automation failed.');
+
         return $exitCode === 0 ? self::SUCCESS : self::FAILURE;
     }
 }
